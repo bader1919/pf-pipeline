@@ -1,7 +1,8 @@
 """
 PropertyFinder Bahrain — full catalogue scraper.
-Step 1: Discover all search categories from the site navigation (no hardcoding).
-Step 2: Scrape every page of every category until exhausted.
+
+Source-of-truth category URLs are defined here.
+Scrapes every page of every category until exhausted.
 Saves raw JSON per category to data/raw/.
 """
 
@@ -11,9 +12,42 @@ import re
 import time
 import requests
 from datetime import datetime, timezone
-from urllib.parse import urljoin, urlparse, parse_qs, urlencode, urlunparse
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 
-BASE_URL = "https://www.propertyfinder.bh"
+# ── Source of truth — category URLs ──────────────────────────────────────────
+CATEGORIES = [
+    {
+        "name":    "residential_rent",
+        "url":     "https://www.propertyfinder.bh/en/rent/properties-for-rent.html",
+        "data_key": "listings",          # searchResult.listings
+    },
+    {
+        "name":    "residential_sale",
+        "url":     "https://www.propertyfinder.bh/en/buy/properties-for-sale.html",
+        "data_key": "listings",
+    },
+    {
+        "name":    "commercial_rent",
+        "url":     "https://www.propertyfinder.bh/en/commercial-rent/properties-for-rent.html",
+        "data_key": "listings",
+    },
+    {
+        "name":    "commercial_sale",
+        "url":     "https://www.propertyfinder.bh/en/search?c=3&fu=0&ob=mr",
+        "data_key": "listings",
+    },
+    {
+        "name":    "new_projects",
+        "url":     "https://www.propertyfinder.bh/en/new-projects",
+        "data_key": "projects",          # searchResult.data.projects
+    },
+    {
+        "name":    "agents",
+        "url":     "https://www.propertyfinder.bh/en/find-agent/search",
+        "data_key": "agents",            # different structure
+    },
+]
+# ─────────────────────────────────────────────────────────────────────────────
 
 HEADERS = {
     "User-Agent": (
@@ -33,16 +67,10 @@ NEXT_DATA_RE = re.compile(
 RAW_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
 
 
-def fetch_page(url: str, session: requests.Session) -> str | None:
-    try:
-        r = session.get(url, headers=HEADERS, timeout=30)
-        if r.status_code == 200:
-            return r.text
-        print(f"  HTTP {r.status_code} for {url}")
-        return None
-    except Exception as exc:
-        print(f"  Network error for {url}: {exc}")
-        return None
+def fetch_html(url: str, session: requests.Session) -> str:
+    r = session.get(url, headers=HEADERS, timeout=30)
+    r.raise_for_status()
+    return r.text
 
 
 def parse_next_data(html: str) -> dict:
@@ -55,125 +83,96 @@ def parse_next_data(html: str) -> dict:
         return {}
 
 
-def discover_categories(session: requests.Session) -> list[dict]:
+def build_page_url(base_url: str, page: int) -> str:
+    """Add or replace the page param in a URL."""
+    parsed = urlparse(base_url)
+    qs = parse_qs(parsed.query, keep_blank_values=True)
+    qs["page"] = [str(page)]
+    return urlunparse(parsed._replace(query=urlencode(qs, doseq=True)))
+
+
+def extract_records(next_data: dict, data_key: str) -> tuple:
     """
-    Fetch the homepage and extract all search category URLs from __NEXT_DATA__.
-    Returns a list of {name, url} dicts — one per discovered category.
+    Pull the records array and total count from __NEXT_DATA__.
+    Handles the three structures found across category types:
+      - listings  →  props.pageProps.searchResult.listings
+      - projects  →  props.pageProps.searchResult.data.projects
+      - agents    →  props.pageProps.searchResult.agents  (or similar)
+    Returns (records_list, total_count).
     """
-    print("Discovering categories from homepage...")
-    html = fetch_page(BASE_URL + "/en", session)
-    if not html:
-        html = fetch_page(BASE_URL, session)
-    if not html:
-        print("  Could not reach homepage.")
-        return []
+    page_props    = next_data.get("props", {}).get("pageProps", {})
+    search_result = page_props.get("searchResult") or {}
 
-    data = parse_next_data(html)
-    page_props = data.get("props", {}).get("pageProps", {})
+    total = (
+        search_result.get("totalCount")
+        or search_result.get("total")
+        or page_props.get("totalCount")
+        or 0
+    )
 
-    categories = []
-    seen_urls = set()
+    if data_key == "listings":
+        records = search_result.get("listings") or []
 
-    # Look for navigation links, category links, or search links in __NEXT_DATA__
-    def walk(obj, depth=0):
-        if depth > 12 or not obj:
-            return
-        if isinstance(obj, dict):
-            # Look for objects that look like nav/category items with a URL
-            url = obj.get("url") or obj.get("href") or obj.get("link") or obj.get("path") or ""
-            label = (
-                obj.get("label") or obj.get("name") or obj.get("title")
-                or obj.get("text") or obj.get("slug") or ""
-            )
-            if isinstance(url, str) and isinstance(label, str):
-                # Filter: must be a search-style URL on propertyfinder.bh
-                full_url = urljoin(BASE_URL, url) if url.startswith("/") else url
-                if (
-                    "propertyfinder.bh" in full_url
-                    and any(kw in full_url for kw in ["/rent/", "/buy/", "/search"])
-                    and full_url not in seen_urls
-                    and label.strip()
-                ):
-                    # Strip any existing page param so we start from page 1
-                    parsed = urlparse(full_url)
-                    qs = parse_qs(parsed.query)
-                    qs.pop("page", None)
-                    clean_url = urlunparse(parsed._replace(query=urlencode(qs, doseq=True)))
-                    seen_urls.add(full_url)
-                    safe_name = re.sub(r"[^a-z0-9]+", "_", label.lower()).strip("_")
-                    categories.append({"name": safe_name, "base_url": clean_url, "label": label})
-            for v in obj.values():
-                walk(v, depth + 1)
-        elif isinstance(obj, list):
-            for item in obj:
-                walk(item, depth + 1)
+    elif data_key == "projects":
+        # new-projects embeds under searchResult.data.projects
+        records = (
+            (search_result.get("data") or {}).get("projects")
+            or search_result.get("projects")
+            or page_props.get("projects")
+            or []
+        )
+        if not total:
+            total = len(records)
 
-    walk(page_props)
+    elif data_key == "agents":
+        records = (
+            search_result.get("agents")
+            or search_result.get("data", {}).get("agents")
+            or page_props.get("agents")
+            or []
+        )
 
-    # Fallback: scan all anchor hrefs in the raw HTML
-    if not categories:
-        print("  __NEXT_DATA__ navigation not found — scanning HTML links...")
-        for match in re.finditer(r'href="(/en/(?:rent|buy)/[^"]+\.html)"', html):
-            path = match.group(1)
-            full_url = BASE_URL + path
-            if full_url not in seen_urls:
-                seen_urls.add(full_url)
-                # Derive a name from the path
-                safe_name = re.sub(r"[^a-z0-9]+", "_", path.split("/")[-1].replace(".html", "")).strip("_")
-                categories.append({"name": safe_name, "base_url": full_url, "label": safe_name})
+    else:
+        # Generic fallback — try the key directly
+        records = search_result.get(data_key) or []
 
-    print(f"  Found {len(categories)} categories:")
-    for c in categories:
-        print(f"    - {c['label']} -> {c['base_url']}")
-
-    return categories
+    return records, int(total)
 
 
 def scrape_category(category: dict, session: requests.Session) -> list:
-    """
-    Scrape all pages of a single category. Stops when a page returns no listings.
-    """
-    name     = category["name"]
-    base_url = category["base_url"]
-    all_records = []
+    all_records    = []
     total_reported = None
+    name           = category["name"]
+    base_url       = category["url"]
+    data_key       = category["data_key"]
 
-    print(f"\n[{datetime.now(timezone.utc).strftime('%H:%M:%S')}] {category['label'].upper()}")
+    print(f"\n[{datetime.now(timezone.utc).strftime('%H:%M:%S')}]  {name.upper()}")
+    print(f"  URL: {base_url}")
 
     page = 1
     while True:
-        # Build page URL — handle both ?page=N and existing query strings
-        parsed = urlparse(base_url)
-        qs = parse_qs(parsed.query)
-        qs["page"] = [str(page)]
-        url = urlunparse(parsed._replace(query=urlencode(qs, doseq=True)))
+        url = build_page_url(base_url, page)
 
-        html = fetch_page(url, session)
-        if not html:
-            print(f"  Page {page} failed — stopping.")
+        try:
+            html = fetch_html(url, session)
+        except Exception as exc:
+            print(f"  Page {page} error: {exc} — stopping.")
             break
 
-        next_data = parse_next_data(html)
-        search_result = (
-            next_data.get("props", {})
-                     .get("pageProps", {})
-                     .get("searchResult") or {}
-        )
-
-        listings = search_result.get("listings") or []
-        total    = search_result.get("totalCount") or search_result.get("total") or 0
+        next_data         = parse_next_data(html)
+        records, total    = extract_records(next_data, data_key)
 
         if total_reported is None and total:
-            total_reported = int(total)
+            total_reported = total
             print(f"  Total available: {total_reported}")
 
-        if not listings:
-            print(f"  No listings on page {page} — done. Collected: {len(all_records)}")
+        if not records:
+            print(f"  No records on page {page} — done. Collected: {len(all_records)}")
             break
 
-        all_records.extend(listings)
-        pct = f"{len(all_records)}/{total_reported}" if total_reported else str(len(all_records))
-        print(f"  Page {page}: +{len(listings)} ({pct})")
+        all_records.extend(records)
+        collected = f"{len(all_records)}/{total_reported}" if total_reported else str(len(all_records))
+        print(f"  Page {page}: +{len(records)}  ({collected})")
 
         page += 1
         time.sleep(1.5)
@@ -186,34 +185,27 @@ def main():
     os.makedirs(RAW_DIR, exist_ok=True)
     summary = {}
 
+    print(f"Starting scrape — {len(CATEGORIES)} categories\n")
+
     with requests.Session() as session:
-        # Step 1: discover all categories dynamically
-        categories = discover_categories(session)
-
-        if not categories:
-            print("No categories found — cannot continue.")
-            return
-
-        # Step 2: scrape every category, all pages
-        for category in categories:
+        for category in CATEGORIES:
             records = scrape_category(category, session)
             out_path = os.path.join(RAW_DIR, f"{category['name']}.json")
             with open(out_path, "w", encoding="utf-8") as f:
                 json.dump(records, f, ensure_ascii=False)
             summary[category["name"]] = len(records)
-            print(f"  Saved {len(records)} records -> {out_path}")
+            print(f"  Saved {len(records)} records → {out_path}")
 
-    # Write manifest
     manifest = {
-        "scraped_at": scrape_start,
-        "categories_found": len(categories),
-        "counts": summary,
-        "total": sum(summary.values()),
+        "scraped_at":       scrape_start,
+        "categories":       len(CATEGORIES),
+        "counts":           summary,
+        "total":            sum(summary.values()),
     }
     with open(os.path.join(RAW_DIR, "manifest.json"), "w") as f:
         json.dump(manifest, f, indent=2)
 
-    print(f"\nDone. {len(categories)} categories, {manifest['total']} total listings.")
+    print(f"\nFinished. {len(CATEGORIES)} categories · {manifest['total']} total records.")
 
 
 if __name__ == "__main__":

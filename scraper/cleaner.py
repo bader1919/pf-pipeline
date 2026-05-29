@@ -8,7 +8,6 @@ Outputs per-category CSVs + combined all_listings.csv to data/latest/.
 import csv
 import json
 import os
-import re
 from datetime import datetime, timezone
 
 BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
@@ -96,11 +95,6 @@ def pipe_list(items, key=None):
             parts.append(str(item))
     return "|".join(x for x in parts if x)
 
-
-def camel_to_snake(name):
-    """Convert camelCase → snake_case."""
-    s1 = re.sub(r'(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
 def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: str) -> dict:

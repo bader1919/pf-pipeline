@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r scraper/requirements.txt
 
-      # ── Step 1: Scrape all 4 categories ──────────────────────────────────────
+      # ── Step 1: Discover categories dynamically and scrape all pages ─────────
       - name: Scrape PropertyFinder BH
         run: python scraper/pf_scraper.py
 

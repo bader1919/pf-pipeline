@@ -39,10 +39,8 @@ git add data\latest\ data\previous\ data\changes\
 git diff --staged --quiet && (
     echo No data changes to commit.
 ) || (
-    for /f "tokens=2 delims= " %%a in ('date /t') do set TODAY=%%a
-    git commit -m "data: local run %TODAY%"
+    git commit -m "data: pipeline run"
     git push
-    echo.
     echo SUCCESS - Data pushed to GitHub.
 )
 
