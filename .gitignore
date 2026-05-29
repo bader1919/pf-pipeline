@@ -1,0 +1,9 @@
+# Raw JSON files — large, not committed
+data/raw/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/

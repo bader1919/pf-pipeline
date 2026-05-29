@@ -1,0 +1,85 @@
+name: Daily Property Scrape
+
+on:
+  schedule:
+    # Runs at 02:00 UTC every day
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    # Allows manual trigger from GitHub UI
+
+jobs:
+  scrape:
+    name: Scrape → Clean → Compare → Commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 120        # full run can take ~45 min for 30k listings
+
+    permissions:
+      contents: write           # needed to push the data/ commit back
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r scraper/requirements.txt
+
+      # ── Step 1: Scrape all 4 categories ──────────────────────────────────────
+      - name: Scrape PropertyFinder BH
+        run: python scraper/pf_scraper.py
+
+      # ── Step 2: Flatten raw JSON → clean CSVs in data/latest/ ───────────────
+      - name: Clean data
+        run: python scraper/cleaner.py
+
+      # ── Step 3: Diff today vs yesterday, update change log ───────────────────
+      - name: Run comparator
+        run: python scraper/comparator.py
+
+      # ── Step 4: Commit updated data back to repo ─────────────────────────────
+      - name: Commit data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/latest/
+          git add data/previous/
+          git add data/changes/
+
+          # Only commit if there is something staged
+          if git diff --staged --quiet; then
+            echo "No data changes to commit."
+          else
+            DATE=$(date -u '+%Y-%m-%d')
+            git commit -m "data: daily scrape ${DATE}"
+            git push
+          fi
+
+      # ── Summary ──────────────────────────────────────────────────────────────
+      - name: Print summary
+        if: always()
+        run: |
+          echo "=== Snapshot counts ==="
+          if [ -f data/latest/all_listings.csv ]; then
+            # subtract 1 for header row
+            TOTAL=$(( $(wc -l < data/latest/all_listings.csv) - 1 ))
+            echo "Total listings: $TOTAL"
+          else
+            echo "all_listings.csv not found"
+          fi
+
+          echo ""
+          echo "=== Change log size ==="
+          if [ -f data/changes/all_changes.csv ]; then
+            CHANGES=$(( $(wc -l < data/changes/all_changes.csv) - 1 ))
+            echo "Cumulative change events: $CHANGES"
+          else
+            echo "all_changes.csv not found (first run?)"
+          fi
