@@ -15,12 +15,18 @@ BASE_DIR = os.path.join(os.path.dirname(__file__), "..")
 RAW_DIR  = os.path.join(BASE_DIR, "data", "raw")
 OUT_DIR  = os.path.join(BASE_DIR, "data", "latest")
 
-CATEGORIES = [
-    ("residential_rent",  "2", "Residential", "rent"),
-    ("residential_sale",  "1", "Residential", "sale"),
-    ("commercial_rent",   "4", "Commercial",  "rent"),
-    ("commercial_sale",   "3", "Commercial",  "sale"),
-]
+def discover_categories() -> list:
+    """
+    Read whatever JSON files the scraper saved — no hardcoding.
+    Returns list of category name strings.
+    """
+    if not os.path.exists(RAW_DIR):
+        return []
+    return [
+        f[:-5]  # strip .json
+        for f in os.listdir(RAW_DIR)
+        if f.endswith(".json") and f != "manifest.json"
+    ]
 
 # Exact column order — matches n8n pf_listings table (minus n8n-internal id/createdAt/updatedAt)
 COLUMNS = [
@@ -339,18 +345,23 @@ def main():
     else:
         scraped_at = datetime.now(timezone.utc).isoformat()
 
+    categories = discover_categories()
+    print(f"Categories found in raw/: {categories}\n")
     print(f"Cleaning snapshot: {scraped_at}\n")
 
     all_rows = []
 
-    for (cat_name, cat_id, cat_label, _) in CATEGORIES:
+    for cat_name in categories:
         raw_path = os.path.join(RAW_DIR, f"{cat_name}.json")
-        if not os.path.exists(raw_path):
-            print(f"  [SKIP] {cat_name} — raw file not found")
-            continue
 
         with open(raw_path, encoding="utf-8") as f:
             records = json.load(f)
+
+        # Derive category_id and label from first record if available,
+        # otherwise use the filename as label
+        first = records[0] if records else {}
+        cat_id    = str(first.get("categoryId") or first.get("category_id") or "")
+        cat_label = str(first.get("categoryName") or first.get("category_name") or cat_name)
 
         rows = [flatten_listing(r, cat_id, cat_label, scraped_at) for r in records]
         out_path = os.path.join(OUT_DIR, f"{cat_name}.csv")
