@@ -92,7 +92,13 @@ def main():
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
 
-    print(f"\nDone. Total listings: {manifest['total']}")
+    total = manifest["total"]
+    print(f"\nDone. Total listings: {total}")
+
+    if total == 0:
+        print("\nERROR: 0 listings scraped across all categories.")
+        print("Possible causes: API blocked this IP, endpoint changed, or network error.")
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
