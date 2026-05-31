@@ -7,7 +7,7 @@ Tracks every new listing, removal (sold/rented), and price change over time.
 
 Every day at 02:00 UTC the pipeline:
 
-1. **Scrapes** all 4 categories from the PropertyFinder API — residential rent, residential sale, commercial rent, commercial sale (~25–30k listings)
+1. **Scrapes** 6 categories via dynamic subcategory discovery + location drill-down — residential rent, residential sale, commercial rent, commercial sale, new projects, agents (~25–30k total records)
 2. **Cleans** every field into flat CSVs (nothing dropped)
 3. **Compares** today vs yesterday and records what changed
 
@@ -20,6 +20,8 @@ Every day at 02:00 UTC the pipeline:
 | `data/latest/residential_sale.csv` | By category |
 | `data/latest/commercial_rent.csv` | By category |
 | `data/latest/commercial_sale.csv` | By category |
+| `data/latest/new_projects.csv` | By category |
+| `data/latest/agents.csv` | By category |
 | `data/changes/all_changes.csv` | **Cumulative change log** — demand intelligence |
 | `data/changes/YYYY-MM-DD.csv` | Daily delta only |
 
@@ -68,8 +70,8 @@ From the second run onward, daily diffs are tracked.
 ## Local run
 
 ```bash
-pip install -r scraper/requirements.txt
-python scraper/pf_scraper.py    # ~45 min for full catalogue
+pip install -r scraper/requirements.txt    # requests, beautifulsoup4
+python scraper/pf_scraper.py    # ~10-15 min for full catalogue
 python scraper/cleaner.py
 python scraper/comparator.py
 ```

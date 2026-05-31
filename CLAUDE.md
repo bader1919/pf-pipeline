@@ -5,10 +5,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Install dependencies
+# Install dependencies (includes beautifulsoup4)
 pip install -r scraper/requirements.txt
 
-# Run the 3-step pipeline locally (~45 min for full catalogue)
+# Run the 3-step pipeline locally (~10-15 min for ~25-30k listings)
 python scraper/pf_scraper.py      # Step 1: Scrape API → data/raw/
 python scraper/cleaner.py          # Step 2: Raw JSON → CSVs in data/latest/
 python scraper/comparator.py       # Step 3: Diff vs previous snapshot → data/changes/
@@ -24,7 +24,11 @@ This is a daily PropertyFinder Bahrain market intelligence pipeline. It scrapes 
 
 Three sequential scripts in `scraper/`:
 
-- **pf_scraper.py** — Hits the PropertyFinder API directly (not HTML parsing). Scrapes 4 listing categories: `residential_rent`, `residential_sale`, `commercial_rent`, `commercial_sale`. Handles pagination with 1.5s delay between requests. Writes raw JSON + a manifest to `data/raw/`.
+- **pf_scraper.py** — Scrapes 6 categories: `residential_rent`, `residential_sale`, `commercial_rent`, `commercial_sale`, `new_projects`, `agents`. Uses a two-phase approach:
+  1. **Discovery phase (sequential):** Reads each category's HTML page via BeautifulSoup to dynamically find property-type and location subcategory links. Recursively drills down until every URL covers <= 1,250 listings (50 pages max).
+  2. **Scraping phase (parallel):** Scrapes the discovered subcategory URLs concurrently using 4 workers with rate limiting (0.5s base delay + 0.5s random jitter per worker). Hits the PropertyFinder API for paginated listing data.
+  
+  Deduplicates by listing ID across subcategory overlaps. Writes raw JSON + a manifest to `data/raw/`.
 
 - **cleaner.py** — Flattens nested JSON into a flat 114-column CSV schema matching a downstream n8n `pf_listings` table. Outputs per-category CSVs plus a combined `all_listings.csv` to `data/latest/`.
 
@@ -46,6 +50,7 @@ GitHub Actions workflow (`.github/workflows/daily_scrape.yml`) runs the full pip
 ## Key Details
 
 - No secrets or API keys needed (public API + `GITHUB_TOKEN` in Actions).
+- Dependencies: `requests`, `beautifulsoup4`, `pandas`, etc. (see `scraper/requirements.txt`).
 - The 114-column CSV schema is the contract between this pipeline and downstream consumers (Power BI, n8n).
 - All data is preserved during cleaning — nothing is dropped.
 - Designed for Power BI integration via GitHub raw CSV access.

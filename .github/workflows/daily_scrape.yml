@@ -11,7 +11,7 @@ jobs:
   scrape:
     name: Scrape → Clean → Compare → Commit
     runs-on: ubuntu-latest
-    timeout-minutes: 120        # full run can take ~45 min for 30k listings
+    timeout-minutes: 120        # scrape takes ~10-15 min with 4 workers; generous buffer
 
     permissions:
       contents: write           # needed to push the data/ commit back
@@ -43,7 +43,11 @@ jobs:
       - name: Run comparator
         run: python scraper/comparator.py
 
-      # ── Step 4: Commit updated data back to repo ─────────────────────────────
+      # ── Step 4: Generate comprehensive report ─────────────────────────────────
+      - name: Generate report
+        run: python scraper/reporter.py
+
+      # ── Step 5: Commit updated data back to repo ─────────────────────────────
       - name: Commit data
         run: |
           git config user.name  "github-actions[bot]"
@@ -52,6 +56,7 @@ jobs:
           git add data/latest/
           git add data/previous/
           git add data/changes/
+          git add data/latest_report.json
 
           # Only commit if there is something staged
           if git diff --staged --quiet; then
