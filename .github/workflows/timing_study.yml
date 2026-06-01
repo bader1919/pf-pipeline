@@ -1,0 +1,69 @@
+name: Timing Study - Find Optimal Scrape Time
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run every 4 hours for timing study
+    - cron: "0 */4 * * *"
+
+jobs:
+  timing_study:
+    name: Timing Analysis Run
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r scraper/requirements.txt
+
+      - name: Record timing metadata
+        run: echo "RUN_TIMESTAMP=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Scrape PropertyFinder BH
+        run: python scraper/pf_scraper.py
+
+      - name: Clean data
+        run: python scraper/cleaner.py
+
+      - name: Run comparator
+        run: python scraper/comparator.py
+
+      - name: Generate timing analysis
+        run: python scraper/timing_analysis.py
+
+      - name: Commit timing data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/latest/
+          git add data/previous/
+          git add data/changes/
+          git add data/timing_study/
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+            git commit -m "timing study: ${TIMESTAMP}"
+            git push
+          fi
+
+      - name: Generate weekly report
+        if: github.event.schedule == '0 */4 * * *'
+        run: python scraper/timing_analysis.py --weekly-report

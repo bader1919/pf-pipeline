@@ -2,8 +2,9 @@ name: Daily Property Scrape
 
 on:
   schedule:
-    # Runs at 02:00 UTC every day
-    - cron: "0 2 * * *"
+    # TEMPORARILY DISABLED during timing study
+    # After study completes, uncomment with optimal time:
+    # - cron: "0 2 * * *"  # Runs at 02:00 UTC every day
   workflow_dispatch:
     # Allows manual trigger from GitHub UI
 
