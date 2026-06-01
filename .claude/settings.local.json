@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scraper/pf_scraper.py)",
+      "Bash(python scraper/cleaner.py)",
+      "Bash(python3 -c ' *)",
+      "Bash(python -c ' *)",
+      "Bash(npx playwright *)",
+      "Bash(node -e ' *)",
+      "Bash(npm install *)",
+      "Bash(npx playwright-cli *)",
+      "Bash(where python *)",
+      "Bash(C:/Users/bader/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0/LocalCache/local-packages/Python311/site-packages/../../python.exe *)",
+      "Bash(python *)",
+      "Bash(C:\\\\Users\\\\bader\\\\AppData\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Scripts\\\\pip.exe install *)"
+    ]
+  }
+}

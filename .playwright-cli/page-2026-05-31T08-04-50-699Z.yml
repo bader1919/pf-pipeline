@@ -1,0 +1,2349 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Logo-En" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Logo-En" [ref=e7]
+        - navigation "What are you looking for?" [ref=e9]:
+          - list [ref=e10]:
+            - listitem [ref=e11]:
+              - link "Buy" [ref=e12] [cursor=pointer]:
+                - /url: /en/buy/properties-for-sale.html
+            - listitem [ref=e13]:
+              - link "Rent" [ref=e14] [cursor=pointer]:
+                - /url: /en/rent/properties-for-rent.html
+            - listitem [ref=e15]:
+              - link "New projects" [ref=e16] [cursor=pointer]:
+                - /url: /en/new-projects
+            - listitem [ref=e17]:
+              - link "Commercial" [ref=e18] [cursor=pointer]:
+                - /url: /en/commercial-rent/properties-for-rent.html
+            - listitem [ref=e19]:
+              - link "Find agent" [ref=e20] [cursor=pointer]:
+                - /url: /en/find-agent
+            - listitem [ref=e21]:
+              - button "Explore" [ref=e22] [cursor=pointer]:
+                - text: Explore
+                - img [ref=e23]
+        - button "Login to Property Finder" [ref=e26] [cursor=pointer]: Log in
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - button "Capital Governorate" [ref=e30] [cursor=pointer]:
+          - text: Capital Governorate
+          - img [ref=e31]
+        - img [ref=e33]
+        - textbox "City, community or building" [ref=e35]
+      - generic [ref=e36]:
+        - button "Rent" [ref=e38] [cursor=pointer]:
+          - generic [ref=e39]: Rent
+          - img
+        - button "Apartment" [ref=e40] [cursor=pointer]:
+          - generic [ref=e41]: Apartment
+          - img
+        - button "Beds & Baths" [ref=e42] [cursor=pointer]:
+          - generic [ref=e43]: Beds & Baths
+          - img
+        - button "Price" [ref=e44] [cursor=pointer]:
+          - generic [ref=e45]: Price
+          - img
+        - button "More Filters" [ref=e47] [cursor=pointer]:
+          - generic [ref=e48]: More Filters
+          - img
+      - button "Find" [ref=e49] [cursor=pointer]
+    - main [ref=e50]:
+      - navigation "Navigation menu (breadcrumbs)" [ref=e52]:
+        - listitem [ref=e53]:
+          - link [ref=e54] [cursor=pointer]:
+            - /url: /
+            - img [ref=e55]
+        - list [ref=e57]:
+          - listitem [ref=e58]:
+            - img [ref=e59]
+            - paragraph: Apartments for rent in Capital Governorate
+      - heading "Apartments for rent in Capital Governorate" [level=1] [ref=e61]
+      - generic "Search results count" [ref=e64]: 5,824 properties
+      - generic [ref=e65]:
+        - button "Create Alert Button" [ref=e66] [cursor=pointer]:
+          - img [ref=e67]
+          - text: Create alert
+        - generic [ref=e69]:
+          - generic [ref=e70]: "Sort by:"
+          - button "Featured" [ref=e71] [cursor=pointer]:
+            - generic [ref=e72]: Featured
+            - img
+      - list [ref=e74]:
+        - listitem [ref=e75]:
+          - link "Manama(2,029)" [ref=e76] [cursor=pointer]:
+            - /url: /en/rent/capital-governorate/apartments-for-rent-manama.html
+        - listitem [ref=e77]:
+          - link "Al Juffair(1,956)" [ref=e78] [cursor=pointer]:
+            - /url: /en/rent/capital-governorate/apartments-for-rent-al-juffair.html
+        - listitem [ref=e79]:
+          - link "Seef(1,129)" [ref=e80] [cursor=pointer]:
+            - /url: /en/rent/capital-governorate/apartments-for-rent-seef.html
+        - listitem [ref=e81]:
+          - link "Reef Island(428)" [ref=e82] [cursor=pointer]:
+            - /url: /en/rent/capital-governorate/apartments-for-rent-reef-island.html
+        - listitem [ref=e83]:
+          - link "Hoora(137)" [ref=e84] [cursor=pointer]:
+            - /url: /en/rent/capital-governorate/apartments-for-rent-hoora.html
+        - listitem [ref=e85]:
+          - link "Bahrain Bay(134)" [ref=e86] [cursor=pointer]:
+            - /url: /en/rent/capital-governorate/apartments-for-rent-bahrain-bay.html
+        - listitem [ref=e87]:
+          - link "Bu Ashira(15)" [ref=e88] [cursor=pointer]:
+            - /url: /en/rent/capital-governorate/apartments-for-rent-bu-ashira.html
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - list "Properties" [ref=e91]:
+            - listitem [ref=e92]:
+              - article [ref=e93]:
+                - link "Unlimited Ewa | Pet Friendly | Maids Room | Bright" [ref=e94] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987025.html
+                - generic [ref=e95]:
+                  - generic [ref=e96]:
+                    - generic [ref=e98]:
+                      - button "SuperAgent" [ref=e100] [cursor=pointer]:
+                        - img [ref=e101]
+                        - generic [ref=e103]: SuperAgent
+                      - generic "Photos gallery" [ref=e104]:
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e106] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987025.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e108]
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e110] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987025.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e112]
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e114] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987025.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e116]
+                      - button "Previous photo" [ref=e117] [cursor=pointer]:
+                        - img [ref=e118]
+                      - button "Next photo" [ref=e120] [cursor=pointer]:
+                        - img [ref=e121]
+                      - generic [ref=e123] [cursor=pointer]:
+                        - generic [ref=e124]:
+                          - img [ref=e125]
+                          - generic [ref=e127]: "14"
+                        - button "Video tour" [ref=e128]:
+                          - img [ref=e129]
+                    - generic [ref=e131]:
+                      - generic [ref=e132]:
+                        - generic [ref=e133]:
+                          - paragraph [ref=e134]:
+                            - generic [ref=e135]: Apartment
+                          - generic [ref=e136]:
+                            - paragraph [ref=e138]: 1,500 BHD/month
+                            - generic [ref=e140]:
+                              - img [ref=e141]
+                              - text: Inclusive
+                          - heading "Unlimited Ewa | Pet Friendly | Maids Room | Bright" [level=3] [ref=e143]
+                        - img "Newton Properties logo image" [ref=e147]
+                      - generic [ref=e148]:
+                        - generic [ref=e149]:
+                          - img [ref=e150]
+                          - paragraph [ref=e152]: Seef, Capital Governorate
+                        - generic [ref=e153]:
+                          - paragraph [ref=e154]:
+                            - img [ref=e155]
+                            - text: "3"
+                          - paragraph [ref=e157]:
+                            - img [ref=e158]
+                            - text: "4"
+                          - paragraph [ref=e160]:
+                            - img [ref=e161]
+                            - text: 300 sqm
+                  - generic [ref=e164]:
+                    - generic [ref=e165]:
+                      - generic [ref=e166]:
+                        - img "Christyl Lebosada" [ref=e169]
+                        - img [ref=e171]
+                      - paragraph [ref=e173]: Listed 23 minutes ago
+                    - generic [ref=e174]:
+                      - generic [ref=e175]:
+                        - button "Call" [ref=e176] [cursor=pointer]:
+                          - img [ref=e177]
+                          - text: Call
+                        - button "Email" [ref=e179] [cursor=pointer]:
+                          - img [ref=e180]
+                          - text: Email
+                        - button "WhatsApp" [ref=e183] [cursor=pointer]:
+                          - img [ref=e184]
+                          - text: WhatsApp
+                      - generic [ref=e186]:
+                        - button "Save this property to the list" [ref=e187] [cursor=pointer]:
+                          - img [ref=e188]
+                        - button "Open actions menu" [ref=e190] [cursor=pointer]:
+                          - img [ref=e191]
+            - listitem [ref=e193]:
+              - article [ref=e194]:
+                - link "Spacious | Bright | Modern | Prime Location|" [ref=e195] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987021.html
+                - generic [ref=e196]:
+                  - generic [ref=e197]:
+                    - generic [ref=e199]:
+                      - button "SuperAgent" [ref=e201] [cursor=pointer]:
+                        - img [ref=e202]
+                        - generic [ref=e204]: SuperAgent
+                      - generic "Photos gallery" [ref=e205]:
+                        - link "Apartment - 1 Bedroom - 1 Bathroom for rent in Sanabis - Manama - Capital Governorate" [ref=e207] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987021.html
+                          - img "Apartment - 1 Bedroom - 1 Bathroom for rent in Sanabis - Manama - Capital Governorate" [ref=e209]
+                        - link "Apartment - 1 Bedroom - 1 Bathroom for rent in Sanabis - Manama - Capital Governorate" [ref=e211] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987021.html
+                          - img "Apartment - 1 Bedroom - 1 Bathroom for rent in Sanabis - Manama - Capital Governorate" [ref=e213]
+                        - link "Apartment - 1 Bedroom - 1 Bathroom for rent in Sanabis - Manama - Capital Governorate" [ref=e215] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987021.html
+                          - img "Apartment - 1 Bedroom - 1 Bathroom for rent in Sanabis - Manama - Capital Governorate" [ref=e217]
+                      - button "Previous photo" [ref=e218] [cursor=pointer]:
+                        - img [ref=e219]
+                      - button "Next photo" [ref=e221] [cursor=pointer]:
+                        - img [ref=e222]
+                      - generic [ref=e224] [cursor=pointer]:
+                        - generic [ref=e225]:
+                          - img [ref=e226]
+                          - generic [ref=e228]: "12"
+                        - button "Video tour" [ref=e229]:
+                          - img [ref=e230]
+                    - generic [ref=e232]:
+                      - generic [ref=e233]:
+                        - generic [ref=e234]:
+                          - paragraph [ref=e235]:
+                            - generic [ref=e236]: Apartment
+                          - generic [ref=e237]:
+                            - paragraph [ref=e239]: 240 BHD/month
+                            - generic [ref=e241]:
+                              - img [ref=e242]
+                              - text: Inclusive
+                          - heading "Spacious | Bright | Modern | Prime Location|" [level=3] [ref=e244]
+                        - img "Newton Properties logo image" [ref=e248]
+                      - generic [ref=e249]:
+                        - generic [ref=e250]:
+                          - img [ref=e251]
+                          - paragraph [ref=e253]: Sanabis, Manama, Capital Governorate
+                        - generic [ref=e254]:
+                          - paragraph [ref=e255]:
+                            - img [ref=e256]
+                            - text: "1"
+                          - paragraph [ref=e258]:
+                            - img [ref=e259]
+                            - text: "1"
+                          - paragraph [ref=e261]:
+                            - img [ref=e262]
+                            - text: 60 sqm
+                  - generic [ref=e265]:
+                    - generic [ref=e266]:
+                      - generic [ref=e267]:
+                        - img "Christyl Lebosada" [ref=e270]
+                        - img [ref=e272]
+                      - paragraph [ref=e274]: Listed 24 minutes ago
+                    - generic [ref=e275]:
+                      - generic [ref=e276]:
+                        - button "Call" [ref=e277] [cursor=pointer]:
+                          - img [ref=e278]
+                          - text: Call
+                        - button "Email" [ref=e280] [cursor=pointer]:
+                          - img [ref=e281]
+                          - text: Email
+                        - button "WhatsApp" [ref=e284] [cursor=pointer]:
+                          - img [ref=e285]
+                          - text: WhatsApp
+                      - generic [ref=e287]:
+                        - button "Save this property to the list" [ref=e288] [cursor=pointer]:
+                          - img [ref=e289]
+                        - button "Open actions menu" [ref=e291] [cursor=pointer]:
+                          - img [ref=e292]
+            - listitem [ref=e294]:
+              - article [ref=e295]:
+                - link "Prime Location | Balcony | Bathtub|Spacious|Bright" [ref=e296] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987017.html
+                - generic [ref=e297]:
+                  - generic [ref=e298]:
+                    - generic [ref=e300]:
+                      - button "SuperAgent" [ref=e302] [cursor=pointer]:
+                        - img [ref=e303]
+                        - generic [ref=e305]: SuperAgent
+                      - generic "Photos gallery" [ref=e306]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e308] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987017.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e310]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e312] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987017.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e314]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e316] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987017.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e318]
+                      - button "Previous photo" [ref=e319] [cursor=pointer]:
+                        - img [ref=e320]
+                      - button "Next photo" [ref=e322] [cursor=pointer]:
+                        - img [ref=e323]
+                      - generic [ref=e325] [cursor=pointer]:
+                        - generic [ref=e326]:
+                          - img [ref=e327]
+                          - generic [ref=e329]: "13"
+                        - button "Video tour" [ref=e330]:
+                          - img [ref=e331]
+                    - generic [ref=e333]:
+                      - generic [ref=e334]:
+                        - generic [ref=e335]:
+                          - paragraph [ref=e336]:
+                            - generic [ref=e337]: Apartment
+                          - generic [ref=e338]:
+                            - paragraph [ref=e340]: 270 BHD/month
+                            - generic [ref=e342]:
+                              - img [ref=e343]
+                              - text: Exclusive
+                          - heading "Prime Location | Balcony | Bathtub|Spacious|Bright" [level=3] [ref=e345]
+                        - img "Newton Properties logo image" [ref=e349]
+                      - generic [ref=e350]:
+                        - generic [ref=e351]:
+                          - img [ref=e352]
+                          - paragraph [ref=e354]: Sanabis, Manama, Capital Governorate
+                        - generic [ref=e355]:
+                          - paragraph [ref=e356]:
+                            - img [ref=e357]
+                            - text: "2"
+                          - paragraph [ref=e359]:
+                            - img [ref=e360]
+                            - text: "2"
+                          - paragraph [ref=e362]:
+                            - img [ref=e363]
+                            - text: 90 sqm
+                  - generic [ref=e366]:
+                    - generic [ref=e367]:
+                      - generic [ref=e368]:
+                        - img "Christyl Lebosada" [ref=e371]
+                        - img [ref=e373]
+                      - paragraph [ref=e375]: Listed 25 minutes ago
+                    - generic [ref=e376]:
+                      - generic [ref=e377]:
+                        - button "Call" [ref=e378] [cursor=pointer]:
+                          - img [ref=e379]
+                          - text: Call
+                        - button "Email" [ref=e381] [cursor=pointer]:
+                          - img [ref=e382]
+                          - text: Email
+                        - button "WhatsApp" [ref=e385] [cursor=pointer]:
+                          - img [ref=e386]
+                          - text: WhatsApp
+                      - generic [ref=e388]:
+                        - button "Save this property to the list" [ref=e389] [cursor=pointer]:
+                          - img [ref=e390]
+                        - button "Open actions menu" [ref=e392] [cursor=pointer]:
+                          - img [ref=e393]
+            - listitem [ref=e395]:
+              - iframe [ref=e398]:
+                - generic [ref=f348e3]:
+                  - generic [ref=f348e4]:
+                    - img [ref=f348e5]
+                    - generic [ref=f348e7]: Ad
+                  - generic [ref=f348e8]:
+                    - generic [ref=f348e9]:
+                      - heading "Invest in Dubai with MAS Barsha Residency" [level=3] [ref=f348e10]
+                      - generic [ref=f348e11]:
+                        - paragraph [ref=f348e12]: 1–3 BR boutique residences | From AED 1.8M
+                        - paragraph [ref=f348e13]: Flexible payment plans | Boutique living
+                    - generic [ref=f348e14]:
+                      - img [ref=f348e16]
+                      - link "Enquire now" [ref=f348e17] [cursor=pointer]:
+                        - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjsvuSfzlgvOmIaRj9gH1SmSYCSNcT7DXnpmnc6z6l7gDb0OmsTxp3z7IQjLmDNj9ggnNmNeD_N9A5UaojHVXVuJQG53jTAYVILZFh8Mdy8G8lI5YidlXKXU3j80UPzIsRXH97LgldtHXvRrbCx3zVpEkL5B3-_90glbzwHPtlV9bopoafrt4bk7wmIqmtfo0WgJhljhfrmqJUMUNpZEpWQP1MV__SGjWlzA9oYCbOyvRIJl58asgSOknup0dLe9SVG4ccPfBqTCZt7pBc9PENfbczscuU34t-ybtQxTPlzcUnixtyl6Q92ALpjW3aC_X8-waJBDc0fUNIL5guz_DTIz5UUb1H-e2KofrmkyK7OVnnbqcrsQ89egr1_rRxAJMkRpgP9XNyz-apduTv9nyxfB2azNhEREjv68y6oo&sai=AMfl-YQhioa8UbdgYPHgtTbpJLLTCIAxQoM1Fq95q2UZZrxDBLHYILv6dklHPRt1mrjMU0IFkGoWz74PXgqO3WZeX6IdwE2OPJ1I3jPGb05ojqQ_a2gzgFGhbRSZvz1KegkTRfHrprMNcDyxHQVuqu8UFxpArgxQM-mjl1vLnwsua3U63uGmChXvytZQKtFRuHT8PZVZXM-a0rb8goG6IQKCvHOg9brvhYn8OPbGECuXjR18X75GpVvM-IeKGi9rTkrTkIMkA0cmMGa3DhN8bUfGxbgp31Obvoydl2LxobbGPaYa7d-jI4sVce41GoyrB4eZzgkTGUYNLgLWQ2UgBZWjW1706GTpDigzEBNSejm5BkemJ3hWOO9fDQ&sig=Cg0ArKJSzNeRlAlUXidzEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-cb-leadgen
+                  - link [ref=f348e18] [cursor=pointer]:
+                    - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjsvuSfzlgvOmIaRj9gH1SmSYCSNcT7DXnpmnc6z6l7gDb0OmsTxp3z7IQjLmDNj9ggnNmNeD_N9A5UaojHVXVuJQG53jTAYVILZFh8Mdy8G8lI5YidlXKXU3j80UPzIsRXH97LgldtHXvRrbCx3zVpEkL5B3-_90glbzwHPtlV9bopoafrt4bk7wmIqmtfo0WgJhljhfrmqJUMUNpZEpWQP1MV__SGjWlzA9oYCbOyvRIJl58asgSOknup0dLe9SVG4ccPfBqTCZt7pBc9PENfbczscuU34t-ybtQxTPlzcUnixtyl6Q92ALpjW3aC_X8-waJBDc0fUNIL5guz_DTIz5UUb1H-e2KofrmkyK7OVnnbqcrsQ89egr1_rRxAJMkRpgP9XNyz-apduTv9nyxfB2azNhEREjv68y6oo&sai=AMfl-YQhioa8UbdgYPHgtTbpJLLTCIAxQoM1Fq95q2UZZrxDBLHYILv6dklHPRt1mrjMU0IFkGoWz74PXgqO3WZeX6IdwE2OPJ1I3jPGb05ojqQ_a2gzgFGhbRSZvz1KegkTRfHrprMNcDyxHQVuqu8UFxpArgxQM-mjl1vLnwsua3U63uGmChXvytZQKtFRuHT8PZVZXM-a0rb8goG6IQKCvHOg9brvhYn8OPbGECuXjR18X75GpVvM-IeKGi9rTkrTkIMkA0cmMGa3DhN8bUfGxbgp31Obvoydl2LxobbGPaYa7d-jI4sVce41GoyrB4eZzgkTGUYNLgLWQ2UgBZWjW1706GTpDigzEBNSejm5BkemJ3hWOO9fDQ&sig=Cg0ArKJSzNeRlAlUXidzEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-cb-leadgen
+            - listitem [ref=e399]:
+              - article [ref=e400]:
+                - 'link "Elite 2BR Marina View : 5-Star Luxury Living" [ref=e401] [cursor=pointer]':
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987016.html
+                - generic [ref=e402]:
+                  - generic [ref=e403]:
+                    - generic [ref=e405]:
+                      - button "SuperAgent" [ref=e407] [cursor=pointer]:
+                        - img [ref=e408]
+                        - generic [ref=e410]: SuperAgent
+                      - generic "Photos gallery" [ref=e411]:
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e413] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987016.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e415]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e417] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987016.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e419]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e421] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987016.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e423]
+                      - button "Previous photo" [ref=e424] [cursor=pointer]:
+                        - img [ref=e425]
+                      - button "Next photo" [ref=e427] [cursor=pointer]:
+                        - img [ref=e428]
+                      - generic [ref=e430] [cursor=pointer]:
+                        - generic [ref=e431]:
+                          - img [ref=e432]
+                          - generic [ref=e434]: "27"
+                        - button "Video tour" [ref=e435]:
+                          - img [ref=e436]
+                    - generic [ref=e438]:
+                      - generic [ref=e439]:
+                        - generic [ref=e440]:
+                          - paragraph [ref=e441]:
+                            - generic [ref=e442]: Apartment
+                          - generic [ref=e443]:
+                            - paragraph [ref=e445]: 995 BHD/month
+                            - generic [ref=e447]:
+                              - img [ref=e448]
+                              - text: Inclusive
+                          - 'heading "Elite 2BR Marina View : 5-Star Luxury Living" [level=3] [ref=e450]'
+                        - img "OKA Real Estate logo image" [ref=e454]
+                      - generic [ref=e455]:
+                        - generic [ref=e456]:
+                          - img [ref=e457]
+                          - paragraph [ref=e459]: Reef Island, Capital Governorate
+                        - generic [ref=e460]:
+                          - paragraph [ref=e461]:
+                            - img [ref=e462]
+                            - text: "2"
+                          - paragraph [ref=e464]:
+                            - img [ref=e465]
+                            - text: "3"
+                          - paragraph [ref=e467]:
+                            - img [ref=e468]
+                            - text: 120 sqm
+                  - generic [ref=e471]:
+                    - generic [ref=e472]:
+                      - generic [ref=e473]:
+                        - img "Hamza Rajhi" [ref=e476]
+                        - img [ref=e478]
+                      - paragraph [ref=e480]: Listed 25 minutes ago
+                    - generic [ref=e481]:
+                      - generic [ref=e482]:
+                        - button "Call" [ref=e483] [cursor=pointer]:
+                          - img [ref=e484]
+                          - text: Call
+                        - button "Email" [ref=e486] [cursor=pointer]:
+                          - img [ref=e487]
+                          - text: Email
+                        - button "WhatsApp" [ref=e490] [cursor=pointer]:
+                          - img [ref=e491]
+                          - text: WhatsApp
+                      - generic [ref=e493]:
+                        - button "Save this property to the list" [ref=e494] [cursor=pointer]:
+                          - img [ref=e495]
+                        - button "Open actions menu" [ref=e497] [cursor=pointer]:
+                          - img [ref=e498]
+            - listitem [ref=e500]:
+              - article [ref=e501]:
+                - link "SEA VIEW | HIGHFLOOR | HOUSEKEEPING | BALCONY" [ref=e502] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-bahrain-bay-53987014.html
+                - generic [ref=e503]:
+                  - generic [ref=e504]:
+                    - generic [ref=e506]:
+                      - button "SuperAgent" [ref=e508] [cursor=pointer]:
+                        - img [ref=e509]
+                        - generic [ref=e511]: SuperAgent
+                      - generic "Photos gallery" [ref=e512]:
+                        - link "Apartment - Studio - 1 Bathroom for rent in Bahrain Bay - Capital Governorate" [ref=e514] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-bahrain-bay-53987014.html
+                          - img "Apartment - Studio - 1 Bathroom for rent in Bahrain Bay - Capital Governorate" [ref=e516]
+                        - link "Apartment - Studio - 1 Bathroom for rent in Bahrain Bay - Capital Governorate" [ref=e518] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-bahrain-bay-53987014.html
+                          - img "Apartment - Studio - 1 Bathroom for rent in Bahrain Bay - Capital Governorate" [ref=e520]
+                        - link "Apartment - Studio - 1 Bathroom for rent in Bahrain Bay - Capital Governorate" [ref=e522] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-bahrain-bay-53987014.html
+                          - img "Apartment - Studio - 1 Bathroom for rent in Bahrain Bay - Capital Governorate" [ref=e524]
+                      - button "Previous photo" [ref=e525] [cursor=pointer]:
+                        - img [ref=e526]
+                      - button "Next photo" [ref=e528] [cursor=pointer]:
+                        - img [ref=e529]
+                      - generic [ref=e531] [cursor=pointer]:
+                        - generic [ref=e532]:
+                          - img [ref=e533]
+                          - generic [ref=e535]: "12"
+                        - button "Video tour" [ref=e536]:
+                          - img [ref=e537]
+                    - generic [ref=e539]:
+                      - generic [ref=e540]:
+                        - generic [ref=e541]:
+                          - paragraph [ref=e542]:
+                            - generic [ref=e543]: Apartment
+                          - generic [ref=e544]:
+                            - paragraph [ref=e546]: 550 BHD/month
+                            - generic [ref=e548]:
+                              - img [ref=e549]
+                              - text: Inclusive
+                          - heading "SEA VIEW | HIGHFLOOR | HOUSEKEEPING | BALCONY" [level=3] [ref=e551]
+                        - generic [ref=e552]:
+                          - paragraph [ref=e553]: Featured
+                          - img "HighBridge logo image" [ref=e556]
+                      - generic [ref=e557]:
+                        - generic [ref=e558]:
+                          - img [ref=e559]
+                          - paragraph [ref=e561]: Bahrain Bay, Capital Governorate
+                        - generic [ref=e562]:
+                          - paragraph [ref=e563]:
+                            - img [ref=e564]
+                            - text: studio
+                          - paragraph [ref=e566]:
+                            - img [ref=e567]
+                            - text: "1"
+                          - paragraph [ref=e569]:
+                            - img [ref=e570]
+                            - text: 50 sqm
+                  - generic [ref=e573]:
+                    - generic [ref=e574]:
+                      - generic [ref=e575]:
+                        - img "Dulce Sevilla" [ref=e578]
+                        - img [ref=e580]
+                      - paragraph [ref=e582]: Listed 26 minutes ago
+                    - generic [ref=e583]:
+                      - generic [ref=e584]:
+                        - button "Call" [ref=e585] [cursor=pointer]:
+                          - img [ref=e586]
+                          - text: Call
+                        - button "Email" [ref=e588] [cursor=pointer]:
+                          - img [ref=e589]
+                          - text: Email
+                        - button "WhatsApp" [ref=e592] [cursor=pointer]:
+                          - img [ref=e593]
+                          - text: WhatsApp
+                      - generic [ref=e595]:
+                        - button "Save this property to the list" [ref=e596] [cursor=pointer]:
+                          - img [ref=e597]
+                        - button "Open actions menu" [ref=e599] [cursor=pointer]:
+                          - img [ref=e600]
+            - listitem [ref=e602]:
+              - iframe [ref=e605]:
+                - article [ref=f345e3]:
+                  - generic [ref=f345e4]:
+                    - generic [ref=f345e6]:
+                      - generic [ref=f345e7]: Sponsored Ad
+                      - img [ref=f345e8]
+                    - generic [ref=f345e9]:
+                      - generic [ref=f345e10]:
+                        - generic [ref=f345e11]:
+                          - paragraph [ref=f345e12]: Invest in Dubai with MAS Barsha Residency
+                          - heading "Stylish & spacious 1–3 BR boutique residences in a prime location with flexible payment plans." [level=2] [ref=f345e13]
+                        - img [ref=f345e15]
+                      - generic [ref=f345e16]:
+                        - paragraph [ref=f345e17]:
+                          - img [ref=f345e18]
+                          - generic [ref=f345e20]: Al Barsha, Dubai
+                        - paragraph [ref=f345e21]:
+                          - img [ref=f345e22]
+                          - text: From 1,800,000 AED
+                  - link "Enquire now" [ref=f345e25] [cursor=pointer]:
+                    - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjsuUYPoI0mGnVdo5kW8dTxftCP2zp3jfERSX3YXLC7a_tECYr2IVAiC7-MX1Av-X7yAdr1gLB0XE-FG0m7kOE8UN0Btjt1yRwYvjQJbw6ntgTU5SnOijw1YIcEKLE1vgsG1JYUpqzFAf_sEX6eC93uhY3G9J1ZDwUEVHl67ToxBD8gowNVzXoTqlUKCcM5CtL_k03Fk3YbV1_6S0t4zP0wr2XBJiyxEiP-VTvWo4YEpYc_LrhbcSjRYU1FJqbL4wpe1anmk1g33C00mQ5LMWiTz-ulo5dn8NOyoDdkMyf5nHjx1zQIaR0bnFBdLRmOvYdHhoinUQaOBrujvkD7tIBg_L90F89S_jGxY_tTslH8_9FNkRjRJLYslpR9TxzCWDP1cY643WTYfPGII&sai=AMfl-YT9GqG6kajOC0aMuxenzuCE5B_3sEnANRQPyJ0GTAeCWgyjWL0ZfESM7WI1xFz6D40v1n0nhVhNxM2wIlXuQX1Tkxr-hDQaJgWH7bpdSzNh7UKPoijzkXj-AQLt5XPvzLlnDeQ_DHyKHhrxIHnr1MeVVea2NqXPSoRnnfb8pWhF2u7NewQV5YZ1ouHJaGTCobZH20-XGIb9Tn2BwH2R__oCBtno2PR-WeOVRKWfq3qM7H_DIoGpRVdJwtATNYxJYNrLLAeE7RJ4Dd_JmsCImv65joffXvO25UVOzoci8c0JGR0JYGriP364JXqOX2Z2jJK1j4UayeYZ7KtgM7dIaQJgLc_M0uu49TQmzb4kapSoTjxN6-uDvw&sig=Cg0ArKJSzD1d-i5pbOrUEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-native-leadgen
+                  - link [ref=f345e26] [cursor=pointer]:
+                    - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjsuUYPoI0mGnVdo5kW8dTxftCP2zp3jfERSX3YXLC7a_tECYr2IVAiC7-MX1Av-X7yAdr1gLB0XE-FG0m7kOE8UN0Btjt1yRwYvjQJbw6ntgTU5SnOijw1YIcEKLE1vgsG1JYUpqzFAf_sEX6eC93uhY3G9J1ZDwUEVHl67ToxBD8gowNVzXoTqlUKCcM5CtL_k03Fk3YbV1_6S0t4zP0wr2XBJiyxEiP-VTvWo4YEpYc_LrhbcSjRYU1FJqbL4wpe1anmk1g33C00mQ5LMWiTz-ulo5dn8NOyoDdkMyf5nHjx1zQIaR0bnFBdLRmOvYdHhoinUQaOBrujvkD7tIBg_L90F89S_jGxY_tTslH8_9FNkRjRJLYslpR9TxzCWDP1cY643WTYfPGII&sai=AMfl-YT9GqG6kajOC0aMuxenzuCE5B_3sEnANRQPyJ0GTAeCWgyjWL0ZfESM7WI1xFz6D40v1n0nhVhNxM2wIlXuQX1Tkxr-hDQaJgWH7bpdSzNh7UKPoijzkXj-AQLt5XPvzLlnDeQ_DHyKHhrxIHnr1MeVVea2NqXPSoRnnfb8pWhF2u7NewQV5YZ1ouHJaGTCobZH20-XGIb9Tn2BwH2R__oCBtno2PR-WeOVRKWfq3qM7H_DIoGpRVdJwtATNYxJYNrLLAeE7RJ4Dd_JmsCImv65joffXvO25UVOzoci8c0JGR0JYGriP364JXqOX2Z2jJK1j4UayeYZ7KtgM7dIaQJgLc_M0uu49TQmzb4kapSoTjxN6-uDvw&sig=Cg0ArKJSzD1d-i5pbOrUEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-native-leadgen
+            - listitem [ref=e606]:
+              - article [ref=e607]:
+                - link "Sea View 1BR Apartment | Balcony | Modern Living" [ref=e608] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987012.html
+                - generic [ref=e609]:
+                  - generic [ref=e610]:
+                    - generic [ref=e612]:
+                      - button "SuperAgent" [ref=e614] [cursor=pointer]:
+                        - img [ref=e615]
+                        - generic [ref=e617]: SuperAgent
+                      - generic "Photos gallery" [ref=e618]:
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e620] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987012.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e622]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e624] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987012.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e626]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e628] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-reef-island-53987012.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Reef Island - Capital Governorate" [ref=e630]
+                      - button "Previous photo" [ref=e631] [cursor=pointer]:
+                        - img [ref=e632]
+                      - button "Next photo" [ref=e634] [cursor=pointer]:
+                        - img [ref=e635]
+                      - generic [ref=e637] [cursor=pointer]:
+                        - generic [ref=e638]:
+                          - img [ref=e639]
+                          - generic [ref=e641]: "23"
+                        - button "Video tour" [ref=e642]:
+                          - img [ref=e643]
+                    - generic [ref=e645]:
+                      - generic [ref=e646]:
+                        - generic [ref=e647]:
+                          - paragraph [ref=e648]:
+                            - generic [ref=e649]: Apartment
+                          - generic [ref=e650]:
+                            - paragraph [ref=e652]: 725 BHD/month
+                            - generic [ref=e654]:
+                              - img [ref=e655]
+                              - text: Inclusive
+                          - heading "Sea View 1BR Apartment | Balcony | Modern Living" [level=3] [ref=e657]
+                        - img "OKA Real Estate logo image" [ref=e661]
+                      - generic [ref=e662]:
+                        - generic [ref=e663]:
+                          - img [ref=e664]
+                          - paragraph [ref=e666]: Reef Island, Capital Governorate
+                        - generic [ref=e667]:
+                          - paragraph [ref=e668]:
+                            - img [ref=e669]
+                            - text: "1"
+                          - paragraph [ref=e671]:
+                            - img [ref=e672]
+                            - text: "2"
+                          - paragraph [ref=e674]:
+                            - img [ref=e675]
+                            - text: 80 sqm
+                  - generic [ref=e678]:
+                    - generic [ref=e679]:
+                      - generic [ref=e680]:
+                        - img "Hamza Rajhi" [ref=e683]
+                        - img [ref=e685]
+                      - paragraph [ref=e687]: Listed 27 minutes ago
+                    - generic [ref=e688]:
+                      - generic [ref=e689]:
+                        - button "Call" [ref=e690] [cursor=pointer]:
+                          - img [ref=e691]
+                          - text: Call
+                        - button "Email" [ref=e693] [cursor=pointer]:
+                          - img [ref=e694]
+                          - text: Email
+                        - button "WhatsApp" [ref=e697] [cursor=pointer]:
+                          - img [ref=e698]
+                          - text: WhatsApp
+                      - generic [ref=e700]:
+                        - button "Save this property to the list" [ref=e701] [cursor=pointer]:
+                          - img [ref=e702]
+                        - button "Open actions menu" [ref=e704] [cursor=pointer]:
+                          - img [ref=e705]
+            - listitem [ref=e707]:
+              - article [ref=e708]:
+                - link "Housekeeping | Bathtub | Spacious | Modern |Bright" [ref=e709] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53987010.html
+                - generic [ref=e710]:
+                  - generic [ref=e711]:
+                    - generic [ref=e713]:
+                      - button "SuperAgent" [ref=e715] [cursor=pointer]:
+                        - img [ref=e716]
+                        - generic [ref=e718]: SuperAgent
+                      - generic "Photos gallery" [ref=e719]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e721] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53987010.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e723]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e725] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53987010.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e727]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e729] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53987010.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e731]
+                      - button "Previous photo" [ref=e732] [cursor=pointer]:
+                        - img [ref=e733]
+                      - button "Next photo" [ref=e735] [cursor=pointer]:
+                        - img [ref=e736]
+                      - generic [ref=e738] [cursor=pointer]:
+                        - generic [ref=e739]:
+                          - img [ref=e740]
+                          - generic [ref=e742]: "16"
+                        - button "Video tour" [ref=e743]:
+                          - img [ref=e744]
+                    - generic [ref=e746]:
+                      - generic [ref=e747]:
+                        - generic [ref=e748]:
+                          - paragraph [ref=e749]:
+                            - generic [ref=e750]: Apartment
+                          - generic [ref=e751]:
+                            - paragraph [ref=e753]: 380 BHD/month
+                            - generic [ref=e755]:
+                              - img [ref=e756]
+                              - text: Inclusive
+                          - heading "Housekeeping | Bathtub | Spacious | Modern |Bright" [level=3] [ref=e758]
+                        - img "Newton Properties logo image" [ref=e762]
+                      - generic [ref=e763]:
+                        - generic [ref=e764]:
+                          - img [ref=e765]
+                          - paragraph [ref=e767]: Al Juffair, Capital Governorate
+                        - generic [ref=e768]:
+                          - paragraph [ref=e769]:
+                            - img [ref=e770]
+                            - text: "2"
+                          - paragraph [ref=e772]:
+                            - img [ref=e773]
+                            - text: "2"
+                          - paragraph [ref=e775]:
+                            - img [ref=e776]
+                            - text: 100 sqm
+                  - generic [ref=e779]:
+                    - generic [ref=e780]:
+                      - generic [ref=e781]:
+                        - img "Christyl Lebosada" [ref=e784]
+                        - img [ref=e786]
+                      - paragraph [ref=e788]: Listed 27 minutes ago
+                    - generic [ref=e789]:
+                      - generic [ref=e790]:
+                        - button "Call" [ref=e791] [cursor=pointer]:
+                          - img [ref=e792]
+                          - text: Call
+                        - button "Email" [ref=e794] [cursor=pointer]:
+                          - img [ref=e795]
+                          - text: Email
+                        - button "WhatsApp" [ref=e798] [cursor=pointer]:
+                          - img [ref=e799]
+                          - text: WhatsApp
+                      - generic [ref=e801]:
+                        - button "Save this property to the list" [ref=e802] [cursor=pointer]:
+                          - img [ref=e803]
+                        - button "Open actions menu" [ref=e805] [cursor=pointer]:
+                          - img [ref=e806]
+            - listitem [ref=e808]:
+              - article [ref=e809]:
+                - link "Unfurnished | Closed Kitchen | Spacious | Bright |" [ref=e810] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987008.html
+                - generic [ref=e811]:
+                  - generic [ref=e812]:
+                    - generic [ref=e814]:
+                      - button "SuperAgent" [ref=e816] [cursor=pointer]:
+                        - img [ref=e817]
+                        - generic [ref=e819]: SuperAgent
+                      - generic "Photos gallery" [ref=e820]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e822] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987008.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e824]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e826] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987008.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e828]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e830] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-manama-sanabis-53987008.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Sanabis - Manama - Capital Governorate" [ref=e832]
+                      - button "Previous photo" [ref=e833] [cursor=pointer]:
+                        - img [ref=e834]
+                      - button "Next photo" [ref=e836] [cursor=pointer]:
+                        - img [ref=e837]
+                      - generic [ref=e839] [cursor=pointer]:
+                        - generic [ref=e840]:
+                          - img [ref=e841]
+                          - generic [ref=e843]: "13"
+                        - button "Video tour" [ref=e844]:
+                          - img [ref=e845]
+                    - generic [ref=e847]:
+                      - generic [ref=e848]:
+                        - generic [ref=e849]:
+                          - paragraph [ref=e850]:
+                            - generic [ref=e851]: Apartment
+                          - generic [ref=e852]:
+                            - paragraph [ref=e854]: 230 BHD/month
+                            - generic [ref=e856]:
+                              - img [ref=e857]
+                              - text: Exclusive
+                          - heading "Unfurnished | Closed Kitchen | Spacious | Bright |" [level=3] [ref=e859]
+                        - img "Newton Properties logo image" [ref=e863]
+                      - generic [ref=e864]:
+                        - generic [ref=e865]:
+                          - img [ref=e866]
+                          - paragraph [ref=e868]: Sanabis, Manama, Capital Governorate
+                        - generic [ref=e869]:
+                          - paragraph [ref=e870]:
+                            - img [ref=e871]
+                            - text: "2"
+                          - paragraph [ref=e873]:
+                            - img [ref=e874]
+                            - text: "2"
+                          - paragraph [ref=e876]:
+                            - img [ref=e877]
+                            - text: 120 sqm
+                  - generic [ref=e880]:
+                    - generic [ref=e881]:
+                      - generic [ref=e882]:
+                        - img "Christyl Lebosada" [ref=e885]
+                        - img [ref=e887]
+                      - paragraph [ref=e889]: Listed 28 minutes ago
+                    - generic [ref=e890]:
+                      - generic [ref=e891]:
+                        - button "Call" [ref=e892] [cursor=pointer]:
+                          - img [ref=e893]
+                          - text: Call
+                        - button "Email" [ref=e895] [cursor=pointer]:
+                          - img [ref=e896]
+                          - text: Email
+                        - button "WhatsApp" [ref=e899] [cursor=pointer]:
+                          - img [ref=e900]
+                          - text: WhatsApp
+                      - generic [ref=e902]:
+                        - button "Save this property to the list" [ref=e903] [cursor=pointer]:
+                          - img [ref=e904]
+                        - button "Open actions menu" [ref=e906] [cursor=pointer]:
+                          - img [ref=e907]
+            - listitem [ref=e909]:
+              - article [ref=e910]:
+                - link "Elegant 1BR Apartment in Prime Seef Location" [ref=e911] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987006.html
+                - generic [ref=e912]:
+                  - generic [ref=e913]:
+                    - generic [ref=e915]:
+                      - button "SuperAgent" [ref=e917] [cursor=pointer]:
+                        - img [ref=e918]
+                        - generic [ref=e920]: SuperAgent
+                      - generic "Photos gallery" [ref=e921]:
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e923] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987006.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e925]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e927] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987006.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e929]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e931] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987006.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e933]
+                      - button "Previous photo" [ref=e934] [cursor=pointer]:
+                        - img [ref=e935]
+                      - button "Next photo" [ref=e937] [cursor=pointer]:
+                        - img [ref=e938]
+                      - generic [ref=e940] [cursor=pointer]:
+                        - generic [ref=e941]:
+                          - img [ref=e942]
+                          - generic [ref=e944]: "15"
+                        - button "Video tour" [ref=e945]:
+                          - img [ref=e946]
+                    - generic [ref=e948]:
+                      - generic [ref=e949]:
+                        - generic [ref=e950]:
+                          - paragraph [ref=e951]:
+                            - generic [ref=e952]: Apartment
+                          - generic [ref=e953]:
+                            - paragraph [ref=e955]: 400 BHD/month
+                            - generic [ref=e957]:
+                              - img [ref=e958]
+                              - text: Inclusive
+                          - heading "Elegant 1BR Apartment in Prime Seef Location" [level=3] [ref=e960]
+                        - img "OKA Real Estate logo image" [ref=e964]
+                      - generic [ref=e965]:
+                        - generic [ref=e966]:
+                          - img [ref=e967]
+                          - paragraph [ref=e969]: Seef, Capital Governorate
+                        - generic [ref=e970]:
+                          - paragraph [ref=e971]:
+                            - img [ref=e972]
+                            - text: "1"
+                          - paragraph [ref=e974]:
+                            - img [ref=e975]
+                            - text: "2"
+                          - paragraph [ref=e977]:
+                            - img [ref=e978]
+                            - text: 75 sqm
+                  - generic [ref=e981]:
+                    - generic [ref=e982]:
+                      - generic [ref=e983]:
+                        - img "Hamza Rajhi" [ref=e986]
+                        - img [ref=e988]
+                      - paragraph [ref=e990]: Listed 30 minutes ago
+                    - generic [ref=e991]:
+                      - generic [ref=e992]:
+                        - button "Call" [ref=e993] [cursor=pointer]:
+                          - img [ref=e994]
+                          - text: Call
+                        - button "Email" [ref=e996] [cursor=pointer]:
+                          - img [ref=e997]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1000] [cursor=pointer]:
+                          - img [ref=e1001]
+                          - text: WhatsApp
+                      - generic [ref=e1003]:
+                        - button "Save this property to the list" [ref=e1004] [cursor=pointer]:
+                          - img [ref=e1005]
+                        - button "Open actions menu" [ref=e1007] [cursor=pointer]:
+                          - img [ref=e1008]
+            - listitem [ref=e1010]:
+              - article [ref=e1011]:
+                - link "Stylish 1BR Furnished Apartment in Seef" [ref=e1012] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987005.html
+                - generic [ref=e1013]:
+                  - generic [ref=e1014]:
+                    - generic [ref=e1016]:
+                      - button "SuperAgent" [ref=e1018] [cursor=pointer]:
+                        - img [ref=e1019]
+                        - generic [ref=e1021]: SuperAgent
+                      - generic "Photos gallery" [ref=e1022]:
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1024] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987005.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1026]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1028] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987005.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1030]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1032] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987005.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1034]
+                      - button "Previous photo" [ref=e1035] [cursor=pointer]:
+                        - img [ref=e1036]
+                      - button "Next photo" [ref=e1038] [cursor=pointer]:
+                        - img [ref=e1039]
+                      - generic [ref=e1041] [cursor=pointer]:
+                        - generic [ref=e1042]:
+                          - img [ref=e1043]
+                          - generic [ref=e1045]: "19"
+                        - button "Video tour" [ref=e1046]:
+                          - img [ref=e1047]
+                    - generic [ref=e1049]:
+                      - generic [ref=e1050]:
+                        - generic [ref=e1051]:
+                          - paragraph [ref=e1052]:
+                            - generic [ref=e1053]: Apartment
+                          - generic [ref=e1054]:
+                            - paragraph [ref=e1056]: 350 BHD/month
+                            - generic [ref=e1058]:
+                              - img [ref=e1059]
+                              - text: Inclusive
+                          - heading "Stylish 1BR Furnished Apartment in Seef" [level=3] [ref=e1061]
+                        - img "OKA Real Estate logo image" [ref=e1065]
+                      - generic [ref=e1066]:
+                        - generic [ref=e1067]:
+                          - img [ref=e1068]
+                          - paragraph [ref=e1070]: Seef, Capital Governorate
+                        - generic [ref=e1071]:
+                          - paragraph [ref=e1072]:
+                            - img [ref=e1073]
+                            - text: "1"
+                          - paragraph [ref=e1075]:
+                            - img [ref=e1076]
+                            - text: "2"
+                          - paragraph [ref=e1078]:
+                            - img [ref=e1079]
+                            - text: 75 sqm
+                  - generic [ref=e1082]:
+                    - generic [ref=e1083]:
+                      - generic [ref=e1084]:
+                        - img "Hamza Rajhi" [ref=e1087]
+                        - img [ref=e1089]
+                      - paragraph [ref=e1091]: Listed 31 minutes ago
+                    - generic [ref=e1092]:
+                      - generic [ref=e1093]:
+                        - button "Call" [ref=e1094] [cursor=pointer]:
+                          - img [ref=e1095]
+                          - text: Call
+                        - button "Email" [ref=e1097] [cursor=pointer]:
+                          - img [ref=e1098]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1101] [cursor=pointer]:
+                          - img [ref=e1102]
+                          - text: WhatsApp
+                      - generic [ref=e1104]:
+                        - button "Save this property to the list" [ref=e1105] [cursor=pointer]:
+                          - img [ref=e1106]
+                        - button "Open actions menu" [ref=e1108] [cursor=pointer]:
+                          - img [ref=e1109]
+            - listitem [ref=e1111]:
+              - article [ref=e1112]:
+                - link "Bright - Comfortable 2BR Apartment in Seef" [ref=e1113] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987002.html
+                - generic [ref=e1114]:
+                  - generic [ref=e1115]:
+                    - generic [ref=e1117]:
+                      - button "SuperAgent" [ref=e1119] [cursor=pointer]:
+                        - img [ref=e1120]
+                        - generic [ref=e1122]: SuperAgent
+                      - generic "Photos gallery" [ref=e1123]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1125] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987002.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1127]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1129] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987002.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1131]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1133] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53987002.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1135]
+                      - button "Previous photo" [ref=e1136] [cursor=pointer]:
+                        - img [ref=e1137]
+                      - button "Next photo" [ref=e1139] [cursor=pointer]:
+                        - img [ref=e1140]
+                      - generic [ref=e1142] [cursor=pointer]:
+                        - generic [ref=e1143]:
+                          - img [ref=e1144]
+                          - generic [ref=e1146]: "23"
+                        - button "Video tour" [ref=e1147]:
+                          - img [ref=e1148]
+                    - generic [ref=e1150]:
+                      - generic [ref=e1151]:
+                        - generic [ref=e1152]:
+                          - paragraph [ref=e1153]:
+                            - generic [ref=e1154]: Apartment
+                          - generic [ref=e1155]:
+                            - paragraph [ref=e1157]: 550 BHD/month
+                            - generic [ref=e1159]:
+                              - img [ref=e1160]
+                              - text: Inclusive
+                          - heading "Bright - Comfortable 2BR Apartment in Seef" [level=3] [ref=e1162]
+                        - img "OKA Real Estate logo image" [ref=e1166]
+                      - generic [ref=e1167]:
+                        - generic [ref=e1168]:
+                          - img [ref=e1169]
+                          - paragraph [ref=e1171]: Seef, Capital Governorate
+                        - generic [ref=e1172]:
+                          - paragraph [ref=e1173]:
+                            - img [ref=e1174]
+                            - text: "2"
+                          - paragraph [ref=e1176]:
+                            - img [ref=e1177]
+                            - text: "2"
+                          - paragraph [ref=e1179]:
+                            - img [ref=e1180]
+                            - text: 125 sqm
+                  - generic [ref=e1183]:
+                    - generic [ref=e1184]:
+                      - generic [ref=e1185]:
+                        - img "Hamza Rajhi" [ref=e1188]
+                        - img [ref=e1190]
+                      - paragraph [ref=e1192]: Listed 33 minutes ago
+                    - generic [ref=e1193]:
+                      - generic [ref=e1194]:
+                        - button "Call" [ref=e1195] [cursor=pointer]:
+                          - img [ref=e1196]
+                          - text: Call
+                        - button "Email" [ref=e1198] [cursor=pointer]:
+                          - img [ref=e1199]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1202] [cursor=pointer]:
+                          - img [ref=e1203]
+                          - text: WhatsApp
+                      - generic [ref=e1205]:
+                        - button "Save this property to the list" [ref=e1206] [cursor=pointer]:
+                          - img [ref=e1207]
+                        - button "Open actions menu" [ref=e1209] [cursor=pointer]:
+                          - img [ref=e1210]
+            - listitem [ref=e1212]:
+              - article [ref=e1213]:
+                - link "SEA VIEW │MODERN/OFFER│DEAL │SPACIOUS │HS.KEEPING" [ref=e1214] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986998.html
+                - generic [ref=e1215]:
+                  - generic [ref=e1216]:
+                    - generic [ref=e1218]:
+                      - button "SuperAgent" [ref=e1220] [cursor=pointer]:
+                        - img [ref=e1221]
+                        - generic [ref=e1223]: SuperAgent
+                      - generic "Photos gallery" [ref=e1224]:
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1226] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986998.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1228]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1230] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986998.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1232]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1234] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986998.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1236]
+                      - button "Previous photo" [ref=e1237] [cursor=pointer]:
+                        - img [ref=e1238]
+                      - button "Next photo" [ref=e1240] [cursor=pointer]:
+                        - img [ref=e1241]
+                      - generic [ref=e1243] [cursor=pointer]:
+                        - generic [ref=e1244]:
+                          - img [ref=e1245]
+                          - generic [ref=e1247]: "13"
+                        - button "Video tour" [ref=e1248]:
+                          - img [ref=e1249]
+                    - generic [ref=e1251]:
+                      - generic [ref=e1252]:
+                        - generic [ref=e1253]:
+                          - paragraph [ref=e1254]:
+                            - generic [ref=e1255]: Apartment
+                          - generic [ref=e1256]:
+                            - paragraph [ref=e1258]: 300 BHD/month
+                            - generic [ref=e1260]:
+                              - img [ref=e1261]
+                              - text: Inclusive
+                          - heading "SEA VIEW │MODERN/OFFER│DEAL │SPACIOUS │HS.KEEPING" [level=3] [ref=e1263]
+                        - generic [ref=e1264]:
+                          - paragraph [ref=e1265]: Premium
+                          - img "Desire real estate logo image" [ref=e1268]
+                      - generic [ref=e1269]:
+                        - generic [ref=e1270]:
+                          - img [ref=e1271]
+                          - paragraph [ref=e1273]: Al Juffair, Capital Governorate
+                        - generic [ref=e1274]:
+                          - paragraph [ref=e1275]:
+                            - img [ref=e1276]
+                            - text: "1"
+                          - paragraph [ref=e1278]:
+                            - img [ref=e1279]
+                            - text: "2"
+                          - paragraph [ref=e1281]:
+                            - img [ref=e1282]
+                            - text: 90 sqm
+                  - generic [ref=e1285]:
+                    - generic [ref=e1286]:
+                      - generic [ref=e1287]:
+                        - img "Sahebaz Makki" [ref=e1290]
+                        - img [ref=e1292]
+                      - paragraph [ref=e1294]: Listed 34 minutes ago
+                    - generic [ref=e1295]:
+                      - generic [ref=e1296]:
+                        - button "Call" [ref=e1297] [cursor=pointer]:
+                          - img [ref=e1298]
+                          - text: Call
+                        - button "Email" [ref=e1300] [cursor=pointer]:
+                          - img [ref=e1301]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1304] [cursor=pointer]:
+                          - img [ref=e1305]
+                          - text: WhatsApp
+                      - generic [ref=e1307]:
+                        - button "Save this property to the list" [ref=e1308] [cursor=pointer]:
+                          - img [ref=e1309]
+                        - button "Open actions menu" [ref=e1311] [cursor=pointer]:
+                          - img [ref=e1312]
+            - listitem [ref=e1314]:
+              - article [ref=e1315]:
+                - link "Modern 1BR | Fully Furnished | 5-Star amenities" [ref=e1316] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986994.html
+                - generic [ref=e1317]:
+                  - generic [ref=e1318]:
+                    - generic [ref=e1320]:
+                      - button "SuperAgent" [ref=e1322] [cursor=pointer]:
+                        - img [ref=e1323]
+                        - generic [ref=e1325]: SuperAgent
+                      - generic "Photos gallery" [ref=e1326]:
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1328] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986994.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1330]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1332] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986994.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1334]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1336] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986994.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1338]
+                      - button "Previous photo" [ref=e1339] [cursor=pointer]:
+                        - img [ref=e1340]
+                      - button "Next photo" [ref=e1342] [cursor=pointer]:
+                        - img [ref=e1343]
+                      - generic [ref=e1345] [cursor=pointer]:
+                        - generic [ref=e1346]:
+                          - img [ref=e1347]
+                          - generic [ref=e1349]: "20"
+                        - button "Video tour" [ref=e1350]:
+                          - img [ref=e1351]
+                    - generic [ref=e1353]:
+                      - generic [ref=e1354]:
+                        - generic [ref=e1355]:
+                          - paragraph [ref=e1356]:
+                            - generic [ref=e1357]: Apartment
+                          - generic [ref=e1358]:
+                            - paragraph [ref=e1360]: 500 BHD/month
+                            - generic [ref=e1362]:
+                              - img [ref=e1363]
+                              - text: Inclusive
+                          - heading "Modern 1BR | Fully Furnished | 5-Star amenities" [level=3] [ref=e1365]
+                        - img "OKA Real Estate logo image" [ref=e1369]
+                      - generic [ref=e1370]:
+                        - generic [ref=e1371]:
+                          - img [ref=e1372]
+                          - paragraph [ref=e1374]: Seef, Capital Governorate
+                        - generic [ref=e1375]:
+                          - paragraph [ref=e1376]:
+                            - img [ref=e1377]
+                            - text: "1"
+                          - paragraph [ref=e1379]:
+                            - img [ref=e1380]
+                            - text: "2"
+                          - paragraph [ref=e1382]:
+                            - img [ref=e1383]
+                            - text: 75 sqm
+                  - generic [ref=e1386]:
+                    - generic [ref=e1387]:
+                      - generic [ref=e1388]:
+                        - img "Hamza Rajhi" [ref=e1391]
+                        - img [ref=e1393]
+                      - paragraph [ref=e1395]: Listed 35 minutes ago
+                    - generic [ref=e1396]:
+                      - generic [ref=e1397]:
+                        - button "Call" [ref=e1398] [cursor=pointer]:
+                          - img [ref=e1399]
+                          - text: Call
+                        - button "Email" [ref=e1401] [cursor=pointer]:
+                          - img [ref=e1402]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1405] [cursor=pointer]:
+                          - img [ref=e1406]
+                          - text: WhatsApp
+                      - generic [ref=e1408]:
+                        - button "Save this property to the list" [ref=e1409] [cursor=pointer]:
+                          - img [ref=e1410]
+                        - button "Open actions menu" [ref=e1412] [cursor=pointer]:
+                          - img [ref=e1413]
+            - listitem [ref=e1415]:
+              - article [ref=e1416]:
+                - generic [ref=e1417]:
+                  - img [ref=e1419]
+                  - img [ref=e1422]
+                - generic [ref=e1423]:
+                  - heading "Don't miss out" [level=6] [ref=e1424]
+                  - paragraph [ref=e1425]: Get notified with new properties for Capital Governorate
+                  - button "Notify me" [ref=e1426] [cursor=pointer]
+            - listitem [ref=e1427]:
+              - article [ref=e1428]:
+                - link "TOP FACILITIES | HIGH-END LUXURY | EXCEPTIONAL 3BR" [ref=e1429] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986990.html
+                - generic [ref=e1430]:
+                  - generic [ref=e1431]:
+                    - generic [ref=e1433]:
+                      - button "SuperAgent" [ref=e1435] [cursor=pointer]:
+                        - img [ref=e1436]
+                        - generic [ref=e1438]: SuperAgent
+                      - generic "Photos gallery" [ref=e1439]:
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e1441] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986990.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e1443]
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e1445] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986990.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e1447]
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e1449] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986990.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Seef - Capital Governorate" [ref=e1451]
+                      - button "Previous photo" [ref=e1452] [cursor=pointer]:
+                        - img [ref=e1453]
+                      - button "Next photo" [ref=e1455] [cursor=pointer]:
+                        - img [ref=e1456]
+                      - generic [ref=e1458] [cursor=pointer]:
+                        - generic [ref=e1459]:
+                          - img [ref=e1460]
+                          - generic [ref=e1462]: "21"
+                        - button "Video tour" [ref=e1463]:
+                          - img [ref=e1464]
+                    - generic [ref=e1466]:
+                      - generic [ref=e1467]:
+                        - generic [ref=e1468]:
+                          - paragraph [ref=e1469]:
+                            - generic [ref=e1470]: Apartment
+                          - generic [ref=e1471]:
+                            - paragraph [ref=e1473]: 1,150 BHD/month
+                            - generic [ref=e1475]:
+                              - img [ref=e1476]
+                              - text: Inclusive
+                          - heading "TOP FACILITIES | HIGH-END LUXURY | EXCEPTIONAL 3BR" [level=3] [ref=e1478]
+                        - img "OKA Real Estate logo image" [ref=e1482]
+                      - generic [ref=e1483]:
+                        - generic [ref=e1484]:
+                          - img [ref=e1485]
+                          - paragraph [ref=e1487]: Seef, Capital Governorate
+                        - generic [ref=e1488]:
+                          - paragraph [ref=e1489]:
+                            - img [ref=e1490]
+                            - text: "3"
+                          - paragraph [ref=e1492]:
+                            - img [ref=e1493]
+                            - text: "4"
+                          - paragraph [ref=e1495]:
+                            - img [ref=e1496]
+                            - text: 185 sqm
+                  - generic [ref=e1499]:
+                    - generic [ref=e1500]:
+                      - generic [ref=e1501]:
+                        - img "Hamza Rajhi" [ref=e1504]
+                        - img [ref=e1506]
+                      - paragraph [ref=e1508]: Listed 37 minutes ago
+                    - generic [ref=e1509]:
+                      - generic [ref=e1510]:
+                        - button "Call" [ref=e1511] [cursor=pointer]:
+                          - img [ref=e1512]
+                          - text: Call
+                        - button "Email" [ref=e1514] [cursor=pointer]:
+                          - img [ref=e1515]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1518] [cursor=pointer]:
+                          - img [ref=e1519]
+                          - text: WhatsApp
+                      - generic [ref=e1521]:
+                        - button "Save this property to the list" [ref=e1522] [cursor=pointer]:
+                          - img [ref=e1523]
+                        - button "Open actions menu" [ref=e1525] [cursor=pointer]:
+                          - img [ref=e1526]
+            - listitem [ref=e1528]:
+              - article [ref=e1529]:
+                - link "Cinema | Housekeeping | Free Internet | Spacious |" [ref=e1530] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986989.html
+                - generic [ref=e1531]:
+                  - generic [ref=e1532]:
+                    - generic [ref=e1534]:
+                      - button "SuperAgent" [ref=e1536] [cursor=pointer]:
+                        - img [ref=e1537]
+                        - generic [ref=e1539]: SuperAgent
+                      - generic "Photos gallery" [ref=e1540]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1542] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986989.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1544]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1546] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986989.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1548]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1550] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986989.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Seef - Capital Governorate" [ref=e1552]
+                      - button "Previous photo" [ref=e1553] [cursor=pointer]:
+                        - img [ref=e1554]
+                      - button "Next photo" [ref=e1556] [cursor=pointer]:
+                        - img [ref=e1557]
+                      - generic [ref=e1559] [cursor=pointer]:
+                        - generic [ref=e1560]:
+                          - img [ref=e1561]
+                          - generic [ref=e1563]: "24"
+                        - button "Video tour" [ref=e1564]:
+                          - img [ref=e1565]
+                    - generic [ref=e1567]:
+                      - generic [ref=e1568]:
+                        - generic [ref=e1569]:
+                          - paragraph [ref=e1570]:
+                            - generic [ref=e1571]: Apartment
+                          - generic [ref=e1572]:
+                            - paragraph [ref=e1574]: 800 BHD/month
+                            - generic [ref=e1576]:
+                              - img [ref=e1577]
+                              - text: Inclusive
+                          - heading "Cinema | Housekeeping | Free Internet | Spacious |" [level=3] [ref=e1579]
+                        - img "Newton Properties logo image" [ref=e1583]
+                      - generic [ref=e1584]:
+                        - generic [ref=e1585]:
+                          - img [ref=e1586]
+                          - paragraph [ref=e1588]: Seef, Capital Governorate
+                        - generic [ref=e1589]:
+                          - paragraph [ref=e1590]:
+                            - img [ref=e1591]
+                            - text: "2"
+                          - paragraph [ref=e1593]:
+                            - img [ref=e1594]
+                            - text: "2"
+                          - paragraph [ref=e1596]:
+                            - img [ref=e1597]
+                            - text: 110 sqm
+                  - generic [ref=e1600]:
+                    - generic [ref=e1601]:
+                      - generic [ref=e1602]:
+                        - img "Christyl Lebosada" [ref=e1605]
+                        - img [ref=e1607]
+                      - paragraph [ref=e1609]: Listed 37 minutes ago
+                    - generic [ref=e1610]:
+                      - generic [ref=e1611]:
+                        - button "Call" [ref=e1612] [cursor=pointer]:
+                          - img [ref=e1613]
+                          - text: Call
+                        - button "Email" [ref=e1615] [cursor=pointer]:
+                          - img [ref=e1616]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1619] [cursor=pointer]:
+                          - img [ref=e1620]
+                          - text: WhatsApp
+                      - generic [ref=e1622]:
+                        - button "Save this property to the list" [ref=e1623] [cursor=pointer]:
+                          - img [ref=e1624]
+                        - button "Open actions menu" [ref=e1626] [cursor=pointer]:
+                          - img [ref=e1627]
+            - listitem [ref=e1629]:
+              - article [ref=e1630]:
+                - link "NEW/FAMILY/CLOSE KITCHEN/BALCONY/NO DEPOSIT" [ref=e1631] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986988.html
+                - generic [ref=e1632]:
+                  - generic [ref=e1633]:
+                    - generic [ref=e1635]:
+                      - button "SuperAgent" [ref=e1637] [cursor=pointer]:
+                        - img [ref=e1638]
+                        - generic [ref=e1640]: SuperAgent
+                      - generic "Photos gallery" [ref=e1641]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1643] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986988.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1645]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1647] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986988.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1649]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1651] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986988.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1653]
+                      - button "Previous photo" [ref=e1654] [cursor=pointer]:
+                        - img [ref=e1655]
+                      - button "Next photo" [ref=e1657] [cursor=pointer]:
+                        - img [ref=e1658]
+                      - generic [ref=e1660] [cursor=pointer]:
+                        - generic [ref=e1661]:
+                          - img [ref=e1662]
+                          - generic [ref=e1664]: "10"
+                        - button "Video tour" [ref=e1665]:
+                          - img [ref=e1666]
+                    - generic [ref=e1668]:
+                      - generic [ref=e1669]:
+                        - generic [ref=e1670]:
+                          - paragraph [ref=e1671]:
+                            - generic [ref=e1672]: Apartment
+                          - generic [ref=e1673]:
+                            - paragraph [ref=e1675]: 320 BHD/month
+                            - generic [ref=e1677]:
+                              - img [ref=e1678]
+                              - text: Inclusive
+                          - heading "NEW/FAMILY/CLOSE KITCHEN/BALCONY/NO DEPOSIT" [level=3] [ref=e1680]
+                        - generic [ref=e1681]:
+                          - paragraph [ref=e1682]: Premium
+                          - img "Desire real estate logo image" [ref=e1685]
+                      - generic [ref=e1686]:
+                        - generic [ref=e1687]:
+                          - img [ref=e1688]
+                          - paragraph [ref=e1690]: Al Juffair, Capital Governorate
+                        - generic [ref=e1691]:
+                          - paragraph [ref=e1692]:
+                            - img [ref=e1693]
+                            - text: "2"
+                          - paragraph [ref=e1695]:
+                            - img [ref=e1696]
+                            - text: "2"
+                          - paragraph [ref=e1698]:
+                            - img [ref=e1699]
+                            - text: 155 sqm
+                  - generic [ref=e1702]:
+                    - generic [ref=e1703]:
+                      - generic [ref=e1704]:
+                        - img "Sahebaz Makki" [ref=e1707]
+                        - img [ref=e1709]
+                      - paragraph [ref=e1711]: Listed 37 minutes ago
+                    - generic [ref=e1712]:
+                      - generic [ref=e1713]:
+                        - button "Call" [ref=e1714] [cursor=pointer]:
+                          - img [ref=e1715]
+                          - text: Call
+                        - button "Email" [ref=e1717] [cursor=pointer]:
+                          - img [ref=e1718]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1721] [cursor=pointer]:
+                          - img [ref=e1722]
+                          - text: WhatsApp
+                      - generic [ref=e1724]:
+                        - button "Save this property to the list" [ref=e1725] [cursor=pointer]:
+                          - img [ref=e1726]
+                        - button "Open actions menu" [ref=e1728] [cursor=pointer]:
+                          - img [ref=e1729]
+            - listitem [ref=e1731]:
+              - article [ref=e1732]:
+                - link "2 Balconies | Study Room | Housekeeping |Spacious|" [ref=e1733] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986986.html
+                - generic [ref=e1734]:
+                  - generic [ref=e1735]:
+                    - generic [ref=e1737]:
+                      - button "SuperAgent" [ref=e1739] [cursor=pointer]:
+                        - img [ref=e1740]
+                        - generic [ref=e1742]: SuperAgent
+                      - generic "Photos gallery" [ref=e1743]:
+                        - link "Apartment - 1 Bedroom - 1 Bathroom for rent in Seef - Capital Governorate" [ref=e1745] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986986.html
+                          - img "Apartment - 1 Bedroom - 1 Bathroom for rent in Seef - Capital Governorate" [ref=e1747]
+                        - link "Apartment - 1 Bedroom - 1 Bathroom for rent in Seef - Capital Governorate" [ref=e1749] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986986.html
+                          - img "Apartment - 1 Bedroom - 1 Bathroom for rent in Seef - Capital Governorate" [ref=e1751]
+                        - link "Apartment - 1 Bedroom - 1 Bathroom for rent in Seef - Capital Governorate" [ref=e1753] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-seef-53986986.html
+                          - img "Apartment - 1 Bedroom - 1 Bathroom for rent in Seef - Capital Governorate" [ref=e1755]
+                      - button "Previous photo" [ref=e1756] [cursor=pointer]:
+                        - img [ref=e1757]
+                      - button "Next photo" [ref=e1759] [cursor=pointer]:
+                        - img [ref=e1760]
+                      - generic [ref=e1762] [cursor=pointer]:
+                        - generic [ref=e1763]:
+                          - img [ref=e1764]
+                          - generic [ref=e1766]: "26"
+                        - button "Video tour" [ref=e1767]:
+                          - img [ref=e1768]
+                    - generic [ref=e1770]:
+                      - generic [ref=e1771]:
+                        - generic [ref=e1772]:
+                          - paragraph [ref=e1773]:
+                            - generic [ref=e1774]: Apartment
+                          - generic [ref=e1775]:
+                            - paragraph [ref=e1777]: 700 BHD/month
+                            - generic [ref=e1779]:
+                              - img [ref=e1780]
+                              - text: Inclusive
+                          - heading "2 Balconies | Study Room | Housekeeping |Spacious|" [level=3] [ref=e1782]
+                        - img "Newton Properties logo image" [ref=e1786]
+                      - generic [ref=e1787]:
+                        - generic [ref=e1788]:
+                          - img [ref=e1789]
+                          - paragraph [ref=e1791]: Seef, Capital Governorate
+                        - generic [ref=e1792]:
+                          - paragraph [ref=e1793]:
+                            - img [ref=e1794]
+                            - text: "1"
+                          - paragraph [ref=e1796]:
+                            - img [ref=e1797]
+                            - text: "1"
+                          - paragraph [ref=e1799]:
+                            - img [ref=e1800]
+                            - text: 80 sqm
+                  - generic [ref=e1803]:
+                    - generic [ref=e1804]:
+                      - generic [ref=e1805]:
+                        - img "Christyl Lebosada" [ref=e1808]
+                        - img [ref=e1810]
+                      - paragraph [ref=e1812]: Listed 38 minutes ago
+                    - generic [ref=e1813]:
+                      - generic [ref=e1814]:
+                        - button "Call" [ref=e1815] [cursor=pointer]:
+                          - img [ref=e1816]
+                          - text: Call
+                        - button "Email" [ref=e1818] [cursor=pointer]:
+                          - img [ref=e1819]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1822] [cursor=pointer]:
+                          - img [ref=e1823]
+                          - text: WhatsApp
+                      - generic [ref=e1825]:
+                        - button "Save this property to the list" [ref=e1826] [cursor=pointer]:
+                          - img [ref=e1827]
+                        - button "Open actions menu" [ref=e1829] [cursor=pointer]:
+                          - img [ref=e1830]
+            - listitem [ref=e1832]:
+              - iframe [ref=e1835]:
+                - article [ref=f346e3]:
+                  - generic [ref=f346e4]:
+                    - generic [ref=f346e6]:
+                      - generic [ref=f346e7]: Sponsored Ad
+                      - img [ref=f346e8]
+                    - generic [ref=f346e9]:
+                      - generic [ref=f346e10]:
+                        - generic [ref=f346e11]:
+                          - paragraph [ref=f346e12]: Invest in Dubai with MAS Barsha Residency
+                          - heading "Stylish & spacious 1–3 BR boutique residences in a prime location with flexible payment plans." [level=2] [ref=f346e13]
+                        - img [ref=f346e15]
+                      - generic [ref=f346e16]:
+                        - paragraph [ref=f346e17]:
+                          - img [ref=f346e18]
+                          - generic [ref=f346e20]: Al Barsha, Dubai
+                        - paragraph [ref=f346e21]:
+                          - img [ref=f346e22]
+                          - text: From 1,800,000 AED
+                  - link "Enquire now" [ref=f346e25] [cursor=pointer]:
+                    - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjssvpP0vYRwt4fHP-wqgeMIAYd2ks9CeUgToGC_5C36hW-QrPZ5vJl7DKRB3b9O7lXJSVwIcRwfTPBkJRXcah1gJtJefVcB0h0Q_8vde1XAP33YEbiYFMgSb8K_bp92_aBIiwSGDSWSHWMcBX7XwRk4dxksn6wuof82U_gb6Cws7FPHPypthuOImEkkv7LRNhwRdRGwd6darss0tPijke8uyXI9_ZF8TOovtfsryAbPG-yimS1lbrzKojGPKIAxBI2fCOZCZ8-zzwq8USGfeEJ5-vdnKCEkrh1SnQUKjkDsYXeV4u5xXq9mnoVycfEtyruCRyVkuB_k5ETcQX5_Cuh4FReSe9AAT02aUIuxJDIXOvyFpi7zovE9DSLEyMVivh9bRtCbiYsptiQjU&sai=AMfl-YS3mya3iVESriH2eZj2RnH0ybf2WaDd-sFFPsGsix8hu5If6QxPDXVLBC6AvD6HGMLaNeVZqddf_o3ocpqvWLzAxbM92WsDT7qEyAVW5IBCP5fQ9-5RJGqwstyRybe0hn4btaZFR5_L1inN0ajvdhk_MRIKQ34ygHRrPc-WjW6KLjogF7chpk_k9cmplvC8NBdka6CgIuuYKGKtpJ3xz0_hzTtW6KTFR0zrgzzAwA0siZk_EzJFnOv3obmIdZsU0Bs1GA_rQiDmiyCiuISZTA1n9FwSzsaUckqaVSvR4uwvWhh5g2Mniefn_UGzPWUBVRhQAzxzTKwb0qODrEpfVT-fyqeIUt9WyGqiom44G5CZxShT2d0plA&sig=Cg0ArKJSzKcN-MEptFPeEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-native-leadgen
+                  - link [ref=f346e26] [cursor=pointer]:
+                    - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjssvpP0vYRwt4fHP-wqgeMIAYd2ks9CeUgToGC_5C36hW-QrPZ5vJl7DKRB3b9O7lXJSVwIcRwfTPBkJRXcah1gJtJefVcB0h0Q_8vde1XAP33YEbiYFMgSb8K_bp92_aBIiwSGDSWSHWMcBX7XwRk4dxksn6wuof82U_gb6Cws7FPHPypthuOImEkkv7LRNhwRdRGwd6darss0tPijke8uyXI9_ZF8TOovtfsryAbPG-yimS1lbrzKojGPKIAxBI2fCOZCZ8-zzwq8USGfeEJ5-vdnKCEkrh1SnQUKjkDsYXeV4u5xXq9mnoVycfEtyruCRyVkuB_k5ETcQX5_Cuh4FReSe9AAT02aUIuxJDIXOvyFpi7zovE9DSLEyMVivh9bRtCbiYsptiQjU&sai=AMfl-YS3mya3iVESriH2eZj2RnH0ybf2WaDd-sFFPsGsix8hu5If6QxPDXVLBC6AvD6HGMLaNeVZqddf_o3ocpqvWLzAxbM92WsDT7qEyAVW5IBCP5fQ9-5RJGqwstyRybe0hn4btaZFR5_L1inN0ajvdhk_MRIKQ34ygHRrPc-WjW6KLjogF7chpk_k9cmplvC8NBdka6CgIuuYKGKtpJ3xz0_hzTtW6KTFR0zrgzzAwA0siZk_EzJFnOv3obmIdZsU0Bs1GA_rQiDmiyCiuISZTA1n9FwSzsaUckqaVSvR4uwvWhh5g2Mniefn_UGzPWUBVRhQAzxzTKwb0qODrEpfVT-fyqeIUt9WyGqiom44G5CZxShT2d0plA&sig=Cg0ArKJSzKcN-MEptFPeEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-native-leadgen
+            - listitem [ref=e1836]:
+              - article [ref=e1837]:
+                - link "Modern | Spacious | Bright | Balcony |Housekeeping" [ref=e1838] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986981.html
+                - generic [ref=e1839]:
+                  - generic [ref=e1840]:
+                    - generic [ref=e1842]:
+                      - button "SuperAgent" [ref=e1844] [cursor=pointer]:
+                        - img [ref=e1845]
+                        - generic [ref=e1847]: SuperAgent
+                      - generic "Photos gallery" [ref=e1848]:
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1850] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986981.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1852]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1854] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986981.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1856]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1858] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986981.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1860]
+                      - button "Previous photo" [ref=e1861] [cursor=pointer]:
+                        - img [ref=e1862]
+                      - button "Next photo" [ref=e1864] [cursor=pointer]:
+                        - img [ref=e1865]
+                      - generic [ref=e1867] [cursor=pointer]:
+                        - generic [ref=e1868]:
+                          - img [ref=e1869]
+                          - generic [ref=e1871]: "14"
+                        - button "Video tour" [ref=e1872]:
+                          - img [ref=e1873]
+                    - generic [ref=e1875]:
+                      - generic [ref=e1876]:
+                        - generic [ref=e1877]:
+                          - paragraph [ref=e1878]:
+                            - generic [ref=e1879]: Apartment
+                          - generic [ref=e1880]:
+                            - paragraph [ref=e1882]: 450 BHD/month
+                            - generic [ref=e1884]:
+                              - img [ref=e1885]
+                              - text: Exclusive
+                          - heading "Modern | Spacious | Bright | Balcony |Housekeeping" [level=3] [ref=e1887]
+                        - img "Newton Properties logo image" [ref=e1891]
+                      - generic [ref=e1892]:
+                        - generic [ref=e1893]:
+                          - img [ref=e1894]
+                          - paragraph [ref=e1896]: Al Juffair, Capital Governorate
+                        - generic [ref=e1897]:
+                          - paragraph [ref=e1898]:
+                            - img [ref=e1899]
+                            - text: "2"
+                          - paragraph [ref=e1901]:
+                            - img [ref=e1902]
+                            - text: "3"
+                          - paragraph [ref=e1904]:
+                            - img [ref=e1905]
+                            - text: 115 sqm
+                  - generic [ref=e1908]:
+                    - generic [ref=e1909]:
+                      - generic [ref=e1910]:
+                        - img "Christyl Lebosada" [ref=e1913]
+                        - img [ref=e1915]
+                      - paragraph [ref=e1917]: Listed 39 minutes ago
+                    - generic [ref=e1918]:
+                      - generic [ref=e1919]:
+                        - button "Call" [ref=e1920] [cursor=pointer]:
+                          - img [ref=e1921]
+                          - text: Call
+                        - button "Email" [ref=e1923] [cursor=pointer]:
+                          - img [ref=e1924]
+                          - text: Email
+                        - button "WhatsApp" [ref=e1927] [cursor=pointer]:
+                          - img [ref=e1928]
+                          - text: WhatsApp
+                      - generic [ref=e1930]:
+                        - button "Save this property to the list" [ref=e1931] [cursor=pointer]:
+                          - img [ref=e1932]
+                        - button "Open actions menu" [ref=e1934] [cursor=pointer]:
+                          - img [ref=e1935]
+            - listitem [ref=e1937]:
+              - article [ref=e1938]:
+                - link "MODERN│VERY SPACIOUS │BALCONY│STORE│BRIGHT" [ref=e1939] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986979.html
+                - generic [ref=e1940]:
+                  - generic [ref=e1941]:
+                    - generic [ref=e1943]:
+                      - button "SuperAgent" [ref=e1945] [cursor=pointer]:
+                        - img [ref=e1946]
+                        - generic [ref=e1948]: SuperAgent
+                      - generic "Photos gallery" [ref=e1949]:
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1951] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986979.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1953]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1955] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986979.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1957]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1959] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986979.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e1961]
+                      - button "Previous photo" [ref=e1962] [cursor=pointer]:
+                        - img [ref=e1963]
+                      - button "Next photo" [ref=e1965] [cursor=pointer]:
+                        - img [ref=e1966]
+                      - generic [ref=e1968] [cursor=pointer]:
+                        - generic [ref=e1969]:
+                          - img [ref=e1970]
+                          - generic [ref=e1972]: "13"
+                        - button "Video tour" [ref=e1973]:
+                          - img [ref=e1974]
+                    - generic [ref=e1976]:
+                      - generic [ref=e1977]:
+                        - generic [ref=e1978]:
+                          - paragraph [ref=e1979]:
+                            - generic [ref=e1980]: Apartment
+                          - generic [ref=e1981]:
+                            - paragraph [ref=e1983]: 350 BHD/month
+                            - generic [ref=e1985]:
+                              - img [ref=e1986]
+                              - text: Inclusive
+                          - heading "MODERN│VERY SPACIOUS │BALCONY│STORE│BRIGHT" [level=3] [ref=e1988]
+                        - generic [ref=e1989]:
+                          - paragraph [ref=e1990]: Premium
+                          - img "Desire real estate logo image" [ref=e1993]
+                      - generic [ref=e1994]:
+                        - generic [ref=e1995]:
+                          - img [ref=e1996]
+                          - paragraph [ref=e1998]: Al Juffair, Capital Governorate
+                        - generic [ref=e1999]:
+                          - paragraph [ref=e2000]:
+                            - img [ref=e2001]
+                            - text: "2"
+                          - paragraph [ref=e2003]:
+                            - img [ref=e2004]
+                            - text: "3"
+                          - paragraph [ref=e2006]:
+                            - img [ref=e2007]
+                            - text: 155 sqm
+                  - generic [ref=e2010]:
+                    - generic [ref=e2011]:
+                      - generic [ref=e2012]:
+                        - img "Sahebaz Makki" [ref=e2015]
+                        - img [ref=e2017]
+                      - paragraph [ref=e2019]: Listed 40 minutes ago
+                    - generic [ref=e2020]:
+                      - generic [ref=e2021]:
+                        - button "Call" [ref=e2022] [cursor=pointer]:
+                          - img [ref=e2023]
+                          - text: Call
+                        - button "Email" [ref=e2025] [cursor=pointer]:
+                          - img [ref=e2026]
+                          - text: Email
+                        - button "WhatsApp" [ref=e2029] [cursor=pointer]:
+                          - img [ref=e2030]
+                          - text: WhatsApp
+                      - generic [ref=e2032]:
+                        - button "Save this property to the list" [ref=e2033] [cursor=pointer]:
+                          - img [ref=e2034]
+                        - button "Open actions menu" [ref=e2036] [cursor=pointer]:
+                          - img [ref=e2037]
+            - listitem [ref=e2039]:
+              - article [ref=e2040]:
+                - link "Housekeeping | Balcony | Jacuzzi | Cinema | Modern" [ref=e2041] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986978.html
+                - generic [ref=e2042]:
+                  - generic [ref=e2043]:
+                    - generic [ref=e2045]:
+                      - button "SuperAgent" [ref=e2047] [cursor=pointer]:
+                        - img [ref=e2048]
+                        - generic [ref=e2050]: SuperAgent
+                      - generic "Photos gallery" [ref=e2051]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2053] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986978.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2055]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2057] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986978.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2059]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2061] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986978.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2063]
+                      - button "Previous photo" [ref=e2064] [cursor=pointer]:
+                        - img [ref=e2065]
+                      - button "Next photo" [ref=e2067] [cursor=pointer]:
+                        - img [ref=e2068]
+                      - generic [ref=e2070] [cursor=pointer]:
+                        - generic [ref=e2071]:
+                          - img [ref=e2072]
+                          - generic [ref=e2074]: "14"
+                        - button "Video tour" [ref=e2075]:
+                          - img [ref=e2076]
+                    - generic [ref=e2078]:
+                      - generic [ref=e2079]:
+                        - generic [ref=e2080]:
+                          - paragraph [ref=e2081]:
+                            - generic [ref=e2082]: Apartment
+                          - generic [ref=e2083]:
+                            - paragraph [ref=e2085]: 500 BHD/month
+                            - generic [ref=e2087]:
+                              - img [ref=e2088]
+                              - text: Inclusive
+                          - heading "Housekeeping | Balcony | Jacuzzi | Cinema | Modern" [level=3] [ref=e2090]
+                        - img "Newton Properties logo image" [ref=e2094]
+                      - generic [ref=e2095]:
+                        - generic [ref=e2096]:
+                          - img [ref=e2097]
+                          - paragraph [ref=e2099]: Al Juffair, Capital Governorate
+                        - generic [ref=e2100]:
+                          - paragraph [ref=e2101]:
+                            - img [ref=e2102]
+                            - text: "2"
+                          - paragraph [ref=e2104]:
+                            - img [ref=e2105]
+                            - text: "2"
+                          - paragraph [ref=e2107]:
+                            - img [ref=e2108]
+                            - text: 95 sqm
+                  - generic [ref=e2111]:
+                    - generic [ref=e2112]:
+                      - generic [ref=e2113]:
+                        - img "Christyl Lebosada" [ref=e2116]
+                        - img [ref=e2118]
+                      - paragraph [ref=e2120]: Listed 40 minutes ago
+                    - generic [ref=e2121]:
+                      - generic [ref=e2122]:
+                        - button "Call" [ref=e2123] [cursor=pointer]:
+                          - img [ref=e2124]
+                          - text: Call
+                        - button "Email" [ref=e2126] [cursor=pointer]:
+                          - img [ref=e2127]
+                          - text: Email
+                        - button "WhatsApp" [ref=e2130] [cursor=pointer]:
+                          - img [ref=e2131]
+                          - text: WhatsApp
+                      - generic [ref=e2133]:
+                        - button "Save this property to the list" [ref=e2134] [cursor=pointer]:
+                          - img [ref=e2135]
+                        - button "Open actions menu" [ref=e2137] [cursor=pointer]:
+                          - img [ref=e2138]
+            - listitem [ref=e2140]:
+              - article [ref=e2141]:
+                - link "Modern |Bright |Spacious | Housekeeping | Security" [ref=e2142] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986977.html
+                - generic [ref=e2143]:
+                  - generic [ref=e2144]:
+                    - generic [ref=e2146]:
+                      - button "SuperAgent" [ref=e2148] [cursor=pointer]:
+                        - img [ref=e2149]
+                        - generic [ref=e2151]: SuperAgent
+                      - generic "Photos gallery" [ref=e2152]:
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2154] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986977.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2156]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2158] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986977.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2160]
+                        - link "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2162] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986977.html
+                          - img "Apartment - 1 Bedroom - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2164]
+                      - button "Previous photo" [ref=e2165] [cursor=pointer]:
+                        - img [ref=e2166]
+                      - button "Next photo" [ref=e2168] [cursor=pointer]:
+                        - img [ref=e2169]
+                      - generic [ref=e2171] [cursor=pointer]:
+                        - generic [ref=e2172]:
+                          - img [ref=e2173]
+                          - generic [ref=e2175]: "10"
+                        - button "Video tour" [ref=e2176]:
+                          - img [ref=e2177]
+                    - generic [ref=e2179]:
+                      - generic [ref=e2180]:
+                        - generic [ref=e2181]:
+                          - paragraph [ref=e2182]:
+                            - generic [ref=e2183]: Apartment
+                          - generic [ref=e2184]:
+                            - paragraph [ref=e2186]: 350 BHD/month
+                            - generic [ref=e2188]:
+                              - img [ref=e2189]
+                              - text: Inclusive
+                          - heading "Modern |Bright |Spacious | Housekeeping | Security" [level=3] [ref=e2191]
+                        - img "Newton Properties logo image" [ref=e2195]
+                      - generic [ref=e2196]:
+                        - generic [ref=e2197]:
+                          - img [ref=e2198]
+                          - paragraph [ref=e2200]: Al Juffair, Capital Governorate
+                        - generic [ref=e2201]:
+                          - paragraph [ref=e2202]:
+                            - img [ref=e2203]
+                            - text: "1"
+                          - paragraph [ref=e2205]:
+                            - img [ref=e2206]
+                            - text: "2"
+                          - paragraph [ref=e2208]:
+                            - img [ref=e2209]
+                            - text: 80 sqm
+                  - generic [ref=e2212]:
+                    - generic [ref=e2213]:
+                      - generic [ref=e2214]:
+                        - img "Christyl Lebosada" [ref=e2217]
+                        - img [ref=e2219]
+                      - paragraph [ref=e2221]: Listed 41 minutes ago
+                    - generic [ref=e2222]:
+                      - generic [ref=e2223]:
+                        - button "Call" [ref=e2224] [cursor=pointer]:
+                          - img [ref=e2225]
+                          - text: Call
+                        - button "Email" [ref=e2227] [cursor=pointer]:
+                          - img [ref=e2228]
+                          - text: Email
+                        - button "WhatsApp" [ref=e2231] [cursor=pointer]:
+                          - img [ref=e2232]
+                          - text: WhatsApp
+                      - generic [ref=e2234]:
+                        - button "Save this property to the list" [ref=e2235] [cursor=pointer]:
+                          - img [ref=e2236]
+                        - button "Open actions menu" [ref=e2238] [cursor=pointer]:
+                          - img [ref=e2239]
+            - listitem [ref=e2241]:
+              - article [ref=e2242]:
+                - link "Navy Approved | Modern | Spacious | Housekeeping |" [ref=e2243] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986975.html
+                - generic [ref=e2244]:
+                  - generic [ref=e2245]:
+                    - generic [ref=e2247]:
+                      - button "SuperAgent" [ref=e2249] [cursor=pointer]:
+                        - img [ref=e2250]
+                        - generic [ref=e2252]: SuperAgent
+                      - generic "Photos gallery" [ref=e2253]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2255] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986975.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2257]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2259] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986975.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2261]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2263] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986975.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2265]
+                      - button "Previous photo" [ref=e2266] [cursor=pointer]:
+                        - img [ref=e2267]
+                      - button "Next photo" [ref=e2269] [cursor=pointer]:
+                        - img [ref=e2270]
+                      - generic [ref=e2272] [cursor=pointer]:
+                        - generic [ref=e2273]:
+                          - img [ref=e2274]
+                          - generic [ref=e2276]: "10"
+                        - button "Video tour" [ref=e2277]:
+                          - img [ref=e2278]
+                    - generic [ref=e2280]:
+                      - generic [ref=e2281]:
+                        - generic [ref=e2282]:
+                          - paragraph [ref=e2283]:
+                            - generic [ref=e2284]: Apartment
+                          - generic [ref=e2285]:
+                            - paragraph [ref=e2287]: 704 BHD/month
+                            - generic [ref=e2289]:
+                              - img [ref=e2290]
+                              - text: Exclusive
+                          - heading "Navy Approved | Modern | Spacious | Housekeeping |" [level=3] [ref=e2292]
+                        - img "Newton Properties logo image" [ref=e2296]
+                      - generic [ref=e2297]:
+                        - generic [ref=e2298]:
+                          - img [ref=e2299]
+                          - paragraph [ref=e2301]: Al Juffair, Capital Governorate
+                        - generic [ref=e2302]:
+                          - paragraph [ref=e2303]:
+                            - img [ref=e2304]
+                            - text: "2"
+                          - paragraph [ref=e2306]:
+                            - img [ref=e2307]
+                            - text: "2"
+                          - paragraph [ref=e2309]:
+                            - img [ref=e2310]
+                            - text: 114 sqm
+                  - generic [ref=e2313]:
+                    - generic [ref=e2314]:
+                      - generic [ref=e2315]:
+                        - img "Christyl Lebosada" [ref=e2318]
+                        - img [ref=e2320]
+                      - paragraph [ref=e2322]: Listed 42 minutes ago
+                    - generic [ref=e2323]:
+                      - generic [ref=e2324]:
+                        - button "Call" [ref=e2325] [cursor=pointer]:
+                          - img [ref=e2326]
+                          - text: Call
+                        - button "Email" [ref=e2328] [cursor=pointer]:
+                          - img [ref=e2329]
+                          - text: Email
+                        - button "WhatsApp" [ref=e2332] [cursor=pointer]:
+                          - img [ref=e2333]
+                          - text: WhatsApp
+                      - generic [ref=e2335]:
+                        - button "Save this property to the list" [ref=e2336] [cursor=pointer]:
+                          - img [ref=e2337]
+                        - button "Open actions menu" [ref=e2339] [cursor=pointer]:
+                          - img [ref=e2340]
+            - listitem [ref=e2342]:
+              - article [ref=e2343]:
+                - link "Pet Friendly | Housekeeping | Modern | Bright" [ref=e2344] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986973.html
+                - generic [ref=e2345]:
+                  - generic [ref=e2346]:
+                    - generic [ref=e2348]:
+                      - button "SuperAgent" [ref=e2350] [cursor=pointer]:
+                        - img [ref=e2351]
+                        - generic [ref=e2353]: SuperAgent
+                      - generic "Photos gallery" [ref=e2354]:
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2356] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986973.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2358]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2360] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986973.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2362]
+                        - link "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2364] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986973.html
+                          - img "Apartment - 2 Bedrooms - 2 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2366]
+                      - button "Previous photo" [ref=e2367] [cursor=pointer]:
+                        - img [ref=e2368]
+                      - button "Next photo" [ref=e2370] [cursor=pointer]:
+                        - img [ref=e2371]
+                      - generic [ref=e2373] [cursor=pointer]:
+                        - generic [ref=e2374]:
+                          - img [ref=e2375]
+                          - generic [ref=e2377]: "13"
+                        - button "Video tour" [ref=e2378]:
+                          - img [ref=e2379]
+                    - generic [ref=e2381]:
+                      - generic [ref=e2382]:
+                        - generic [ref=e2383]:
+                          - paragraph [ref=e2384]:
+                            - generic [ref=e2385]: Apartment
+                          - generic [ref=e2386]:
+                            - paragraph [ref=e2388]: 380 BHD/month
+                            - generic [ref=e2390]:
+                              - img [ref=e2391]
+                              - text: Inclusive
+                          - heading "Pet Friendly | Housekeeping | Modern | Bright" [level=3] [ref=e2393]
+                        - img "Newton Properties logo image" [ref=e2397]
+                      - generic [ref=e2398]:
+                        - generic [ref=e2399]:
+                          - img [ref=e2400]
+                          - paragraph [ref=e2402]: Al Juffair, Capital Governorate
+                        - generic [ref=e2403]:
+                          - paragraph [ref=e2404]:
+                            - img [ref=e2405]
+                            - text: "2"
+                          - paragraph [ref=e2407]:
+                            - img [ref=e2408]
+                            - text: "2"
+                          - paragraph [ref=e2410]:
+                            - img [ref=e2411]
+                            - text: 110 sqm
+                  - generic [ref=e2414]:
+                    - generic [ref=e2415]:
+                      - generic [ref=e2416]:
+                        - img "Christyl Lebosada" [ref=e2419]
+                        - img [ref=e2421]
+                      - paragraph [ref=e2423]: Listed 43 minutes ago
+                    - generic [ref=e2424]:
+                      - generic [ref=e2425]:
+                        - button "Call" [ref=e2426] [cursor=pointer]:
+                          - img [ref=e2427]
+                          - text: Call
+                        - button "Email" [ref=e2429] [cursor=pointer]:
+                          - img [ref=e2430]
+                          - text: Email
+                        - button "WhatsApp" [ref=e2433] [cursor=pointer]:
+                          - img [ref=e2434]
+                          - text: WhatsApp
+                      - generic [ref=e2436]:
+                        - button "Save this property to the list" [ref=e2437] [cursor=pointer]:
+                          - img [ref=e2438]
+                        - button "Open actions menu" [ref=e2440] [cursor=pointer]:
+                          - img [ref=e2441]
+            - listitem [ref=e2443]:
+              - article [ref=e2444]:
+                - link "Navy Approved | Jacuzzi | Closed Kitchen|Free Wifi" [ref=e2445] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986970.html
+                - generic [ref=e2446]:
+                  - generic [ref=e2447]:
+                    - generic [ref=e2449]:
+                      - button "SuperAgent" [ref=e2451] [cursor=pointer]:
+                        - img [ref=e2452]
+                        - generic [ref=e2454]: SuperAgent
+                      - generic "Photos gallery" [ref=e2455]:
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2457] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986970.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2459]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2461] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986970.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2463]
+                        - link "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2465] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986970.html
+                          - img "Apartment - 2 Bedrooms - 3 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2467]
+                      - button "Previous photo" [ref=e2468] [cursor=pointer]:
+                        - img [ref=e2469]
+                      - button "Next photo" [ref=e2471] [cursor=pointer]:
+                        - img [ref=e2472]
+                      - generic [ref=e2474] [cursor=pointer]:
+                        - generic [ref=e2475]:
+                          - img [ref=e2476]
+                          - generic [ref=e2478]: "24"
+                        - button "Video tour" [ref=e2479]:
+                          - img [ref=e2480]
+                    - generic [ref=e2482]:
+                      - generic [ref=e2483]:
+                        - generic [ref=e2484]:
+                          - paragraph [ref=e2485]:
+                            - generic [ref=e2486]: Apartment
+                          - generic [ref=e2487]:
+                            - paragraph [ref=e2489]: 704 BHD/month
+                            - generic [ref=e2491]:
+                              - img [ref=e2492]
+                              - text: Exclusive
+                          - heading "Navy Approved | Jacuzzi | Closed Kitchen|Free Wifi" [level=3] [ref=e2494]
+                        - img "Newton Properties logo image" [ref=e2498]
+                      - generic [ref=e2499]:
+                        - generic [ref=e2500]:
+                          - img [ref=e2501]
+                          - paragraph [ref=e2503]: Al Juffair, Capital Governorate
+                        - generic [ref=e2504]:
+                          - paragraph [ref=e2505]:
+                            - img [ref=e2506]
+                            - text: "2"
+                          - paragraph [ref=e2508]:
+                            - img [ref=e2509]
+                            - text: "3"
+                          - paragraph [ref=e2511]:
+                            - img [ref=e2512]
+                            - text: 148 sqm
+                  - generic [ref=e2515]:
+                    - generic [ref=e2516]:
+                      - generic [ref=e2517]:
+                        - img "Christyl Lebosada" [ref=e2520]
+                        - img [ref=e2522]
+                      - paragraph [ref=e2524]: Listed 44 minutes ago
+                    - generic [ref=e2525]:
+                      - generic [ref=e2526]:
+                        - button "Call" [ref=e2527] [cursor=pointer]:
+                          - img [ref=e2528]
+                          - text: Call
+                        - button "Email" [ref=e2530] [cursor=pointer]:
+                          - img [ref=e2531]
+                          - text: Email
+                        - button "WhatsApp" [ref=e2534] [cursor=pointer]:
+                          - img [ref=e2535]
+                          - text: WhatsApp
+                      - generic [ref=e2537]:
+                        - button "Save this property to the list" [ref=e2538] [cursor=pointer]:
+                          - img [ref=e2539]
+                        - button "Open actions menu" [ref=e2541] [cursor=pointer]:
+                          - img [ref=e2542]
+            - listitem [ref=e2544]:
+              - article [ref=e2545]:
+                - link "Balcony | Bathtub | Modern | Spacious | Bright |" [ref=e2546] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986969.html
+                - generic [ref=e2547]:
+                  - generic [ref=e2548]:
+                    - generic [ref=e2550]:
+                      - button "SuperAgent" [ref=e2552] [cursor=pointer]:
+                        - img [ref=e2553]
+                        - generic [ref=e2555]: SuperAgent
+                      - generic "Photos gallery" [ref=e2556]:
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2558] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986969.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2560]
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2562] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986969.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2564]
+                        - link "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2566] [cursor=pointer]:
+                          - /url: https://www.propertyfinder.bh/en/plp/rent/apartment-for-rent-capital-governorate-al-juffair-53986969.html
+                          - img "Apartment - 3 Bedrooms - 4 Bathrooms for rent in Al Juffair - Capital Governorate" [ref=e2568]
+                      - button "Previous photo" [ref=e2569] [cursor=pointer]:
+                        - img [ref=e2570]
+                      - button "Next photo" [ref=e2572] [cursor=pointer]:
+                        - img [ref=e2573]
+                      - generic [ref=e2575] [cursor=pointer]:
+                        - generic [ref=e2576]:
+                          - img [ref=e2577]
+                          - generic [ref=e2579]: "19"
+                        - button "Video tour" [ref=e2580]:
+                          - img [ref=e2581]
+                    - generic [ref=e2583]:
+                      - generic [ref=e2584]:
+                        - generic [ref=e2585]:
+                          - paragraph [ref=e2586]:
+                            - generic [ref=e2587]: Apartment
+                          - generic [ref=e2588]:
+                            - paragraph [ref=e2590]: 550 BHD/month
+                            - generic [ref=e2592]:
+                              - img [ref=e2593]
+                              - text: Inclusive
+                          - heading "Balcony | Bathtub | Modern | Spacious | Bright |" [level=3] [ref=e2595]
+                        - img "Newton Properties logo image" [ref=e2599]
+                      - generic [ref=e2600]:
+                        - generic [ref=e2601]:
+                          - img [ref=e2602]
+                          - paragraph [ref=e2604]: Al Juffair, Capital Governorate
+                        - generic [ref=e2605]:
+                          - paragraph [ref=e2606]:
+                            - img [ref=e2607]
+                            - text: "3"
+                          - paragraph [ref=e2609]:
+                            - img [ref=e2610]
+                            - text: "4"
+                          - paragraph [ref=e2612]:
+                            - img [ref=e2613]
+                            - text: 137 sqm
+                  - generic [ref=e2616]:
+                    - generic [ref=e2617]:
+                      - generic [ref=e2618]:
+                        - img "Christyl Lebosada" [ref=e2621]
+                        - img [ref=e2623]
+                      - paragraph [ref=e2625]: Listed 45 minutes ago
+                    - generic [ref=e2626]:
+                      - generic [ref=e2627]:
+                        - button "Call" [ref=e2628] [cursor=pointer]:
+                          - img [ref=e2629]
+                          - text: Call
+                        - button "Email" [ref=e2631] [cursor=pointer]:
+                          - img [ref=e2632]
+                          - text: Email
+                        - button "WhatsApp" [ref=e2635] [cursor=pointer]:
+                          - img [ref=e2636]
+                          - text: WhatsApp
+                      - generic [ref=e2638]:
+                        - button "Save this property to the list" [ref=e2639] [cursor=pointer]:
+                          - img [ref=e2640]
+                        - button "Open actions menu" [ref=e2642] [cursor=pointer]:
+                          - img [ref=e2643]
+            - listitem [ref=e2645]:
+              - iframe [ref=e2648]:
+                - article [ref=f347e3]:
+                  - generic [ref=f347e4]:
+                    - generic [ref=f347e6]:
+                      - generic [ref=f347e7]: Sponsored Ad
+                      - img [ref=f347e8]
+                    - generic [ref=f347e9]:
+                      - generic [ref=f347e10]:
+                        - generic [ref=f347e11]:
+                          - paragraph [ref=f347e12]: Invest in Dubai with MAS Barsha Residency
+                          - heading "Stylish & spacious 1–3 BR boutique residences in a prime location with flexible payment plans." [level=2] [ref=f347e13]
+                        - img [ref=f347e15]
+                      - generic [ref=f347e16]:
+                        - paragraph [ref=f347e17]:
+                          - img [ref=f347e18]
+                          - generic [ref=f347e20]: Al Barsha, Dubai
+                        - paragraph [ref=f347e21]:
+                          - img [ref=f347e22]
+                          - text: From 1,800,000 AED
+                  - link "Enquire now" [ref=f347e25] [cursor=pointer]:
+                    - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjstoRDGf6jzgsZQuWLajcFf3Vn4KgwgWCkFA0mzVQGTzit1HP3dxFrO5h-GUtnxfjMAjlnBfUAp1TV3lkIb9b-7AVNMCEt2RXXUBd-y2E5HHKODRBjjWLBogGfRAm0NJVN3VItEWT7s1ywaWxSRoBYL5EDO5mptbbp8_2A52AHrP9-P72lptqnEhzUXVqTryJOMru6e8rdDVvuhoSsolJdmYIS1FBjOiKTBfy8yDy-RRIo3pMWnfkrZg6sGA04sPL3tK82W0DA1E7hY18bKRUzMYR90_ny_cjPQ__qRx3g9HLAazgg9DVtU58-OkL0YCETZbrbdRpcdymo6M7l_Nis6mcOQaZib9AMCJ0Ge7Qmu5v-5GUVnyDLG8YcW3Bopx4MV1RD4-OTh5j_9CbA&sai=AMfl-YQX6EQtOPMduOO4k66VDlWMAVazVCC7Rq7RMBl6Lnm2XAHVW-1kIMfj4ZhlGZDv1i8Xn08wLsEd_mqwZM_TIR0BWOwb1GCGU739FROSh0EvY2vhFplfQUQd6zCAuebC3NTD1dc2TRQN04k3Os1KAujXyDTUJ2aS-WUCH_HSfTtkVDOLWx-GTJc5Uhmd_ABkLfN_jxfNZaphMtk5G3bYFy47pm1gwdOlozlF_DWpqS_W2_812XqgXm4NwT_8UAsFoWYnYoEc48GFPkgpNjheLkVzgS7zhMkqN4lLk_GMI8yHZYcVmF-_TC7PVpancugqAh_QujMlsLTT3cJ4w8WcGqvCSzP2mmKdC9QPH5i2UvUDPvuuCJQ6Eg&sig=Cg0ArKJSzC39aYdFbJKTEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-native-leadgen
+                  - link [ref=f347e26] [cursor=pointer]:
+                    - /url: https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjstoRDGf6jzgsZQuWLajcFf3Vn4KgwgWCkFA0mzVQGTzit1HP3dxFrO5h-GUtnxfjMAjlnBfUAp1TV3lkIb9b-7AVNMCEt2RXXUBd-y2E5HHKODRBjjWLBogGfRAm0NJVN3VItEWT7s1ywaWxSRoBYL5EDO5mptbbp8_2A52AHrP9-P72lptqnEhzUXVqTryJOMru6e8rdDVvuhoSsolJdmYIS1FBjOiKTBfy8yDy-RRIo3pMWnfkrZg6sGA04sPL3tK82W0DA1E7hY18bKRUzMYR90_ny_cjPQ__qRx3g9HLAazgg9DVtU58-OkL0YCETZbrbdRpcdymo6M7l_Nis6mcOQaZib9AMCJ0Ge7Qmu5v-5GUVnyDLG8YcW3Bopx4MV1RD4-OTh5j_9CbA&sai=AMfl-YQX6EQtOPMduOO4k66VDlWMAVazVCC7Rq7RMBl6Lnm2XAHVW-1kIMfj4ZhlGZDv1i8Xn08wLsEd_mqwZM_TIR0BWOwb1GCGU739FROSh0EvY2vhFplfQUQd6zCAuebC3NTD1dc2TRQN04k3Os1KAujXyDTUJ2aS-WUCH_HSfTtkVDOLWx-GTJc5Uhmd_ABkLfN_jxfNZaphMtk5G3bYFy47pm1gwdOlozlF_DWpqS_W2_812XqgXm4NwT_8UAsFoWYnYoEc48GFPkgpNjheLkVzgS7zhMkqN4lLk_GMI8yHZYcVmF-_TC7PVpancugqAh_QujMlsLTT3cJ4w8WcGqvCSzP2mmKdC9QPH5i2UvUDPvuuCJQ6Eg&sig=Cg0ArKJSzC39aYdFbJKTEAE&fbs_aeid=%5Bgw_fbsaeid%5D&urlfix=1&adurl=https://marketing.propertyfinder.ae/o-127995-mas-barsha-residency/web-en-ros-international-markets-native-leadgen
+          - button "Create Alert Button" [ref=e2650] [cursor=pointer]:
+            - img [ref=e2651]
+            - text: Create alert
+          - generic [ref=e2654]:
+            - button "Go to previous page" [disabled]:
+              - img
+            - generic [ref=e2655]:
+              - button "Current page 1" [ref=e2656] [cursor=pointer]: "1"
+              - link "Go to page 2" [ref=e2657] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=2
+                - text: "2"
+              - link "Go to page 3" [ref=e2658] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=3
+                - text: "3"
+              - link "Go to page 4" [ref=e2659] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=4
+                - text: "4"
+              - link "Go to page 5" [ref=e2660] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=5
+                - text: "5"
+              - link "Go to page 6" [ref=e2661] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=6
+                - text: "6"
+              - link "Go to page 7" [ref=e2662] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=7
+                - text: "7"
+              - link "Go to page 8" [ref=e2663] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=8
+                - text: "8"
+              - link "Go to page 9" [ref=e2664] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=9
+                - text: "9"
+              - link "Go to page 10" [ref=e2665] [cursor=pointer]:
+                - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=10
+                - text: "10"
+            - link "Go to next page" [ref=e2666] [cursor=pointer]:
+              - /url: /en/rent/capital-governorate/apartments-for-rent.html?page=2
+              - img [ref=e2667]
+        - generic [ref=e2670]:
+          - generic [ref=e2671]:
+            - heading "Popular Searches" [level=4] [ref=e2672]
+            - list [ref=e2673]:
+              - listitem [ref=e2674]:
+                - link "Furnished Apartments for rent in Capital Governorate" [ref=e2675] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/furnished-apartments-for-rent.html
+              - listitem [ref=e2676]:
+                - link "2 bedroom Apartments for rent in Capital Governorate" [ref=e2677] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/2-bedroom-apartments-for-rent.html
+              - listitem [ref=e2678]:
+                - link "1 bedroom Apartments for rent in Capital Governorate" [ref=e2679] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/1-bedroom-apartments-for-rent.html
+              - listitem [ref=e2680]:
+                - link "3 bedroom Apartments for rent in Capital Governorate" [ref=e2681] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/3-bedroom-apartments-for-rent.html
+              - listitem [ref=e2682]:
+                - link "Studio Apartments for rent in Capital Governorate" [ref=e2683] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/studio-apartments-for-rent.html
+              - listitem [ref=e2684]:
+                - link "Villas for rent in Capital Governorate" [ref=e2685] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/villas-for-rent.html
+              - listitem [ref=e2686]:
+                - link "Duplexes for rent in Capital Governorate" [ref=e2687] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/duplexes-for-rent.html
+              - listitem [ref=e2688]:
+                - link "Penthouses for rent in Capital Governorate" [ref=e2689] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/penthouses-for-rent.html
+              - listitem [ref=e2690]:
+                - link "4 bedroom Apartments for rent in Capital Governorate" [ref=e2691] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/4-bedroom-apartments-for-rent.html
+              - listitem [ref=e2692]:
+                - link "Compounds for rent in Capital Governorate" [ref=e2693] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/compounds-for-rent.html
+              - listitem [ref=e2694]:
+                - link "Bulk Rent Units for rent in Capital Governorate" [ref=e2695] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/bulk-rent-units-for-rent.html
+              - listitem [ref=e2696]:
+                - link "5 bedroom Apartments for rent in Capital Governorate" [ref=e2697] [cursor=pointer]:
+                  - /url: /en/rent/capital-governorate/5-bedroom-apartments-for-rent.html
+          - generic [ref=e2698]:
+            - heading "Nearby Capital Governorate" [level=4] [ref=e2699]
+            - list [ref=e2700]:
+              - listitem [ref=e2701]:
+                - link "Apartments for rent in Muharraq Governorate" [ref=e2702] [cursor=pointer]:
+                  - /url: /en/rent/muharraq-governorate/apartments-for-rent.html
+              - listitem [ref=e2703]:
+                - link "Apartments for rent in Northern Governorate" [ref=e2704] [cursor=pointer]:
+                  - /url: /en/rent/northern-governorate/apartments-for-rent.html
+              - listitem [ref=e2705]:
+                - link "Apartments for rent in Central Governorate" [ref=e2706] [cursor=pointer]:
+                  - /url: /en/rent/central-governorate/apartments-for-rent.html
+              - listitem [ref=e2707]:
+                - link "Apartments for rent in Southern Governorate" [ref=e2708] [cursor=pointer]:
+                  - /url: /en/rent/southern-governorate/apartments-for-rent.html
+          - generic [ref=e2709]:
+            - heading "Properties for Sale" [level=4] [ref=e2710]
+            - list [ref=e2711]:
+              - listitem [ref=e2712]:
+                - link "Apartments for sale in Capital Governorate" [ref=e2713] [cursor=pointer]:
+                  - /url: /en/buy/capital-governorate/apartments-for-sale.html
+    - generic [ref=e2714]:
+      - generic [ref=e2715]:
+        - heading "Affordable Searches" [level=4] [ref=e2716]
+        - list [ref=e2717]:
+          - listitem [ref=e2718]:
+            - link "Apartments for rent in Capital Governorate For 180 BHD Monthly" [ref=e2719] [cursor=pointer]:
+              - /url: /en/ltp/apartments-for-rent-in-capital-governorate-for-180
+          - listitem [ref=e2720]:
+            - link "Cheap Furnished Apartments For Rent in Capital Governorate, Capital Governorate" [ref=e2721] [cursor=pointer]:
+              - /url: /en/ltp/cheap-furnished-apartments-for-rent-capital-governorate-capital-governorate
+          - listitem [ref=e2722]:
+            - link "Cheap Apartments For Rent in Capital Governorate" [ref=e2723] [cursor=pointer]:
+              - /url: /en/ltp/cheap-apartments-for-rent-in-capital-governorate
+        - button "Show more" [ref=e2724] [cursor=pointer]:
+          - text: Show more
+          - img [ref=e2725]
+      - generic [ref=e2727]:
+        - heading "Explore More" [level=4] [ref=e2728]
+        - list [ref=e2729]:
+          - listitem [ref=e2730]:
+            - link "Apartments with kitchenette for Rent in Capital Governorate" [ref=e2731] [cursor=pointer]:
+              - /url: /en/ltp/apartments-with-kitchenette-for-rent-in-capital-governorate
+          - listitem [ref=e2732]:
+            - link "Low Floor Apartments for rent in Capital Governorate" [ref=e2733] [cursor=pointer]:
+              - /url: /en/ltp/low-floor-apartments-for-rent-in-capital-governorate
+          - listitem [ref=e2734]:
+            - link "Luxury Apartments for rent in Capital Governorate" [ref=e2735] [cursor=pointer]:
+              - /url: /en/ltp/luxury-apartments-for-rent-in-capital-governorate
+        - button "Show more" [ref=e2736] [cursor=pointer]:
+          - text: Show more
+          - img [ref=e2737]
+    - contentinfo [ref=e2739]:
+      - generic [ref=e2740]:
+        - generic [ref=e2741]:
+          - img "Logo-En" [ref=e2742]
+          - generic [ref=e2744]:
+            - heading "Property Finder" [level=4] [ref=e2745]
+            - list [ref=e2746]:
+              - listitem [ref=e2747]:
+                - link "About us" [ref=e2748] [cursor=pointer]:
+                  - /url: /en/about-us.html
+              - listitem [ref=e2749]:
+                - link "Careers" [ref=e2750] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.com/careers/
+          - generic [ref=e2751]:
+            - heading "Real estate professionals" [level=4] [ref=e2752]
+            - list [ref=e2753]:
+              - listitem [ref=e2754]:
+                - link "PF Expert" [ref=e2755] [cursor=pointer]:
+                  - /url: //app.propertyfinder.bh/
+        - generic [ref=e2756]:
+          - link "Download Property Finder IOS App - Real Estate & Home App" [ref=e2757] [cursor=pointer]:
+            - /url: https://apps.apple.com/bh/app/apple-store/id897540233
+            - img [ref=e2758]
+          - link "Download Property Finder Android App - Real Estate & Home App" [ref=e2784] [cursor=pointer]:
+            - /url: https://play.google.com/store/apps/details?id=ae.propertyfinder.propertyfinder&gl=bh&hl=en
+            - img [ref=e2785]
+          - link "Property Finder Huawei App Download Link" [ref=e2794] [cursor=pointer]:
+            - /url: https://appgallery.huawei.com/app/C105081471
+            - img [ref=e2795]
+        - generic [ref=e2822]:
+          - list [ref=e2823]:
+            - listitem [ref=e2824]:
+              - link "Terms & Conditions" [ref=e2825] [cursor=pointer]:
+                - /url: /en/terms-and-conditions.html
+            - listitem [ref=e2826]:
+              - link "Privacy Policy" [ref=e2827] [cursor=pointer]:
+                - /url: /en/privacy-policy.html
+            - listitem [ref=e2828]:
+              - link "Cookies Policy" [ref=e2829] [cursor=pointer]:
+                - /url: /en/cookies-policy.html
+          - generic [ref=e2830]:
+            - generic [ref=e2831]:
+              - link "عربي" [ref=e2832] [cursor=pointer]:
+                - /url: /ar/%D9%84%D9%84%D8%A7%D9%8A%D8%AC%D8%A7%D8%B1/%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9-%D8%A7%D9%84%D8%B9%D8%A7%D8%B5%D9%85%D8%A9/%D8%B4%D9%82%D9%82-%D9%84%D9%84%D8%A7%D9%8A%D8%AC%D8%A7%D8%B1.html
+              - button "Bahrain" [ref=e2834] [cursor=pointer]:
+                - generic [ref=e2836]:
+                  - img [ref=e2838]
+                  - text: Bahrain
+                - img
+            - generic [ref=e2842]:
+              - link "Follow us on instagram" [ref=e2843] [cursor=pointer]:
+                - /url: https://www.instagram.com/propertyfinder.bh/
+                - img [ref=e2844]
+              - link "Follow us on facebook" [ref=e2846] [cursor=pointer]:
+                - /url: https://www.facebook.com/propertyfinder.bh/
+                - img [ref=e2847]
+              - link "Follow us on twitter" [ref=e2849] [cursor=pointer]:
+                - /url: https://twitter.com/propertyfinder
+                - img [ref=e2850]
+              - link "Follow us on linkedin" [ref=e2852] [cursor=pointer]:
+                - /url: https://bh.linkedin.com/company/property-finder-bahrain
+                - img [ref=e2853]
+  - alert [ref=e2855]

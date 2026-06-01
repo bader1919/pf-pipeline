@@ -1,0 +1,154 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Logo-En" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Logo-En" [ref=e7]
+        - navigation "What are you looking for?" [ref=e9]:
+          - list [ref=e10]:
+            - listitem [ref=e11]:
+              - link "Buy" [ref=e12] [cursor=pointer]:
+                - /url: /en/buy/properties-for-sale.html
+            - listitem [ref=e13]:
+              - link "Rent" [ref=e14] [cursor=pointer]:
+                - /url: /en/rent/properties-for-rent.html
+            - listitem [ref=e15]:
+              - link "New projects" [ref=e16] [cursor=pointer]:
+                - /url: /en/new-projects
+            - listitem [ref=e17]:
+              - link "Commercial" [ref=e18] [cursor=pointer]:
+                - /url: /en/commercial-rent/properties-for-rent.html
+            - listitem [ref=e19]:
+              - link "Find agent" [ref=e20] [cursor=pointer]:
+                - /url: /en/find-agent
+            - listitem [ref=e21]:
+              - button "Explore" [ref=e22] [cursor=pointer]:
+                - text: Explore
+                - img [ref=e23]
+        - button "Login to Property Finder" [ref=e26] [cursor=pointer]: Log in
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - img [ref=e30]
+        - textbox "City, community or building" [ref=e32]
+      - generic [ref=e33]:
+        - button "Rent" [ref=e35] [cursor=pointer]:
+          - generic [ref=e36]: Rent
+          - img
+        - button "Property type" [ref=e37] [cursor=pointer]:
+          - generic [ref=e38]: Property type
+          - img
+        - button "Beds & Baths" [ref=e39] [cursor=pointer]:
+          - generic [ref=e40]: Beds & Baths
+          - img
+        - button "Up to 1 BHD / Month" [ref=e41] [cursor=pointer]:
+          - generic [ref=e42]: Up to 1 BHD / Month
+          - img
+        - button "More Filters" [ref=e44] [cursor=pointer]:
+          - generic [ref=e45]: More Filters
+          - img
+      - button "Find" [ref=e46] [cursor=pointer]
+    - main [ref=e47]:
+      - navigation "Navigation menu (breadcrumbs)" [ref=e49]:
+        - listitem [ref=e50]:
+          - link [ref=e51] [cursor=pointer]:
+            - /url: /
+            - img [ref=e52]
+        - list [ref=e54]:
+          - listitem [ref=e55]:
+            - img [ref=e56]
+            - paragraph: Properties for rent in Bahrain
+      - heading "Properties for rent in Bahrain" [level=1] [ref=e58]
+      - generic [ref=e61]:
+        - heading "Looks like all homes in are taken for now" [level=2] [ref=e62]
+        - paragraph [ref=e63]: Try nearby areas or set up an alert for new listings.
+    - generic [ref=e65]:
+      - heading "Explore More" [level=4] [ref=e66]
+      - list [ref=e67]:
+        - listitem [ref=e68]:
+          - link "Ready to move Properties for rent in Bahrain" [ref=e69] [cursor=pointer]:
+            - /url: /en/ltp/ready-to-move-properties-for-rent-in-bahrain
+        - listitem [ref=e70]:
+          - link "Ground Floor Properties for rent in Bahrain" [ref=e71] [cursor=pointer]:
+            - /url: /en/ltp/ground-floor-properties-for-rent-in-bahrain
+        - listitem [ref=e72]:
+          - link "Properties with Basketball for rent in Bahrain" [ref=e73] [cursor=pointer]:
+            - /url: /en/ltp/properties-with-basketball-for-rent-in-bahrain
+      - button "Show more" [ref=e74] [cursor=pointer]:
+        - text: Show more
+        - img [ref=e75]
+    - generic [ref=e78]:
+      - heading "All about the many properties for rent in Bahrain" [level=2] [ref=e79]
+      - paragraph [ref=e80]: When looking for a property for rent in Bahrain, expats and residents have a great number of different options to choose from. The variety of location, size and styles is an added plus for anyone looking to rent property in Bahrain.
+      - paragraph [ref=e81]: Closed compounds, community building, high and low-rise building are all available options that you can choose from when making the move to Bahrain. Furnished, unfurnished and semi-furnished homes are all available in Bahrain which includes homes that contain studios, 1, 2, 3 and 4 bedrooms. Families tend to look for villas for rent in Bahrain, as the extra space is certainly an advantage. Closed compounds and community buildings are a popular option for expats, as the community lifestyle, added security and availability of amenities all present an added value to the property.
+      - paragraph [ref=e82]: Whether you are looking to live in the centre of the capital, Manama, or would prefer a more relaxed and quiet area of Bahrain, there is a number of available properties that will suit the lifestyle you are after; thankfully, there is a high number of apartments for rent in Bahrain for you to choose from. Although Bahrain is a relatively small country with everything within reach, the country is divided into smaller towns and districts. The main cities being Manama, Riffa, Sanad and Madinat Issa (Isa Town), all which have fantastic properties for rent, depending on what you are looking for and your budget. Properties for rent in Al Riffa are worth checking out for those seeking quality villas for rent in Bahrain.
+      - paragraph [ref=e83]: Bahrain is a very cosmopolitan country that although small in size, provides plenty for anyone whether they are young and single, a couple or a small family or even those with larger growing families. The sheer number and variety of properties for rent in Bahrain is testament to its all encompassing view of catering to everyone.
+      - paragraph [ref=e84]
+      - heading "Bahrain properties for rent are widely available in all sizes for all budgets" [level=2] [ref=e85]
+      - paragraph [ref=e86]: "The first factor to consider is location: in most cases families with children usually opt for housing near their school of choice, as well as accessibility to malls, hypermarkets and health facilities. Properties for rent in Bahrain that are close to work and entertainment outlets are the usual propriety of young professionals and newly married couples."
+      - paragraph [ref=e87]: Al Juffair is a popular area that is close to the US Navy base in the north east of the main island. Most properties for rent in Al Juffair are modern apartments housed in. Many expat families opt to find properties for rent in Budaiya, which is located west of the center of the city, where a number of highly accredited schools are also located. Lastly, Adliya and the adjoining suburbs of Mahooz and Um Al Hasam are popular choices for young professionals and married couples, as they are in close proximity to entertainment options including shops, restaurants, cafes and more. Why not checkout properties for rent in Adliya along with the properties for rent in Mahooz today.
+      - paragraph [ref=e88]: Bahrain has a rental disputes committee in place for when tenants and landlords have disputes which they can’t otherwise resolve on their own. In these cases, it pays to have copies of all paperwork and communication from the moment the tenancy is signed. Be sure to ask all sorts of questions about any items on your Bahrain property rental contract as one needs to be fully aware of key milestones and responsibilities relating to any charges or fees.
+      - paragraph [ref=e89]: Ultimately, finding properties for rent in Bahrain will depend on what you are looking for – the bustle of the city, or the quieter lifestyle that is synonymous with suburban living. Whatever your heart fancies, finding a property for rent in Bahrain is becoming easier and easier thanks to the influx of investments and development that the country is witnessing.
+    - contentinfo [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - img "Logo-En" [ref=e93]
+          - generic [ref=e95]:
+            - heading "Property Finder" [level=4] [ref=e96]
+            - list [ref=e97]:
+              - listitem [ref=e98]:
+                - link "About us" [ref=e99] [cursor=pointer]:
+                  - /url: /en/about-us.html
+              - listitem [ref=e100]:
+                - link "Careers" [ref=e101] [cursor=pointer]:
+                  - /url: https://www.propertyfinder.com/careers/
+          - generic [ref=e102]:
+            - heading "Real estate professionals" [level=4] [ref=e103]
+            - list [ref=e104]:
+              - listitem [ref=e105]:
+                - link "PF Expert" [ref=e106] [cursor=pointer]:
+                  - /url: //app.propertyfinder.bh/
+        - generic [ref=e107]:
+          - link "Download Property Finder IOS App - Real Estate & Home App" [ref=e108] [cursor=pointer]:
+            - /url: https://apps.apple.com/bh/app/apple-store/id897540233
+            - img [ref=e109]
+          - link "Download Property Finder Android App - Real Estate & Home App" [ref=e135] [cursor=pointer]:
+            - /url: https://play.google.com/store/apps/details?id=ae.propertyfinder.propertyfinder&gl=bh&hl=en
+            - img [ref=e136]
+          - link "Property Finder Huawei App Download Link" [ref=e145] [cursor=pointer]:
+            - /url: https://appgallery.huawei.com/app/C105081471
+            - img [ref=e146]
+        - generic [ref=e173]:
+          - list [ref=e174]:
+            - listitem [ref=e175]:
+              - link "Terms & Conditions" [ref=e176] [cursor=pointer]:
+                - /url: /en/terms-and-conditions.html
+            - listitem [ref=e177]:
+              - link "Privacy Policy" [ref=e178] [cursor=pointer]:
+                - /url: /en/privacy-policy.html
+            - listitem [ref=e179]:
+              - link "Cookies Policy" [ref=e180] [cursor=pointer]:
+                - /url: /en/cookies-policy.html
+          - generic [ref=e181]:
+            - generic [ref=e182]:
+              - link "عربي" [ref=e183] [cursor=pointer]:
+                - /url: /ar/%D9%84%D9%84%D8%A7%D9%8A%D8%AC%D8%A7%D8%B1/%D8%B9%D9%82%D8%A7%D8%B1%D8%A7%D8%AA-%D9%84%D9%84%D8%A7%D9%8A%D8%AC%D8%A7%D8%B1.html?pt=1
+              - button "Bahrain" [ref=e185] [cursor=pointer]:
+                - generic [ref=e187]:
+                  - img [ref=e189]
+                  - text: Bahrain
+                - img
+            - generic [ref=e193]:
+              - link "Follow us on instagram" [ref=e194] [cursor=pointer]:
+                - /url: https://www.instagram.com/propertyfinder.bh/
+                - img [ref=e195]
+              - link "Follow us on facebook" [ref=e197] [cursor=pointer]:
+                - /url: https://www.facebook.com/propertyfinder.bh/
+                - img [ref=e198]
+              - link "Follow us on twitter" [ref=e200] [cursor=pointer]:
+                - /url: https://twitter.com/propertyfinder
+                - img [ref=e201]
+              - link "Follow us on linkedin" [ref=e203] [cursor=pointer]:
+                - /url: https://bh.linkedin.com/company/property-finder-bahrain
+                - img [ref=e204]
+  - alert [ref=e206]

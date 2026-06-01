@@ -1,0 +1,44 @@
+[    1497ms] [WARNING] Error with Feature-Policy header: Unrecognized feature: 'vr'. @ :0
+[    1497ms] [WARNING] Error with Feature-Policy header: Unrecognized feature: 'ambient-light-sensor'. @ :0
+[    1530ms] [WARNING] <link rel=preload> must have a valid `as` value @ https://www.propertyfinder.bh/en/rent/capital-governorate/apartments-for-rent-manama.html:9
+[    2105ms] [WARNING] [CHEQ Loader] Script already exists from codebase. Skipping Tealium injection. @ https://www.propertyfinder.bh/search/_next/static/chunks/pages/_app-b608bf196ccd7e0a.js:4
+[    2626ms] Uncaught (in promise) ReferenceError: tealtag is not defined
+    at <anonymous> (https://tags.propertyfinder.bh/uae/prod/utag.js:321:18782)
+    at getTealtagSessionId (https://tags.propertyfinder.bh/uae/prod/utag.js:321:18758)
+    at waitForSessionID (https://tags.propertyfinder.bh/uae/prod/utag.js:325:58)
+    at utag.handler.extend (https://tags.propertyfinder.bh/uae/prod/utag.js:326:0)
+    at RE (https://tags.propertyfinder.bh/uae/prod/utag.js:74:23)
+    at trigger (https://tags.propertyfinder.bh/uae/prod/utag.js:78:205)
+    at INIT (https://tags.propertyfinder.bh/uae/prod/utag.js:70:117)
+    at END (https://tags.propertyfinder.bh/uae/prod/utag.js:64:147)
+    at LOAD (https://tags.propertyfinder.bh/uae/prod/utag.js:56:12)
+    at utag.loader.INIT (https://tags.propertyfinder.bh/uae/prod/utag.js:540:404)
+    at utag.loader.PINIT (https://tags.propertyfinder.bh/uae/prod/utag.js:540:13)
+    at <anonymous> (https://tags.propertyfinder.bh/uae/prod/utag.js:552:211)
+[    2627ms] Uncaught (in promise) ReferenceError: tealtag is not defined
+    at <anonymous> (https://tags.propertyfinder.bh/uae/prod/utag.js:321:18782)
+    at getTealtagSessionId (https://tags.propertyfinder.bh/uae/prod/utag.js:321:18758)
+    at waitForSessionID (https://tags.propertyfinder.bh/uae/prod/utag.js:325:58)
+    at utag.handler.extend (https://tags.propertyfinder.bh/uae/prod/utag.js:326:0)
+    at RE (https://tags.propertyfinder.bh/uae/prod/utag.js:74:23)
+    at trigger (https://tags.propertyfinder.bh/uae/prod/utag.js:78:19)
+    at track (https://tags.propertyfinder.bh/uae/prod/utag.js:68:51)
+    at link (https://tags.propertyfinder.bh/uae/prod/utag.js:67:219)
+    at utag.handler.extend (https://tags.propertyfinder.bh/uae/prod/utag.js:353:509)
+    at RE (https://tags.propertyfinder.bh/uae/prod/utag.js:74:23)
+    at trigger (https://tags.propertyfinder.bh/uae/prod/utag.js:79:5)
+    at INIT (https://tags.propertyfinder.bh/uae/prod/utag.js:70:117)
+    at END (https://tags.propertyfinder.bh/uae/prod/utag.js:64:147)
+    at LOAD (https://tags.propertyfinder.bh/uae/prod/utag.js:56:12)
+    at utag.loader.INIT (https://tags.propertyfinder.bh/uae/prod/utag.js:540:404)
+    at utag.loader.PINIT (https://tags.propertyfinder.bh/uae/prod/utag.js:540:13)
+    at <anonymous> (https://tags.propertyfinder.bh/uae/prod/utag.js:552:211)
+[    2655ms] [WARNING] [GSI_LOGGER]: Your client application uses one of the Google One Tap prompt UI status methods that may stop functioning when FedCM becomes mandatory. Refer to the migration guide to update your code accordingly and opt-in to FedCM to test your changes. Learn more: https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#display_moment and https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#skipped_moment @ https://www.propertyfinder.bh/search/_next/static/chunks/pages/_app-b608bf196ccd7e0a.js:4
+[    2657ms] [ERROR] Not signed in with the identity provider. @ https://www.propertyfinder.bh/en/rent/capital-governorate/apartments-for-rent-manama.html:0
+[    2906ms] [WARNING] [GPT] PubAdsService.collapseEmptyDivs is deprecated, use googletag.setConfig({collapseDiv: ...}) instead.
+https://goo.gle/gpt-message#170 @ https://www.propertyfinder.bh/search/_next/static/chunks/pages/_app-b608bf196ccd7e0a.js:4
+[    4389ms] [ERROR] Attestation check for Shared Storage on https://www.googleadservices.com failed. @ https://www.googleadservices.com/pagead/managed/js/activeview/current/reach_worklet.html:0
+[    4399ms] [ERROR] Attestation check for Shared Storage on https://www.googleadservices.com failed. @ https://www.googleadservices.com/pagead/managed/js/activeview/current/reach_worklet.html:0
+[    4407ms] [ERROR] Attestation check for Shared Storage on https://www.googleadservices.com failed. @ https://www.googleadservices.com/pagead/managed/js/activeview/current/reach_worklet.html:0
+[    4413ms] [ERROR] Attestation check for Shared Storage on https://www.googleadservices.com failed. @ https://www.googleadservices.com/pagead/managed/js/activeview/current/reach_worklet.html:0
+[    9810ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token. @ https://www.propertyfinder.bh/search/_next/static/chunks/pages/_app-b608bf196ccd7e0a.js:4

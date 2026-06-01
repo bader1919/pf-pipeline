@@ -1,0 +1,13 @@
+- generic [active] [ref=e1]:
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e8]
+        - img "Picture of the page not found" [ref=e9]
+      - heading "Ooops! You weren't supposed to see this" [level=1] [ref=e10]
+      - paragraph [ref=e11]: Sorry, the page you are looking for does not exist.
+      - link "Back to homepage" [ref=e12] [cursor=pointer]:
+        - /url: /
+        - img [ref=e13]
+        - text: Back to homepage
+  - alert [ref=e15]
