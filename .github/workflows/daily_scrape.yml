@@ -89,6 +89,11 @@ jobs:
         if: always()
         run: python scraper/quality_gate.py --report-only
 
+      # ── Step 8: Update handover log ──────────────────────────────────────────────
+      - name: Update handover log
+        if: always()
+        run: python scraper/update_handover.py --event "Daily Scrape" --what "Daily pipeline execution completed" --status "${{ steps.quality-gate.outcome }}"
+
       # ── Summary ──────────────────────────────────────────────────────────────
       - name: Print summary
         if: always()

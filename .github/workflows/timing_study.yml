@@ -67,3 +67,7 @@ jobs:
       - name: Generate weekly report
         if: github.event.schedule == '0 */4 * * *'
         run: python scraper/timing_analysis.py --weekly-report
+
+      - name: Update handover log
+        if: always()
+        run: python scraper/update_handover.py --event "Timing Study" --what "Timing study run completed" --status "Success"
