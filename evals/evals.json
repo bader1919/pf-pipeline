@@ -1,0 +1,35 @@
+{
+  "skill_name": "propertyfinder-pipeline",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run the PropertyFinder pipeline and tell me if data quality is good",
+      "expected_output": "Executes all 5 pipeline stages (scrape, clean, compare, quality gate, report), checks quality_report.md, reports quality score and status. Should NOT skip quality gate or miss reporting quality score.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "The CSV has 24k rows but all values are empty. Help debug.",
+      "expected_output": "Checks raw JSON data in data/raw/, traces extraction logic in cleaner.py, identifies nested property object issue (the bug we fixed). Should NOT blame scraper, should NOT suggest re-scraping immediately without investigating extraction.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want to extract 'property_age' from the API. How do I add it?",
+      "expected_output": "Instructions to: 1) Add to COLUMNS list in cleaner.py, 2) Add extraction in flatten_listing() function, 3) Test locally with quality_gate.py. Should NOT forget to mention updating all category types or skip testing.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "I just fixed a bug in the cleaner. What do I do now?",
+      "expected_output": "Instructions to: 1) Update HANDOVER.md following the template, 2) Commit with proper format ('docs:' or 'fix:' prefix), 3) Push to GitHub. Should NOT suggest committing without documentation.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "What's this timing study and when will it finish?",
+      "expected_output": "Explains timing study finds optimal scrape time, running June 2-9, 2026 (7 days), runs every 4 hours (6x/day). After study, will identify best time window and update daily schedule. Should NOT give generic answer or miss specific dates.",
+      "files": []
+    }
+  ]
+}
