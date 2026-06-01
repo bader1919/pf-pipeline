@@ -297,8 +297,8 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         "size_unit":                   s(size.get("unit"), "sqft"),
         "location_id":                 s(loc.get("id")),
         "location_full_name":          loc_full,
-        "latitude":                    s(loc.get("lat") or loc.get("latitude")),
-        "longitude":                   s(loc.get("lng") or loc.get("longitude")),
+        "latitude":                    s(get(loc, "coordinates", "lat") or loc.get("lat") or loc.get("latitude")),
+        "longitude":                   s(get(loc, "coordinates", "lon") or loc.get("lng") or loc.get("longitude")),
         "location_slug":               s(loc.get("slug")),
         "location_type":               s(loc.get("type")),
         "location_name":               s(loc.get("name")),
@@ -665,7 +665,16 @@ def main():
         cat_id    = str(first.get("categoryId") or first.get("category_id") or "")
         cat_label = str(first.get("categoryName") or first.get("category_name") or cat_name)
 
-        rows = [flatten_listing(r, cat_id, cat_label, scraped_at) for r in valid_records]
+        rows = []
+        for r in valid_records:
+            # Extract nested property data for listings with listing_type == "property"
+            if r.get("listing_type") == "property" and isinstance(r.get("property"), dict):
+                property_data = r.get("property")
+                # Preserve listing_type for downstream logic
+                property_data["listing_type"] = r.get("listing_type")
+                rows.append(flatten_listing(property_data, cat_id, cat_label, scraped_at))
+            else:
+                rows.append(flatten_listing(r, cat_id, cat_label, scraped_at))
         out_path = os.path.join(OUT_DIR, f"{cat_name}.csv")
         write_csv(rows, out_path)
         print(f"  {cat_name}: {len(rows)} rows -> {out_path}")

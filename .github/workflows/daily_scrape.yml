@@ -47,7 +47,13 @@ jobs:
       - name: Generate report
         run: python scraper/reporter.py
 
-      # ── Step 5: Commit updated data back to repo ─────────────────────────────
+      # ── Step 5: Quality gate validation ─────────────────────────────────────────
+      - name: Quality gate
+        id: quality-gate
+        run: python scraper/quality_gate.py --detailed
+        continue-on-error: true
+
+      # ── Step 6: Commit updated data back to repo ─────────────────────────────
       - name: Commit data
         run: |
           git config user.name  "github-actions[bot]"
@@ -57,15 +63,30 @@ jobs:
           git add data/previous/
           git add data/changes/
           git add data/latest_report.json
+          git add data/latest/quality_report.json
+          git add data/latest/quality_report.md
 
           # Only commit if there is something staged
           if git diff --staged --quiet; then
             echo "No data changes to commit."
           else
+            # Get quality status for commit message
+            QUALITY_STATUS="[PASS] Quality: PASS"
+            if [ "${{ steps.quality-gate.outcome }}" != "success" ]; then
+              QUALITY_STATUS="[WARNING] Quality: WARNING - see quality_report.md"
+            fi
+
             DATE=$(date -u '+%Y-%m-%d')
-            git commit -m "data: daily scrape ${DATE}"
+            git commit -m "data: daily scrape ${DATE}
+
+            ${QUALITY_STATUS}"
             git push
           fi
+
+      # ── Step 7: Final quality report (always runs) ─────────────────────────────
+      - name: Quality report summary
+        if: always()
+        run: python scraper/quality_gate.py --report-only
 
       # ── Summary ──────────────────────────────────────────────────────────────
       - name: Print summary
