@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-06-02T05:42:20.057979+00:00",
+  "utc_hour": 5,
+  "bahrain_hour": 8,
+  "time_window": "04-08 UTC",
+  "day_of_week": "Tuesday",
+  "study_day": 1,
+  "metrics": {
+    "new_listings": 26725,
+    "removed_listings": 2409,
+    "price_changes": 0,
+    "total_changes": 29134,
+    "total_listings": 746846,
+    "net_change": 24316
+  }
+}
