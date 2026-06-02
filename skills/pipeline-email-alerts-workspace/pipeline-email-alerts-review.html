@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "pipeline-email-alerts", "runs": [{"id": "generic-data-pipeline-with_skill", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "email_notification.py", "type": "text", "content": "\"\"\"\nemail_notification.py \u2014 Send a pipeline run summary email.\n\nUsage:\n    python scripts/email_notification.py          # send email\n    python scripts/email_notification.py --test   # print email to stdout, no send\n\nEnvironment variables required (set as GitHub Secrets):\n    RECIPIENT_EMAIL  \u2014 where to send\n    SMTP_PASSWORD    \u2014 Gmail App Password\n    SMTP_FROM        \u2014 sender address (defaults to RECIPIENT_EMAIL)\n\"\"\"\n\nimport json\nimport os\nimport smtplib\nimport sys\nfrom datetime import datetime, timezone\nfrom email.mime.text import MIMEText\nfrom pathlib import Path\n\nREPORT_PATH = Path(\"report.json\")\nPIPELINE_NAME = \"GitHub Actions Pipeline\"\n\n\ndef load_report():\n    if not REPORT_PATH.exists():\n        return None\n    with open(REPORT_PATH) as f:\n        return json.load(f)\n\n\ndef build_email_body(report, run_url):\n    now = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n\n    if report is None:\n        status_icon = \"\u26a0\ufe0f\"\n        status_text = \"UNKNOWN\"\n        items_line = \"Items processed: N/A\"\n        errors_section = \"Could not read report.json\"\n        summary = \"Pipeline run completed but report.json was not found.\"\n    else:\n        raw_status = str(report.get(\"status\", \"\")).lower()\n        passed = raw_status in (\"pass\", \"passed\", \"success\", \"ok\")\n        status_icon = \"\u2705\" if passed else \"\u274c\"\n        status_text = \"PASS\" if passed else \"FAIL\"\n\n        items_processed = report.get(\"items_processed\", report.get(\"count\", report.get(\"total\", \"N/A\")))\n        items_line = f\"Items processed: {items_processed}\"\n\n        errors = report.get(\"errors\", [])\n        if errors:\n            error_list = \"\\n\".join(f\"  - {e}\" for e in errors[:5])\n            extra = f\" (showing first 5 of {len(errors)})\" if len(errors) > 5 else \"\"\n            errors_section = f\"Errors ({len(errors)}){extra}:\\n{error_list}\"\n        else:\n            errors_section = \"Errors: none\"\n\n        if passed:\n            summary = (\n                f\"Pipeline completed successfully. Processed {items_processed} item(s) with no errors.\"\n                if not errors\n                else f\"Pipeline completed with {len(errors)} error(s). Review errors below.\"\n            )\n        else:\n            summary = f\"Pipeline run FAILED. {len(errors)} error(s) recorded. Immediate review recommended.\"\n\n    subject_date = datetime.now(timezone.utc).strftime(\"%Y-%m-%d\")\n    subject = f\"[{PIPELINE_NAME}] Run \u2014 {status_icon} {status_text} \u2014 {subject_date}\"\n\n    body = f\"\"\"Run completed: {now}\n\nStatus:     {status_icon} {status_text}\n{items_line}\n\nSummary:\n{summary}\n\n{errors_section}\n\nWorkflow: {run_url}\n\"\"\"\n    return subject, body.strip()\n\n\ndef send_email(subject, body, recipient, smtp_from, smtp_password):\n    msg = MIMEText(body)\n    msg[\"Subject\"] = subject\n    msg[\"From\"] = smtp_from\n    msg[\"To\"] = recipient\n\n    with smtplib.SMTP_SSL(\"smtp.gmail.com\", 465) as server:\n        server.login(smtp_from, smtp_password)\n        server.sendmail(smtp_from, [recipient], msg.as_string())\n\n\ndef main():\n    test_mode = \"--test\" in sys.argv\n\n    report = load_report()\n\n    server_url = os.environ.get(\"GITHUB_SERVER_URL\", \"https://github.com\")\n    repository = os.environ.get(\"GITHUB_REPOSITORY\", \"owner/repo\")\n    run_id = os.environ.get(\"GITHUB_RUN_ID\", \"\")\n    run_url = (\n        f\"{server_url}/{repository}/actions/runs/{run_id}\"\n        if run_id\n        else f\"{server_url}/{repository}/actions\"\n    )\n\n    subject, body = build_email_body(report, run_url)\n\n    if test_mode:\n        print(f\"Subject: {subject}\\n\")\n        print(body)\n        return\n\n    recipient = os.environ.get(\"RECIPIENT_EMAIL\", \"\")\n    smtp_from = os.environ.get(\"SMTP_FROM\", recipient)\n    smtp_password = os.environ.get(\"SMTP_PASSWORD\", \"\")\n\n    if not recipient or not smtp_password:\n        print(\"WARNING: RECIPIENT_EMAIL or SMTP_PASSWORD not set. Skipping email.\", file=sys.stderr)\n        return\n\n    try:\n        send_email(subject, body, recipient, smtp_from, smtp_password)\n        print(f\"Email sent to {recipient}\")\n    except Exception as exc:\n        print(f\"WARNING: Failed to send email: {exc}\", file=sys.stderr)\n        # Never exit non-zero \u2014 don't block the pipeline\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "generate_briefing.py", "type": "text", "content": "\"\"\"\ngenerate_briefing.py \u2014 Generate a markdown briefing comparing the current run to the previous.\n\nReads report.json from the repo root.\nArchives runs to data/history/ for trend tracking.\nWrites briefing to briefing/latest.md.\n\nRun automatically in GitHub Actions after the pipeline step.\n\"\"\"\n\nimport json\nimport os\nimport shutil\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nREPORT_PATH = Path(\"report.json\")\nHISTORY_DIR = Path(\"data/history\")\nBRIEFING_PATH = Path(\"briefing/latest.md\")\nPIPELINE_NAME = \"GitHub Actions Pipeline\"\n\n\ndef load_json(path):\n    try:\n        with open(path) as f:\n            return json.load(f)\n    except Exception:\n        return None\n\n\ndef get_previous_report():\n    \"\"\"Return the most recent archived report, if any.\"\"\"\n    if not HISTORY_DIR.exists():\n        return None\n    history_files = sorted(HISTORY_DIR.glob(\"report_*.json\"))\n    if not history_files:\n        return None\n    return load_json(history_files[-1])\n\n\ndef archive_current_report():\n    \"\"\"Copy report.json into data/history/ with a timestamp suffix.\"\"\"\n    if not REPORT_PATH.exists():\n        return\n    HISTORY_DIR.mkdir(parents=True, exist_ok=True)\n    timestamp = datetime.now(timezone.utc).strftime(\"%Y%m%dT%H%M%SZ\")\n    dest = HISTORY_DIR / f\"report_{timestamp}.json\"\n    shutil.copy(REPORT_PATH, dest)\n\n\ndef trend_arrow(current, previous):\n    if previous is None or current is None:\n        return \"\u2192 (no previous data)\"\n    if current > previous:\n        return \"\u2191 improving\"\n    if current < previous:\n        return \"\u2193 degrading\"\n    return \"\u2192 stable\"\n\n\ndef generate_briefing(report, previous):\n    now = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n\n    if report is None:\n        return f\"\"\"# {PIPELINE_NAME} Briefing\nGenerated: {now}\n\n## Latest Run\n- Status: UNKNOWN \u2014 report.json not found\n\n## Highlights\n- Could not read pipeline report\n- No issues data available\n- Check that report.json is written before this script runs\n\n## Next Steps\n- Verify report.json is produced by the pipeline\n\"\"\"\n\n    raw_status = str(report.get(\"status\", \"\")).lower()\n    passed = raw_status in (\"pass\", \"passed\", \"success\", \"ok\")\n    status_icon = \"\u2705 PASS\" if passed else \"\u274c FAIL\"\n\n    items = report.get(\"items_processed\", report.get(\"count\", report.get(\"total\", \"N/A\")))\n    errors = report.get(\"errors\", [])\n    error_count = len(errors)\n\n    # Previous run comparison\n    prev_items = None\n    prev_errors = 0\n    if previous:\n        prev_items = previous.get(\"items_processed\", previous.get(\"count\", previous.get(\"total\")))\n        prev_errors = len(previous.get(\"errors\", []))\n\n    items_trend = trend_arrow(\n        items if isinstance(items, (int, float)) else None,\n        prev_items if isinstance(prev_items, (int, float)) else None,\n    )\n    error_trend = trend_arrow(\n        -error_count,  # fewer errors = better\n        -prev_errors if prev_items is not None else None,\n    )\n\n    issues_line = f\"{error_count} error(s) \u2014 review required\" if errors else \"No issues detected\"\n    recommendation = \"No action needed\" if passed and not errors else \"Review pipeline errors and re-run\"\n\n    briefing = f\"\"\"# {PIPELINE_NAME} Briefing\nGenerated: {now}\n\n## Latest Run\n- Status: {status_icon}\n- Items processed: {items}\n- Errors: {error_count}\n\n## Highlights\n- Pipeline {\"passed\" if passed else \"failed\"} with {items} item(s) processed\n- {issues_line}\n- Recommendation: {recommendation}\n\n## Trends\n- Items processed: {items} (previous: {prev_items if prev_items is not None else \"N/A\"}) {items_trend}\n- Errors: {error_count} (previous: {prev_errors if previous else \"N/A\"}) {error_trend}\n\n## Next Steps\n- {recommendation}\n\"\"\"\n\n    if errors:\n        briefing += \"\\n## Errors\\n\"\n        for e in errors[:10]:\n            briefing += f\"- {e}\\n\"\n        if len(errors) > 10:\n            briefing += f\"- ... and {len(errors) - 10} more\\n\"\n\n    return briefing\n\n\ndef main():\n    report = load_json(REPORT_PATH)\n    previous = get_previous_report()\n\n    briefing = generate_briefing(report, previous)\n\n    BRIEFING_PATH.parent.mkdir(parents=True, exist_ok=True)\n    BRIEFING_PATH.write_text(briefing)\n    print(f\"Briefing written to {BRIEFING_PATH}\")\n\n    # Archive after reading previous, so this run becomes the next \"previous\"\n    archive_current_report()\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "pipeline_email_patch.yml", "type": "text", "content": "# Paste this block into your GitHub Actions workflow file,\n# after your main pipeline step (e.g., after the step that writes report.json).\n\n      - name: Send Email Notification\n        if: always()\n        env:\n          RECIPIENT_EMAIL: ${{ secrets.EMAIL_ADDRESS }}\n          SMTP_PASSWORD:   ${{ secrets.SMTP_PASSWORD }}\n          SMTP_FROM:       ${{ secrets.EMAIL_ADDRESS }}\n        run: python scripts/email_notification.py\n\n      - name: Generate Briefing\n        if: always()\n        run: python scripts/generate_briefing.py\n\n      - name: Upload Briefing\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: pipeline-briefing\n          path: briefing/latest.md\n\n# --- Weekly briefing workflow ---\n# Add this as a separate workflow file, e.g. .github/workflows/weekly_briefing.yml\n\nname: Weekly Pipeline Briefing\n\non:\n  schedule:\n    - cron: '0 8 * * 1'   # Every Monday at 08:00 UTC\n  workflow_dispatch:        # Allow manual trigger\n\njobs:\n  briefing:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: '3.11'\n\n      - name: Generate Weekly Briefing\n        run: python scripts/generate_briefing.py\n\n      - name: Send Weekly Briefing Email\n        env:\n          RECIPIENT_EMAIL: ${{ secrets.EMAIL_ADDRESS }}\n          SMTP_PASSWORD:   ${{ secrets.SMTP_PASSWORD }}\n          SMTP_FROM:       ${{ secrets.EMAIL_ADDRESS }}\n        run: python scripts/email_notification.py\n\n      - name: Upload Briefing\n        uses: actions/upload-artifact@v4\n        with:\n          name: weekly-pipeline-briefing\n          path: briefing/latest.md\n"}, {"name": "setup_guide.md", "type": "text", "content": "# Pipeline Email Alerts \u2014 Setup Guide\n\nThis guide covers everything needed to get email notifications and weekly briefings working for your GitHub Actions pipeline.\n\n## What you get\n\n- **Per-run email** \u2014 sent every time the pipeline runs (pass or fail)\n- **Weekly briefing** \u2014 sent every Monday at 08:00 UTC with trend comparison\n- **Briefing artifact** \u2014 `briefing/latest.md` uploaded to every Actions run\n\n---\n\n## 1. Create a Gmail App Password\n\nGmail requires an App Password (not your regular password) for SMTP access.\n\n1. Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)\n2. Sign in if prompted\n3. Under \"Select app\", choose **Mail**\n4. Under \"Select device\", choose **Other** and type `GitHub Actions`\n5. Click **Generate**\n6. Copy the 16-character password \u2014 you will not see it again\n\n> If you don't see App Passwords, enable 2-Step Verification first at [myaccount.google.com/security](https://myaccount.google.com/security).\n\n---\n\n## 2. Add GitHub Secrets\n\n1. Open your repository on GitHub\n2. Go to **Settings \u2192 Secrets and variables \u2192 Actions**\n3. Click **New repository secret** and add:\n\n| Secret name    | Value                                      |\n|----------------|--------------------------------------------|\n| `EMAIL_ADDRESS` | `user@example.com` (your email address)   |\n| `SMTP_PASSWORD` | The 16-character App Password from step 1 |\n\n---\n\n## 3. Add scripts to your repository\n\nPlace both scripts in a `scripts/` folder at the repo root:\n\n```\nscripts/\n  email_notification.py\n  generate_briefing.py\n```\n\nCommit them:\n\n```bash\ngit add scripts/email_notification.py scripts/generate_briefing.py\ngit commit -m \"Add pipeline email notification scripts\"\n```\n\n---\n\n## 4. Patch your workflow file\n\nOpen `.github/workflows/<your-workflow>.yml` and paste the following steps after the step that writes `report.json`:\n\n```yaml\n      - name: Send Email Notification\n        if: always()\n        env:\n          RECIPIENT_EMAIL: ${{ secrets.EMAIL_ADDRESS }}\n          SMTP_PASSWORD:   ${{ secrets.SMTP_PASSWORD }}\n          SMTP_FROM:       ${{ secrets.EMAIL_ADDRESS }}\n        run: python scripts/email_notification.py\n\n      - name: Generate Briefing\n        if: always()\n        run: python scripts/generate_briefing.py\n\n      - name: Upload Briefing\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: pipeline-briefing\n          path: briefing/latest.md\n```\n\nFor the **weekly briefing**, create `.github/workflows/weekly_briefing.yml` using the content in `pipeline_email_patch.yml` (the section starting with `name: Weekly Pipeline Briefing`).\n\n---\n\n## 5. Test locally\n\nRun the notification script in test mode (prints email to stdout, no send):\n\n```bash\n# From the repo root, with a real or dummy report.json present\necho '{\"status\": \"pass\", \"items_processed\": 42, \"errors\": []}' > report.json\npython scripts/email_notification.py --test\n```\n\nExpected output:\n```\nSubject: [GitHub Actions Pipeline] Run \u2014 \u2705 PASS \u2014 2026-06-02\n\nRun completed: 2026-06-02 10:00 UTC\n\nStatus:     \u2705 PASS\nItems processed: 42\n\nSummary:\nPipeline completed successfully. Processed 42 item(s) with no errors.\n\nErrors: none\n\nWorkflow: https://github.com/owner/repo/actions\n```\n\n---\n\n## 6. History tracking (for trend diffs)\n\n`generate_briefing.py` automatically archives each run's `report.json` to `data/history/report_<timestamp>.json`. This enables the trend comparison in each briefing.\n\nTo avoid committing history files to the repo (they accumulate), add to `.gitignore`:\n\n```\ndata/history/\nbriefing/\n```\n\nAnd create placeholder files so the directories are tracked:\n\n```bash\nmkdir -p data/history briefing\ntouch data/history/.gitkeep briefing/.gitkeep\ngit add data/history/.gitkeep briefing/.gitkeep .gitignore\ngit commit -m \"Add history and briefing dirs\"\n```\n\n---\n\n## Files to commit\n\n| File | Purpose |\n|------|---------|\n| `scripts/email_notification.py` | Per-run email sender |\n| `scripts/generate_briefing.py` | Briefing generator with trend diff |\n| `.github/workflows/weekly_briefing.yml` | Weekly scheduled briefing |\n| `data/history/.gitkeep` | Keeps history dir tracked |\n| `briefing/.gitkeep` | Keeps briefing dir tracked |\n| `.gitignore` entries | Excludes generated files |\n"}], "grading": {"expectations": [{"text": "email_notification.py has --test flag", "passed": true, "evidence": "grep for --test in script"}, {"text": "Script exits 0 on email failure (non-fatal)", "passed": true, "evidence": "grep for exception handling and exit(0)"}, {"text": "All credentials use environment variables only", "passed": true, "evidence": "no hardcoded password literals found"}, {"text": "generate_briefing.py writes to briefing/latest.md", "passed": true, "evidence": "grep for briefing/latest in generate_briefing.py"}, {"text": "Workflow YAML has if: always() on email step", "passed": true, "evidence": "grep in yml file"}, {"text": "Setup guide covers Gmail App Password and GitHub Secrets", "passed": true, "evidence": "grep in setup_guide.md"}]}}, {"id": "generic-data-pipeline-without_skill", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "email_notification.py", "type": "text", "content": "\"\"\"\nemail_notification.py\n\nSends an email alert after a GitHub Actions pipeline run, based on the\ncontents of report.json (fields: status, items_processed, errors).\n\nUsage (called from your workflow):\n    python email_notification.py --report report.json\n\nRequired environment variables:\n    SMTP_HOST       SMTP server hostname (e.g. smtp.gmail.com)\n    SMTP_PORT       SMTP port (default: 587)\n    SMTP_USER       Login username / sender address\n    SMTP_PASSWORD   Login password or app password\n    ALERT_EMAIL     Recipient address (e.g. user@example.com)\n\"\"\"\n\nimport argparse\nimport json\nimport os\nimport smtplib\nimport sys\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom datetime import datetime, timezone\n\n\ndef load_report(path: str) -> dict:\n    with open(path) as f:\n        return json.load(f)\n\n\ndef build_message(report: dict, run_url: str) -> tuple:\n    status = report.get(\"status\", \"unknown\").upper()\n    items = report.get(\"items_processed\", \"N/A\")\n    errors = report.get(\"errors\", [])\n    timestamp = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n\n    subject = f\"[Pipeline] {status} -- {timestamp}\"\n\n    if errors:\n        error_lines = \"\\n\".join(f\"  - {e}\" for e in errors)\n        error_block = f\"\\nErrors ({len(errors)}):\\n{error_lines}\\n\"\n    else:\n        error_block = \"\\nNo errors reported.\\n\"\n\n    body = (\n        \"Pipeline Run Notification\\n\"\n        \"=========================\\n\"\n        f\"Status          : {status}\\n\"\n        f\"Items Processed : {items}\\n\"\n        f\"Timestamp       : {timestamp}\\n\"\n        f\"{error_block}\\n\"\n        f\"Run details: {run_url or 'N/A'}\\n\"\n    )\n    return subject, body\n\n\ndef send_email(subject: str, body: str, cfg: dict) -> None:\n    msg = MIMEMultipart()\n    msg[\"From\"] = cfg[\"user\"]\n    msg[\"To\"] = cfg[\"recipient\"]\n    msg[\"Subject\"] = subject\n    msg.attach(MIMEText(body, \"plain\"))\n\n    with smtplib.SMTP(cfg[\"host\"], cfg[\"port\"]) as server:\n        server.starttls()\n        server.login(cfg[\"user\"], cfg[\"password\"])\n        server.sendmail(cfg[\"user\"], cfg[\"recipient\"], msg.as_string())\n    print(f\"Email sent to {cfg['recipient']} -- subject: {subject}\")\n\n\ndef main() -> None:\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\"--report\", default=\"report.json\")\n    parser.add_argument(\"--run-url\", default=os.environ.get(\"GITHUB_RUN_URL\", \"\"))\n    args = parser.parse_args()\n\n    report = load_report(args.report)\n\n    cfg = {\n        \"host\": os.environ[\"SMTP_HOST\"],\n        \"port\": int(os.environ.get(\"SMTP_PORT\", 587)),\n        \"user\": os.environ[\"SMTP_USER\"],\n        \"password\": os.environ[\"SMTP_PASSWORD\"],\n        \"recipient\": os.environ[\"ALERT_EMAIL\"],\n    }\n\n    subject, body = build_message(report, args.run_url)\n    send_email(subject, body, cfg)\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "generate_briefing.py", "type": "text", "content": "\"\"\"\ngenerate_briefing.py\n\nAggregates report.json artifacts collected during a week and sends a\nweekly briefing email.\n\nExpected usage in a scheduled GitHub Actions job (runs every Monday):\n    python generate_briefing.py --reports-dir ./weekly_reports\n\nThe script reads every *.json file in the given directory.  Each file must\ncontain at least: status (pass/fail), items_processed (int), errors (list).\n\nRequired environment variables: same as email_notification.py\n    SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, ALERT_EMAIL\n\"\"\"\n\nimport argparse\nimport json\nimport os\nimport smtplib\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\n\ndef load_reports(directory: str) -> list:\n    reports = []\n    for path in sorted(Path(directory).glob(\"*.json\")):\n        try:\n            with open(path) as f:\n                data = json.load(f)\n                data[\"_filename\"] = path.name\n                reports.append(data)\n        except Exception as e:\n            print(f\"Warning: could not read {path}: {e}\")\n    return reports\n\n\ndef build_briefing(reports: list) -> tuple:\n    if not reports:\n        return \"[Pipeline] Weekly Briefing -- No runs recorded\", \"No pipeline runs found this week.\"\n\n    total = len(reports)\n    passed = sum(1 for r in reports if r.get(\"status\", \"\").lower() == \"pass\")\n    failed = total - passed\n    total_items = sum(r.get(\"items_processed\", 0) for r in reports)\n    all_errors = []\n    for r in reports:\n        for e in r.get(\"errors\", []):\n            all_errors.append(f\"  [{r['_filename']}] {e}\")\n\n    week_of = datetime.now(timezone.utc).strftime(\"%Y-%m-%d\")\n    subject = f\"[Pipeline] Weekly Briefing -- Week of {week_of}\"\n\n    run_lines = []\n    for r in reports:\n        status = r.get(\"status\", \"unknown\").upper()\n        items = r.get(\"items_processed\", \"N/A\")\n        err_count = len(r.get(\"errors\", []))\n        run_lines.append(f\"  {r['_filename']}: {status}, {items} items, {err_count} error(s)\")\n\n    error_section = \"\"\n    if all_errors:\n        error_section = \"\\nAll Errors This Week:\\n\" + \"\\n\".join(all_errors) + \"\\n\"\n    else:\n        error_section = \"\\nNo errors recorded this week.\\n\"\n\n    body = (\n        f\"Pipeline Weekly Briefing -- Week of {week_of}\\n\"\n        \"=\" * 50 + \"\\n\\n\"\n        f\"Total Runs     : {total}\\n\"\n        f\"Passed         : {passed}\\n\"\n        f\"Failed         : {failed}\\n\"\n        f\"Items Processed: {total_items}\\n\\n\"\n        \"Run-by-Run Summary:\\n\"\n        + \"\\n\".join(run_lines) + \"\\n\"\n        + error_section\n    )\n    return subject, body\n\n\ndef send_email(subject: str, body: str, cfg: dict) -> None:\n    msg = MIMEMultipart()\n    msg[\"From\"] = cfg[\"user\"]\n    msg[\"To\"] = cfg[\"recipient\"]\n    msg[\"Subject\"] = subject\n    msg.attach(MIMEText(body, \"plain\"))\n\n    with smtplib.SMTP(cfg[\"host\"], cfg[\"port\"]) as server:\n        server.starttls()\n        server.login(cfg[\"user\"], cfg[\"password\"])\n        server.sendmail(cfg[\"user\"], cfg[\"recipient\"], msg.as_string())\n    print(f\"Weekly briefing sent to {cfg['recipient']}\")\n\n\ndef main() -> None:\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\"--reports-dir\", default=\"weekly_reports\",\n                        help=\"Directory containing report JSON files for the week\")\n    args = parser.parse_args()\n\n    reports = load_reports(args.reports_dir)\n    subject, body = build_briefing(reports)\n\n    cfg = {\n        \"host\": os.environ[\"SMTP_HOST\"],\n        \"port\": int(os.environ.get(\"SMTP_PORT\", 587)),\n        \"user\": os.environ[\"SMTP_USER\"],\n        \"password\": os.environ[\"SMTP_PASSWORD\"],\n        \"recipient\": os.environ[\"ALERT_EMAIL\"],\n    }\n\n    send_email(subject, body, cfg)\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "setup_guide.md", "type": "text", "content": "# Pipeline Email Alerts \u2014 Setup Guide\n\n## What you get\n\n| File | Purpose |\n|---|---|\n| `email_notification.py` | Sends a per-run email immediately after the pipeline finishes |\n| `generate_briefing.py` | Sends a weekly summary of all runs from the past 7 days |\n| `workflow_patch.yml` | GitHub Actions job snippets to paste into your workflow file |\n\n---\n\n## 1. Add the Python scripts to your repository\n\nCopy `email_notification.py` and `generate_briefing.py` to the root of your repository (or any directory \u2014 just update the `run:` paths in the workflow accordingly).\n\n---\n\n## 2. Store secrets in GitHub\n\nGo to **Settings > Secrets and variables > Actions > New repository secret** and add:\n\n| Secret name | Example value | Notes |\n|---|---|---|\n| `SMTP_HOST` | `smtp.gmail.com` | Your SMTP server |\n| `SMTP_PORT` | `587` | 587 = STARTTLS (recommended) |\n| `SMTP_USER` | `sender@gmail.com` | Sending address / login |\n| `SMTP_PASSWORD` | `abcd efgh ijkl mnop` | Use an App Password for Gmail |\n| `ALERT_EMAIL` | `user@example.com` | Where alerts are delivered |\n\n### Gmail App Password (if using Gmail)\n\n1. Enable 2-Step Verification on your Google account.\n2. Go to **Google Account > Security > App passwords**.\n3. Create an app password for \"Mail\" and copy the 16-character code.\n4. Use that code as `SMTP_PASSWORD`.\n\n---\n\n## 3. Upload report.json as an artifact in your pipeline job\n\nYour existing pipeline job must upload `report.json` so the `notify` job can download it:\n\n```yaml\n- name: Upload report\n  uses: actions/upload-artifact@v4\n  with:\n    name: pipeline-report      # must match the name in workflow_patch.yml\n    path: report.json\n```\n\n---\n\n## 4. Patch your workflow file\n\nOpen your `.github/workflows/*.yml` file and:\n\n**a) Add the schedule trigger** (for the weekly briefing) to the top-level `on:` block:\n\n```yaml\non:\n  schedule:\n    - cron: '0 8 * * 1'   # every Monday at 08:00 UTC\n  # ...your existing triggers (push, pull_request, etc.)\n```\n\n**b) Paste the two jobs** from `workflow_patch.yml` into the `jobs:` section.\n\n**c) Update the `needs:` field** in the `notify` job to reference your actual pipeline job name.\n\n---\n\n## 5. Verify\n\nAfter your next pipeline run:\n- Check your inbox at `user@example.com` for the run notification.\n- The weekly briefing will arrive the following Monday at 08:00 UTC.\n\n---\n\n## Email formats\n\n### Per-run notification\n\n```\nPipeline Run Notification\n=========================\nStatus          : PASS\nItems Processed : 1500\nTimestamp       : 2026-06-02 14:32 UTC\n\nNo errors reported.\n\nRun details: https://github.com/org/repo/actions/runs/12345678\n```\n\n### Weekly briefing\n\n```\nPipeline Weekly Briefing -- Week of 2026-06-02\n==================================================\n\nTotal Runs     : 5\nPassed         : 4\nFailed         : 1\nItems Processed: 7250\n\nRun-by-Run Summary:\n  report_111.json: PASS, 1500 items, 0 error(s)\n  report_222.json: FAIL, 1200 items, 2 error(s)\n  ...\n\nAll Errors This Week:\n  [report_222.json] Database connection timeout\n  [report_222.json] Row 847 failed validation\n```\n\n---\n\n## Troubleshooting\n\n| Symptom | Likely cause | Fix |\n|---|---|---|\n| `SMTPAuthenticationError` | Wrong credentials or App Password not used | Re-check `SMTP_USER` / `SMTP_PASSWORD` secrets |\n| `ConnectionRefusedError` | Wrong host or port | Verify `SMTP_HOST` and `SMTP_PORT` |\n| No artifact downloaded | `upload-artifact` name mismatch | Make sure both jobs use `name: pipeline-report` |\n| Weekly email never arrives | Schedule not in `on:` block, or job `if:` condition not met | Re-read step 4a and confirm `github.event_name == 'schedule'` |\n"}, {"name": "workflow_patch.yml", "type": "text", "content": "# workflow_patch.yml\n#\n# Paste these two jobs into your existing GitHub Actions workflow file.\n# Replace YOUR_EXISTING_JOB with the actual job that produces report.json.\n#\n# Required GitHub Secrets (Settings > Secrets and variables > Actions):\n#   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD\n#   ALERT_EMAIL  (set to: user@example.com)\n\njobs:\n\n  # \u2500\u2500 Job 1: per-run email alert \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  notify:\n    name: Send run notification\n    needs: YOUR_EXISTING_JOB          # wait for the job that writes report.json\n    runs-on: ubuntu-latest\n    if: always()                      # run even when the pipeline fails\n    steps:\n      - name: Check out repository\n        uses: actions/checkout@v4\n\n      - name: Download report artifact\n        uses: actions/download-artifact@v4\n        with:\n          name: pipeline-report       # must match the upload-artifact name in your pipeline job\n          path: .\n\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: \"3.11\"\n\n      - name: Send notification email\n        env:\n          SMTP_HOST:     ${{ secrets.SMTP_HOST }}\n          SMTP_PORT:     ${{ secrets.SMTP_PORT }}\n          SMTP_USER:     ${{ secrets.SMTP_USER }}\n          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}\n          ALERT_EMAIL:   ${{ secrets.ALERT_EMAIL }}\n          GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\n        run: python email_notification.py --report report.json\n\n  # \u2500\u2500 Job 2: weekly briefing (runs every Monday at 08:00 UTC) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n  weekly-briefing:\n    name: Send weekly briefing\n    runs-on: ubuntu-latest\n    # Trigger only on the cron schedule defined in the workflow's `on:` block.\n    # Add the schedule below to your workflow's top-level `on:` section:\n    #\n    #   on:\n    #     schedule:\n    #       - cron: '0 8 * * 1'    # every Monday 08:00 UTC\n    #     <...your existing triggers...>\n    #\n    if: github.event_name == 'schedule'\n    steps:\n      - name: Check out repository\n        uses: actions/checkout@v4\n\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: \"3.11\"\n\n      - name: Download all weekly report artifacts\n        # This step uses the GitHub CLI to download all report artifacts\n        # uploaded in the past 7 days into ./weekly_reports/.\n        env:\n          GH_TOKEN: ${{ github.token }}\n        run: |\n          mkdir -p weekly_reports\n          # List workflow runs from the last 7 days and download their report artifacts\n          gh run list --repo \"${{ github.repository }}\" \\\n            --workflow \"${{ github.workflow }}\" \\\n            --limit 50 \\\n            --json databaseId,createdAt \\\n            --jq '.[] | select(.createdAt > (now - 7*86400 | todate)) | .databaseId' \\\n          | while read run_id; do\n              gh run download \"$run_id\" \\\n                --repo \"${{ github.repository }}\" \\\n                --name pipeline-report \\\n                --dir \"weekly_reports/${run_id}\" 2>/dev/null || true\n            done\n          # Flatten all report.json files into weekly_reports/ with unique names\n          find weekly_reports -name \"report.json\" | while read f; do\n            dir=$(dirname \"$f\" | xargs basename)\n            cp \"$f\" \"weekly_reports/report_${dir}.json\"\n          done\n\n      - name: Send weekly briefing email\n        env:\n          SMTP_HOST:     ${{ secrets.SMTP_HOST }}\n          SMTP_PORT:     ${{ secrets.SMTP_PORT }}\n          SMTP_USER:     ${{ secrets.SMTP_USER }}\n          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}\n          ALERT_EMAIL:   ${{ secrets.ALERT_EMAIL }}\n        run: python generate_briefing.py --reports-dir weekly_reports\n"}], "grading": {"expectations": [{"text": "email_notification.py has --test flag", "passed": false, "evidence": "grep for --test in script"}, {"text": "Script exits 0 on email failure (non-fatal)", "passed": false, "evidence": "grep for exception handling and exit(0)"}, {"text": "All credentials use environment variables only", "passed": true, "evidence": "no hardcoded password literals found"}, {"text": "generate_briefing.py writes to briefing/latest.md", "passed": true, "evidence": "grep for briefing/latest in generate_briefing.py"}, {"text": "Workflow YAML has if: always() on email step", "passed": true, "evidence": "grep in yml file"}, {"text": "Setup guide covers Gmail App Password and GitHub Secrets", "passed": true, "evidence": "grep in setup_guide.md"}]}}, {"id": "ml-training-pipeline-with_skill", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "email_notification.py", "type": "text", "content": "#!/usr/bin/env python3\n\"\"\"\nML Training Pipeline \u2014 email notification script.\n\nUsage:\n    python scripts/email_notification.py          # send email\n    python scripts/email_notification.py --test   # print email to stdout, don't send\n\nEnvironment variables (set as GitHub Secrets):\n    RECIPIENT_EMAIL  \u2014 where to send the notification\n    SMTP_PASSWORD    \u2014 Gmail App Password\n    SMTP_FROM        \u2014 sender address (defaults to RECIPIENT_EMAIL)\n\nGitHub Actions auto-sets:\n    GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID\n\"\"\"\n\nimport json\nimport os\nimport smtplib\nimport sys\nfrom datetime import datetime, timezone\nfrom email.mime.text import MIMEText\nfrom pathlib import Path\n\nMETRICS_FILE = Path(\"outputs/metrics.json\")\nHISTORY_DIR = Path(\"data/history\")\n\nPIPELINE_NAME = \"ML Training Pipeline\"\n\n\ndef load_metrics(path):\n    if not path.exists():\n        return {}\n    try:\n        return json.loads(path.read_text())\n    except Exception as exc:\n        print(f\"[warning] Could not parse {path}: {exc}\", file=sys.stderr)\n        return {}\n\n\ndef load_previous_metrics():\n    \"\"\"Return the most recent historical metrics file, if any.\"\"\"\n    if not HISTORY_DIR.exists():\n        return {}\n    files = sorted(HISTORY_DIR.glob(\"metrics_*.json\"))\n    if not files:\n        return {}\n    try:\n        return json.loads(files[-1].read_text())\n    except Exception as exc:\n        print(f\"[warning] Could not read history: {exc}\", file=sys.stderr)\n        return {}\n\n\ndef fmt(value, decimals=4):\n    if value is None:\n        return \"N/A\"\n    return f\"{value:.{decimals}f}\"\n\n\ndef accuracy_trend(current, previous):\n    if current is None or previous is None:\n        return \"\"\n    delta = current - previous\n    if delta > 0:\n        return f\"  \u2191 +{delta:.4f} vs last run\"\n    elif delta < 0:\n        return f\"  \u2193 {delta:.4f} vs last run\"\n    else:\n        return \"  \u2192 unchanged vs last run\"\n\n\ndef build_email(metrics, prev):\n    now = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n    date_str = datetime.now(timezone.utc).strftime(\"%Y-%m-%d\")\n\n    accuracy = metrics.get(\"accuracy\")\n    val_accuracy = metrics.get(\"val_accuracy\")\n    loss = metrics.get(\"loss\")\n    val_loss = metrics.get(\"val_loss\")\n    epoch = metrics.get(\"epoch\")\n    run_id = metrics.get(\"run_id\", \"unknown\")\n    duration = metrics.get(\"duration_minutes\")\n\n    prev_accuracy = prev.get(\"accuracy\")\n    trend = accuracy_trend(accuracy, prev_accuracy)\n\n    server = os.environ.get(\"GITHUB_SERVER_URL\", \"https://github.com\")\n    repo = os.environ.get(\"GITHUB_REPOSITORY\", \"myorg/ml-trainer\")\n    run_gh_id = os.environ.get(\"GITHUB_RUN_ID\", \"\")\n    workflow_url = (\n        f\"{server}/{repo}/actions/runs/{run_gh_id}\"\n        if run_gh_id\n        else f\"{server}/{repo}/actions\"\n    )\n\n    subject = f\"[{PIPELINE_NAME}] Run \u2014 {date_str} (run_id: {run_id})\"\n\n    dur_str = f\"{duration:.1f} min\" if duration is not None else \"N/A\"\n    epoch_str = str(epoch) if epoch is not None else \"N/A\"\n\n    if accuracy is not None and prev_accuracy is not None:\n        if accuracy > prev_accuracy:\n            summary = f\"Accuracy improved by {accuracy - prev_accuracy:.4f} vs the previous run.\"\n        elif accuracy < prev_accuracy:\n            summary = f\"Accuracy dropped by {prev_accuracy - accuracy:.4f} vs the previous run.\"\n        else:\n            summary = \"Accuracy is unchanged vs the previous run.\"\n    else:\n        summary = \"No previous run available for comparison.\"\n\n    prev_line = f\"Prev Accuracy: {fmt(prev_accuracy)}\\n\" if prev_accuracy is not None else \"\"\n\n    body = f\"\"\"Run completed: {now}\n\nRun ID:        {run_id}\nEpoch:         {epoch_str}\nDuration:      {dur_str}\n\nAccuracy:      {fmt(accuracy)}{trend}\nVal Accuracy:  {fmt(val_accuracy)}\nLoss:          {fmt(loss)}\nVal Loss:      {fmt(val_loss)}\n{prev_line}\nSummary:\n{summary}\n\nWorkflow: {workflow_url}\"\"\"\n\n    return subject, body.strip()\n\n\ndef send_email(subject, body):\n    recipient = os.environ.get(\"RECIPIENT_EMAIL\", \"\")\n    password = os.environ.get(\"SMTP_PASSWORD\", \"\")\n    sender = os.environ.get(\"SMTP_FROM\", recipient)\n\n    if not recipient or not password:\n        print(\"[warning] RECIPIENT_EMAIL or SMTP_PASSWORD not set \u2014 skipping email.\", file=sys.stderr)\n        return\n\n    msg = MIMEText(body)\n    msg[\"Subject\"] = subject\n    msg[\"From\"] = sender\n    msg[\"To\"] = recipient\n\n    try:\n        with smtplib.SMTP_SSL(\"smtp.gmail.com\", 465) as server:\n            server.login(sender, password)\n            server.sendmail(sender, [recipient], msg.as_string())\n        print(f\"[info] Email sent to {recipient}\")\n    except Exception as exc:\n        print(f\"[warning] Failed to send email: {exc}\", file=sys.stderr)\n\n\ndef main():\n    test_mode = \"--test\" in sys.argv\n\n    metrics = load_metrics(METRICS_FILE)\n    prev = load_previous_metrics()\n\n    subject, body = build_email(metrics, prev)\n\n    if test_mode:\n        print(f\"Subject: {subject}\")\n        print(\"-\" * 60)\n        print(body)\n    else:\n        send_email(subject, body)\n\n\nif __name__ == \"__main__\":\n    try:\n        main()\n    except Exception as exc:\n        print(f\"[warning] email_notification.py error: {exc}\", file=sys.stderr)\n        sys.exit(0)  # never block the pipeline\n"}, {"name": "generate_briefing.py", "type": "text", "content": "#!/usr/bin/env python3\n\"\"\"\nML Training Pipeline \u2014 briefing generator.\n\nReads outputs/metrics.json and compares against data/history/metrics_*.json\nto produce briefing/latest.md.\n\"\"\"\n\nimport json\nimport sys\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nMETRICS_FILE = Path(\"outputs/metrics.json\")\nHISTORY_DIR = Path(\"data/history\")\nBRIEFING_FILE = Path(\"briefing/latest.md\")\n\nPIPELINE_NAME = \"ML Training Pipeline\"\n\n\ndef load_json(path):\n    if not path.exists():\n        return {}\n    try:\n        return json.loads(path.read_text())\n    except Exception as exc:\n        print(f\"[warning] Could not parse {path}: {exc}\", file=sys.stderr)\n        return {}\n\n\ndef load_previous_metrics():\n    if not HISTORY_DIR.exists():\n        return {}\n    files = sorted(HISTORY_DIR.glob(\"metrics_*.json\"))\n    if not files:\n        return {}\n    try:\n        return json.loads(files[-1].read_text())\n    except Exception as exc:\n        print(f\"[warning] Could not read history: {exc}\", file=sys.stderr)\n        return {}\n\n\ndef fmt(value, decimals=4):\n    if value is None:\n        return \"N/A\"\n    return f\"{value:.{decimals}f}\"\n\n\ndef trend_symbol(current, previous):\n    if current is None or previous is None:\n        return \"\u2192 (no prior data)\"\n    delta = current - previous\n    if delta > 0.0001:\n        return f\"improving \u2191 (+{delta:.4f})\"\n    elif delta < -0.0001:\n        return f\"degrading \u2193 ({delta:.4f})\"\n    else:\n        return \"stable \u2192\"\n\n\ndef generate_briefing(metrics, prev):\n    now = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n\n    accuracy = metrics.get(\"accuracy\")\n    val_accuracy = metrics.get(\"val_accuracy\")\n    loss = metrics.get(\"loss\")\n    val_loss = metrics.get(\"val_loss\")\n    epoch = metrics.get(\"epoch\")\n    run_id = metrics.get(\"run_id\", \"unknown\")\n    duration = metrics.get(\"duration_minutes\")\n\n    prev_accuracy = prev.get(\"accuracy\")\n    prev_val_accuracy = prev.get(\"val_accuracy\")\n\n    dur_str = f\"{duration:.1f} min\" if duration is not None else \"N/A\"\n    epoch_str = str(epoch) if epoch is not None else \"N/A\"\n\n    # Highlights\n    if accuracy is not None and prev_accuracy is not None:\n        delta = accuracy - prev_accuracy\n        if delta > 0:\n            highlight_accuracy = f\"Accuracy improved by {delta:.4f} (now {fmt(accuracy)}).\"\n            recommendation = \"Continue training with the same configuration.\"\n        elif delta < 0:\n            highlight_accuracy = f\"Accuracy dropped by {abs(delta):.4f} (now {fmt(accuracy)}). Investigate learning rate or data.\"\n            recommendation = \"Review recent data or hyperparameter changes.\"\n        else:\n            highlight_accuracy = f\"Accuracy unchanged at {fmt(accuracy)}.\"\n            recommendation = \"Consider adjusting hyperparameters if plateau continues.\"\n    elif accuracy is not None:\n        highlight_accuracy = f\"Accuracy: {fmt(accuracy)} \u2014 no previous run to compare.\"\n        recommendation = \"Baseline established. Monitor next run for trend.\"\n    else:\n        highlight_accuracy = \"Metrics file missing or empty.\"\n        recommendation = \"Check that outputs/metrics.json is being written correctly.\"\n\n    acc_trend = trend_symbol(accuracy, prev_accuracy)\n    val_acc_trend = trend_symbol(val_accuracy, prev_val_accuracy)\n\n    lines = [\n        f\"# {PIPELINE_NAME} Briefing\",\n        f\"Generated: {now}\",\n        \"\",\n        \"## Latest Run\",\n        f\"- Run ID: {run_id} | Epoch: {epoch_str} | Duration: {dur_str}\",\n        f\"- Accuracy: {fmt(accuracy)} | Val Accuracy: {fmt(val_accuracy)}\",\n        f\"- Loss: {fmt(loss)} | Val Loss: {fmt(val_loss)}\",\n        \"\",\n        \"## Highlights\",\n        f\"- {highlight_accuracy}\",\n        f\"- Val accuracy: {fmt(val_accuracy)} (previous: {fmt(prev_val_accuracy)}).\",\n        \"- No issues detected.\" if accuracy is not None else \"- Could not read metrics \u2014 check pipeline output.\",\n        \"\",\n        \"## Accuracy Trends\",\n        f\"- Train accuracy:  {fmt(accuracy)} | Previous: {fmt(prev_accuracy)} | {acc_trend}\",\n        f\"- Val accuracy:    {fmt(val_accuracy)} | Previous: {fmt(prev_val_accuracy)} | {val_acc_trend}\",\n        \"\",\n        \"## Next Steps\",\n        f\"- {recommendation}\",\n    ]\n\n    return \"\\n\".join(lines)\n\n\ndef main():\n    metrics = load_json(METRICS_FILE)\n    prev = load_previous_metrics()\n\n    briefing = generate_briefing(metrics, prev)\n\n    BRIEFING_FILE.parent.mkdir(parents=True, exist_ok=True)\n    BRIEFING_FILE.write_text(briefing)\n    print(f\"[info] Briefing written to {BRIEFING_FILE}\")\n    print()\n    print(briefing)\n\n\nif __name__ == \"__main__\":\n    try:\n        main()\n    except Exception as exc:\n        print(f\"[warning] generate_briefing.py error: {exc}\", file=sys.stderr)\n        # Degrade gracefully \u2014 write a minimal briefing rather than failing\n        BRIEFING_FILE.parent.mkdir(parents=True, exist_ok=True)\n        BRIEFING_FILE.write_text(\n            f\"# {PIPELINE_NAME} Briefing\\n\\nCould not generate briefing: {exc}\\n\"\n        )\n        sys.exit(0)\n"}, {"name": "github_actions_patch.yml", "type": "text", "content": "# Paste these steps into .github/workflows/<your-workflow>.yml\n# after the training step that produces outputs/metrics.json.\n\n      - name: Archive metrics to history\n        if: always()\n        run: |\n          mkdir -p data/history\n          RUN_ID=$(python -c \"import json; d=json.load(open('outputs/metrics.json')); print(d.get('run_id','unknown'))\" 2>/dev/null || echo \"unknown\")\n          cp outputs/metrics.json \"data/history/metrics_${RUN_ID}.json\"\n\n      - name: Send Email Notification\n        if: always()\n        env:\n          RECIPIENT_EMAIL: ${{ secrets.EMAIL_ADDRESS }}\n          SMTP_PASSWORD:   ${{ secrets.SMTP_PASSWORD }}\n          SMTP_FROM:       ${{ secrets.EMAIL_ADDRESS }}\n        run: python scripts/email_notification.py\n\n      - name: Generate Briefing\n        if: always()\n        run: python scripts/generate_briefing.py\n\n      - name: Upload Briefing\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: pipeline-briefing\n          path: briefing/latest.md\n"}, {"name": "setup_guide.md", "type": "text", "content": "# ML Training Pipeline \u2014 Email Alerts Setup Guide\n\n## 1. Gmail App Password\n\nThe scripts send via Gmail SMTP using an App Password (not your regular Gmail password).\n\n1. Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)\n2. Sign in and select **\"Mail\"** as the app and **\"Other\"** as the device (name it \"ml-trainer\")\n3. Click **Generate** \u2014 copy the 16-character password shown (it won't be displayed again)\n\n> 2-Step Verification must be enabled on the Gmail account for App Passwords to appear.\n\n---\n\n## 2. GitHub Secrets\n\nAdd these two secrets to your repo at:\n`https://github.com/myorg/ml-trainer/settings/secrets/actions`\n\n| Secret name    | Value                                |\n|----------------|--------------------------------------|\n| `EMAIL_ADDRESS` | `dev@myorg.com`                     |\n| `SMTP_PASSWORD` | The 16-character Gmail App Password |\n\n---\n\n## 3. Local Testing\n\nRun this from the repo root (no secrets needed \u2014 it just prints to stdout):\n\n```bash\n# Create a sample metrics file first\nmkdir -p outputs\necho '{\"accuracy\":0.9231,\"loss\":0.2104,\"val_accuracy\":0.9017,\"val_loss\":0.2389,\"epoch\":10,\"run_id\":\"abc123\",\"duration_minutes\":42.5}' > outputs/metrics.json\n\n# Preview the email\npython scripts/email_notification.py --test\n```\n\nExpected output:\n```\nSubject: [ML Training Pipeline] Run \u2014 2026-06-02 (run_id: abc123)\n------------------------------------------------------------\nRun completed: 2026-06-02 14:30 UTC\n\nRun ID:        abc123\nEpoch:         10\nDuration:      42.5 min\n\nAccuracy:      0.9231\nVal Accuracy:  0.9017\nLoss:          0.2104\nVal Loss:      0.2389\n\nSummary:\nNo previous run available for comparison.\n\nWorkflow: https://github.com/myorg/ml-trainer/actions\n```\n\n---\n\n## 4. History Tracking (for comparison)\n\nThe `generate_briefing.py` script compares the current run against `data/history/metrics_<run_id>.json`.\n\nThe YAML patch above archives metrics automatically before sending the email. After a few runs, `data/history/` will look like:\n\n```\ndata/history/\n  metrics_abc123.json\n  metrics_def456.json\n  metrics_ghi789.json   \u2190 most recent, used for comparison\n```\n\nThe scripts pick the last alphabetically-sorted file as \"previous run.\"\n\nTo persist history across runs, commit `data/history/` (or use GitHub Actions cache/artifact restore). Add a `.gitkeep` so Git tracks the empty folder:\n\n```bash\nmkdir -p data/history briefing\ntouch data/history/.gitkeep briefing/.gitkeep\n```\n\nAdd to `.gitignore` if you don't want to commit actual metrics files:\n```\n# Uncomment to exclude history from git (use artifacts instead)\n# data/history/metrics_*.json\n# briefing/latest.md\n```\n\n---\n\n## 5. Files to Commit\n\n```\nscripts/\n  email_notification.py\n  generate_briefing.py\ndata/history/.gitkeep\nbriefing/.gitkeep\n```\n\nAnd update `.github/workflows/<your-workflow>.yml` with the steps from `github_actions_patch.yml`.\n"}], "grading": {"expectations": [{"text": "email_notification.py has --test flag", "passed": true, "evidence": "grep for --test in script"}, {"text": "Script exits 0 on email failure (non-fatal)", "passed": true, "evidence": "grep for exception handling and exit(0)"}, {"text": "All credentials use environment variables only", "passed": true, "evidence": "no hardcoded password literals found"}, {"text": "generate_briefing.py writes to briefing/latest.md", "passed": true, "evidence": "grep for briefing/latest in generate_briefing.py"}, {"text": "Workflow YAML has if: always() on email step", "passed": true, "evidence": "grep in yml file"}, {"text": "Setup guide covers Gmail App Password and GitHub Secrets", "passed": true, "evidence": "grep in setup_guide.md"}]}}, {"id": "ml-training-pipeline-without_skill", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "email_notification.py", "type": "text", "content": "\"\"\"\nemail_notification.py\n\nReads outputs/metrics.json, compares with last run stored in\noutputs/metrics_history.json, then sends an email summary via SMTP.\n\nUsage (called from GitHub Actions):\n    python email_notification.py\n\nRequired environment variables:\n    SMTP_HOST       - e.g. smtp.gmail.com\n    SMTP_PORT       - e.g. 587\n    SMTP_USER       - sender email address\n    SMTP_PASSWORD   - sender password / app password\n    NOTIFY_EMAIL    - recipient (default: dev@myorg.com)\n\"\"\"\n\nimport json\nimport os\nimport smtplib\nfrom email.mime.text import MIMEText\nfrom email.mime.multipart import MIMEMultipart\nfrom pathlib import Path\n\nMETRICS_FILE = Path(\"outputs/metrics.json\")\nHISTORY_FILE = Path(\"outputs/metrics_history.json\")\nRECIPIENT = os.getenv(\"NOTIFY_EMAIL\", \"dev@myorg.com\")\n\n\ndef load_json(path: Path) -> dict:\n    if path.exists():\n        with open(path) as f:\n            return json.load(f)\n    return {}\n\n\ndef save_history(current: dict, history: dict) -> None:\n    history[current[\"run_id\"]] = current\n    with open(HISTORY_FILE, \"w\") as f:\n        json.dump(history, f, indent=2)\n\n\ndef last_run(history: dict, current_run_id: str) -> dict | None:\n    \"\"\"Return the most recent run that is not the current one.\"\"\"\n    other_runs = {rid: m for rid, m in history.items() if rid != current_run_id}\n    if not other_runs:\n        return None\n    latest_id = max(other_runs, key=lambda rid: other_runs[rid].get(\"epoch\", 0))\n    return other_runs[latest_id]\n\n\ndef accuracy_change_line(current: dict, previous: dict | None) -> str:\n    if previous is None:\n        return \"  (No previous run \u2014 this is the first recorded run.)\"\n    delta = current[\"accuracy\"] - previous[\"accuracy\"]\n    direction = \"IMPROVED\" if delta > 0 else (\"DECLINED\" if delta < 0 else \"UNCHANGED\")\n    sign = \"+\" if delta >= 0 else \"\"\n    return (\n        f\"  Accuracy vs last run: {direction}  \"\n        f\"({previous['accuracy']:.4f} -> {current['accuracy']:.4f}, \"\n        f\"{sign}{delta:.4f})\"\n    )\n\n\ndef build_email_body(current: dict, previous: dict | None) -> str:\n    lines = [\n        \"ML Training Run Summary\",\n        \"=======================\",\n        \"\",\n        f\"Run ID          : {current.get('run_id', 'N/A')}\",\n        f\"Epoch           : {current.get('epoch', 'N/A')}\",\n        f\"Duration        : {current.get('duration_minutes', 'N/A')} minutes\",\n        \"\",\n        \"Metrics\",\n        \"-------\",\n        f\"  Accuracy      : {current.get('accuracy', 0):.4f}\",\n        f\"  Loss          : {current.get('loss', 0):.4f}\",\n        f\"  Val Accuracy  : {current.get('val_accuracy', 0):.4f}\",\n        f\"  Val Loss      : {current.get('val_loss', 0):.4f}\",\n        \"\",\n        \"Comparison\",\n        \"----------\",\n        accuracy_change_line(current, previous),\n        \"\",\n        \"---\",\n        \"Sent by ml-trainer nightly pipeline  |  myorg/ml-trainer\",\n    ]\n    return \"\\n\".join(lines)\n\n\ndef send_email(subject: str, body: str) -> None:\n    smtp_host = os.environ[\"SMTP_HOST\"]\n    smtp_port = int(os.environ[\"SMTP_PORT\"])\n    smtp_user = os.environ[\"SMTP_USER\"]\n    smtp_password = os.environ[\"SMTP_PASSWORD\"]\n\n    msg = MIMEMultipart(\"alternative\")\n    msg[\"Subject\"] = subject\n    msg[\"From\"] = smtp_user\n    msg[\"To\"] = RECIPIENT\n    msg.attach(MIMEText(body, \"plain\"))\n\n    with smtplib.SMTP(smtp_host, smtp_port) as server:\n        server.ehlo()\n        server.starttls()\n        server.login(smtp_user, smtp_password)\n        server.sendmail(smtp_user, RECIPIENT, msg.as_string())\n    print(f\"Email sent to {RECIPIENT}\")\n\n\ndef main() -> None:\n    if not METRICS_FILE.exists():\n        raise FileNotFoundError(\n            f\"{METRICS_FILE} not found \u2014 did the training job finish?\"\n        )\n\n    current = load_json(METRICS_FILE)\n    history = load_json(HISTORY_FILE)\n    previous = last_run(history, current.get(\"run_id\", \"\"))\n\n    save_history(current, history)\n\n    delta = (\n        current[\"accuracy\"] - previous[\"accuracy\"]\n        if previous is not None\n        else None\n    )\n    if delta is None:\n        direction = \"first run\"\n    elif delta > 0:\n        direction = f\"improved +{delta:.4f}\"\n    elif delta < 0:\n        direction = f\"declined {delta:.4f}\"\n    else:\n        direction = \"unchanged\"\n\n    subject = (\n        f\"[ml-trainer] Run {current.get('run_id')} | \"\n        f\"acc={current.get('accuracy', 0):.4f} ({direction})\"\n    )\n\n    body = build_email_body(current, previous)\n    send_email(subject, body)\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "generate_briefing.py", "type": "text", "content": "\"\"\"\ngenerate_briefing.py\n\nReads outputs/metrics.json (and optionally metrics_history.json) and\nprints a human-readable briefing to stdout. Also writes it to\noutputs/briefing.txt so the GitHub Actions step can upload it as an\nartifact or echo it into the job summary.\n\nUsage:\n    python generate_briefing.py\n    python generate_briefing.py --last 5      # show trend over last 5 runs\n\"\"\"\n\nimport argparse\nimport json\nfrom pathlib import Path\n\nMETRICS_FILE = Path(\"outputs/metrics.json\")\nHISTORY_FILE = Path(\"outputs/metrics_history.json\")\n\n\ndef load_json(path: Path) -> dict:\n    if path.exists():\n        with open(path) as f:\n            return json.load(f)\n    return {}\n\n\ndef sorted_runs(history: dict) -> list[dict]:\n    \"\"\"Return history runs ordered by epoch ascending.\"\"\"\n    return sorted(history.values(), key=lambda r: r.get(\"epoch\", 0))\n\n\ndef trend_block(runs: list[dict], n: int) -> str:\n    if len(runs) < 2:\n        return \"  Not enough history for trend analysis.\\n\"\n    recent = runs[-n:]\n    lines = [\"  Epoch  Accuracy  Val Acc   Loss    Val Loss\"]\n    lines.append(\"  \" + \"-\" * 46)\n    for r in recent:\n        lines.append(\n            f\"  {r.get('epoch', '?'):>5}  \"\n            f\"{r.get('accuracy', 0):.4f}    \"\n            f\"{r.get('val_accuracy', 0):.4f}    \"\n            f\"{r.get('loss', 0):.4f}  \"\n            f\"{r.get('val_loss', 0):.4f}\"\n        )\n    # Simple direction summary\n    first_acc = recent[0].get(\"accuracy\", 0)\n    last_acc = recent[-1].get(\"accuracy\", 0)\n    delta = last_acc - first_acc\n    sign = \"+\" if delta >= 0 else \"\"\n    lines.append(\n        f\"\\n  Over last {len(recent)} runs: accuracy {sign}{delta:.4f}\"\n    )\n    return \"\\n\".join(lines)\n\n\ndef generate_briefing(current: dict, history: dict, last_n: int) -> str:\n    runs = sorted_runs(history)\n    previous = runs[-2] if len(runs) >= 2 else None\n\n    # Accuracy comparison\n    if previous is not None and previous.get(\"run_id\") != current.get(\"run_id\"):\n        delta = current[\"accuracy\"] - previous[\"accuracy\"]\n        sign = \"+\" if delta >= 0 else \"\"\n        comparison = (\n            f\"  Previous accuracy : {previous['accuracy']:.4f}  \"\n            f\"(run {previous.get('run_id')})\\n\"\n            f\"  Change            : {sign}{delta:.4f}  \"\n            f\"({'IMPROVED' if delta > 0 else 'DECLINED' if delta < 0 else 'FLAT'})\"\n        )\n    else:\n        comparison = \"  No previous run available for comparison.\"\n\n    section = [\n        \"=\" * 54,\n        \"  ML TRAINING NIGHTLY BRIEFING\",\n        \"=\" * 54,\n        \"\",\n        f\"  Run ID     : {current.get('run_id', 'N/A')}\",\n        f\"  Epoch      : {current.get('epoch', 'N/A')}\",\n        f\"  Duration   : {current.get('duration_minutes', 'N/A')} min\",\n        \"\",\n        \"  CURRENT METRICS\",\n        \"  ---------------\",\n        f\"  Accuracy   : {current.get('accuracy', 0):.4f}\",\n        f\"  Loss       : {current.get('loss', 0):.4f}\",\n        f\"  Val Acc    : {current.get('val_accuracy', 0):.4f}\",\n        f\"  Val Loss   : {current.get('val_loss', 0):.4f}\",\n        \"\",\n        \"  ACCURACY COMPARISON\",\n        \"  -------------------\",\n        comparison,\n        \"\",\n        f\"  TREND (last {last_n} runs)\",\n        \"  \" + \"-\" * 20,\n        trend_block(runs, last_n),\n        \"\",\n        \"=\" * 54,\n    ]\n    return \"\\n\".join(section)\n\n\ndef main() -> None:\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\n        \"--last\", type=int, default=5,\n        help=\"Number of recent runs to include in trend table (default: 5)\"\n    )\n    args = parser.parse_args()\n\n    if not METRICS_FILE.exists():\n        raise FileNotFoundError(f\"{METRICS_FILE} not found.\")\n\n    current = load_json(METRICS_FILE)\n    history = load_json(HISTORY_FILE)\n\n    briefing = generate_briefing(current, history, args.last)\n    print(briefing)\n\n    out = Path(\"outputs/briefing.txt\")\n    out.write_text(briefing)\n    print(f\"\\nBriefing written to {out}\")\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "notify.yml", "type": "text", "content": "# .github/workflows/notify.yml\n#\n# Patch: add notification steps to your existing nightly training workflow.\n# Either paste these steps into your existing workflow file at the end of\n# the training job, or reference this file as a separate called workflow.\n#\n# Required GitHub Secrets (Settings > Secrets > Actions):\n#   SMTP_HOST       e.g. smtp.gmail.com\n#   SMTP_PORT       e.g. 587\n#   SMTP_USER       sender address\n#   SMTP_PASSWORD   sender app-password\n#   NOTIFY_EMAIL    dev@myorg.com  (or set the default in email_notification.py)\n\nname: ML Training Notifications\n\non:\n  workflow_run:\n    workflows: [\"Nightly ML Training\"]   # <-- replace with your training workflow name\n    types: [completed]\n\njobs:\n  notify:\n    runs-on: ubuntu-latest\n    # Run even if the training job failed so you still get an email\n    if: always()\n\n    steps:\n      - name: Checkout repo\n        uses: actions/checkout@v4\n\n      - name: Set up Python\n        uses: actions/setup-python@v5\n        with:\n          python-version: \"3.11\"\n\n      # Download the metrics artifact produced by the training job.\n      # Adjust artifact-name to match what your training workflow uploads.\n      - name: Download metrics artifact\n        uses: actions/download-artifact@v4\n        with:\n          name: training-metrics        # <-- match your training workflow\n          path: outputs/\n\n      # Restore history from cache so comparisons persist across runs\n      - name: Restore metrics history\n        uses: actions/cache/restore@v4\n        with:\n          path: outputs/metrics_history.json\n          key: metrics-history-${{ github.run_id }}\n          restore-keys: |\n            metrics-history-\n\n      - name: Generate briefing\n        run: python generate_briefing.py\n\n      - name: Send email notification\n        env:\n          SMTP_HOST: ${{ secrets.SMTP_HOST }}\n          SMTP_PORT: ${{ secrets.SMTP_PORT }}\n          SMTP_USER: ${{ secrets.SMTP_USER }}\n          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}\n          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}\n        run: python email_notification.py\n\n      # Save updated history for the next run\n      - name: Save metrics history\n        uses: actions/cache/save@v4\n        if: always()\n        with:\n          path: outputs/metrics_history.json\n          key: metrics-history-${{ github.run_id }}\n\n      # Optional: attach briefing to the workflow run for easy viewing\n      - name: Upload briefing artifact\n        uses: actions/upload-artifact@v4\n        if: always()\n        with:\n          name: training-briefing\n          path: outputs/briefing.txt\n"}, {"name": "setup_guide.md", "type": "text", "content": "# Setup Guide \u2014 ML Training Pipeline Email Notifications\n\n## What you get\n\n| File | Purpose |\n|---|---|\n| `email_notification.py` | Sends an email after each run with key metrics and accuracy change vs last run |\n| `generate_briefing.py` | Prints + saves a text briefing with current metrics and trend table |\n| `notify.yml` | GitHub Actions workflow that wires both scripts into your pipeline |\n\n---\n\n## Prerequisites\n\n- Python 3.10+ (uses `dict | None` union syntax; drop to `Optional[dict]` for older versions)\n- An SMTP-capable email account (Gmail with an App Password works well)\n- Your existing training workflow uploads `outputs/metrics.json` as an artifact named `training-metrics`\n\n---\n\n## Step 1 \u2014 Copy scripts into your repo\n\n```\nmyorg/ml-trainer/\n  email_notification.py\n  generate_briefing.py\n  .github/workflows/notify.yml\n```\n\n---\n\n## Step 2 \u2014 Add GitHub Secrets\n\nGo to **Settings > Secrets and variables > Actions > New repository secret** and add:\n\n| Secret | Example value |\n|---|---|\n| `SMTP_HOST` | `smtp.gmail.com` |\n| `SMTP_PORT` | `587` |\n| `SMTP_USER` | `alerts@myorg.com` |\n| `SMTP_PASSWORD` | your app password |\n| `NOTIFY_EMAIL` | `dev@myorg.com` |\n\nFor Gmail: enable 2FA then generate an App Password at https://myaccount.google.com/apppasswords.\n\n---\n\n## Step 3 \u2014 Ensure your training workflow uploads metrics\n\nYour training job must upload `outputs/metrics.json`. Add this step if it doesn't already exist:\n\n```yaml\n- name: Upload metrics\n  uses: actions/upload-artifact@v4\n  with:\n    name: training-metrics\n    path: outputs/metrics.json\n```\n\n---\n\n## Step 4 \u2014 Edit notify.yml to match your workflow name\n\nIn `notify.yml`, update line 18:\n\n```yaml\nworkflows: [\"Nightly ML Training\"]   # <-- your actual workflow name\n```\n\nThe name must exactly match the `name:` field at the top of your training workflow file.\n\n---\n\n## How run history works\n\n`email_notification.py` maintains `outputs/metrics_history.json` \u2014 a dict keyed by `run_id`. GitHub Actions cache persists this file between runs (see the `Restore metrics history` / `Save metrics history` steps in `notify.yml`). The accuracy comparison uses the entry with the highest epoch number as \"previous run\".\n\nOn the very first run there is no history, so the email notes it's the first recorded run.\n\n---\n\n## Email subject format\n\n```\n[ml-trainer] Run abc123 | acc=0.9341 (improved +0.0052)\n```\n\nPossible suffixes: `improved +X`, `declined -X`, `unchanged`, `first run`.\n\n---\n\n## Running locally for testing\n\n```bash\n# Create a sample metrics file\nmkdir -p outputs\necho '{\"accuracy\":0.91,\"loss\":0.25,\"val_accuracy\":0.88,\"val_loss\":0.30,\"epoch\":10,\"run_id\":\"test-001\",\"duration_minutes\":42}' > outputs/metrics.json\n\n# Generate briefing (no env vars needed)\npython generate_briefing.py\n\n# Send email (requires env vars)\nSMTP_HOST=smtp.gmail.com \\\nSMTP_PORT=587 \\\nSMTP_USER=you@gmail.com \\\nSMTP_PASSWORD=yourapppassword \\\nNOTIFY_EMAIL=dev@myorg.com \\\npython email_notification.py\n```\n\n---\n\n## Customisation notes\n\n- **Trend window**: `generate_briefing.py --last 10` shows 10 runs in the trend table (default 5).\n- **No quality gate by design**: the scripts report changes but do not fail the workflow based on metric values.\n- **Additional recipients**: set `NOTIFY_EMAIL` to a distribution list address, or extend `send_email()` to accept a list.\n"}], "grading": {"expectations": [{"text": "email_notification.py has --test flag", "passed": false, "evidence": "grep for --test in script"}, {"text": "Script exits 0 on email failure (non-fatal)", "passed": false, "evidence": "grep for exception handling and exit(0)"}, {"text": "All credentials use environment variables only", "passed": true, "evidence": "no hardcoded password literals found"}, {"text": "generate_briefing.py writes to briefing/latest.md", "passed": true, "evidence": "grep for briefing/latest in generate_briefing.py"}, {"text": "Workflow YAML has if: always() on email step", "passed": true, "evidence": "grep in yml file"}, {"text": "Setup guide covers Gmail App Password and GitHub Secrets", "passed": true, "evidence": "grep in setup_guide.md"}]}}, {"id": "propertyfinder-scraper-with_skill", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "email_notification.py", "type": "text", "content": "#!/usr/bin/env python3\n\"\"\"\nPropertyFinder Scraper \u2014 Email Notification Script\nReads quality_report.md and latest_report.json, then sends a summary email.\n\nUsage:\n    python scripts/email_notification.py         # send email\n    python scripts/email_notification.py --test  # print to stdout only\n\nRequired env vars:\n    RECIPIENT_EMAIL  \u2014 where to send\n    SMTP_PASSWORD    \u2014 Gmail App Password\nOptional:\n    SMTP_FROM        \u2014 sender address (defaults to RECIPIENT_EMAIL)\n\"\"\"\n\nimport json\nimport os\nimport re\nimport smtplib\nimport sys\nfrom datetime import datetime, timezone\nfrom email.mime.text import MIMEText\nfrom pathlib import Path\n\nQUALITY_REPORT = Path(\"data/latest/quality_report.md\")\nMETRICS_JSON   = Path(\"data/latest_report.json\")\n\n# \u2500\u2500 Parsers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndef parse_quality_report(path: Path) -> dict:\n    \"\"\"Extract status, score, and violations from the markdown report.\"\"\"\n    result = {\"status\": \"UNKNOWN\", \"score\": None, \"violations\": []}\n    if not path.exists():\n        return result\n    text = path.read_text(encoding=\"utf-8\")\n\n    # PASS / FAIL \u2014 look for it anywhere in the first ~5 lines\n    m = re.search(r\"\\b(PASS|FAIL)\\b\", text[:400], re.IGNORECASE)\n    if m:\n        result[\"status\"] = m.group(1).upper()\n\n    # Quality Score: 97.3%\n    m = re.search(r\"quality\\s+score[:\\s]+([0-9]+(?:\\.[0-9]+)?)\\s*%\", text, re.IGNORECASE)\n    if m:\n        result[\"score\"] = float(m.group(1))\n\n    # Violations section \u2014 grab bullet lines after \"Violations\"\n    violations_block = re.search(\n        r\"#+\\s*violations?\\b(.*?)(?=^#|\\Z)\", text, re.IGNORECASE | re.DOTALL | re.MULTILINE\n    )\n    if violations_block:\n        lines = violations_block.group(1).strip().splitlines()\n        result[\"violations\"] = [\n            l.lstrip(\"-* \").strip() for l in lines if l.strip() and l.strip() not in (\"#\",)\n        ][:5]  # cap at 5\n    return result\n\n\ndef parse_metrics(path: Path) -> dict:\n    \"\"\"Extract counts and timing from the JSON metrics file.\"\"\"\n    result = {\n        \"total_listings\": None,\n        \"new_listings\": None,\n        \"removed_listings\": None,\n        \"timestamp\": None,\n        \"duration_seconds\": None,\n    }\n    if not path.exists():\n        return result\n    try:\n        data = json.loads(path.read_text(encoding=\"utf-8\"))\n        for key in result:\n            if key in data:\n                result[key] = data[key]\n        # Flexible fallback for alternate field names\n        if result[\"total_listings\"] is None:\n            result[\"total_listings\"] = data.get(\"total\") or data.get(\"count\")\n    except (json.JSONDecodeError, OSError):\n        pass\n    return result\n\n\n# \u2500\u2500 Formatting \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndef _fmt_int(val) -> str:\n    return f\"{int(val):,}\" if val is not None else \"\u2014\"\n\ndef _fmt_float(val, decimals=1) -> str:\n    return f\"{val:.{decimals}f}%\" if val is not None else \"\u2014\"\n\ndef _fmt_duration(seconds) -> str:\n    if seconds is None:\n        return \"\u2014\"\n    m, s = divmod(int(seconds), 60)\n    return f\"{m}m {s}s\" if m else f\"{s}s\"\n\n\ndef build_email(qr: dict, metrics: dict) -> tuple:\n    \"\"\"Return (subject, body).\"\"\"\n    status   = qr[\"status\"]\n    icon     = \"\u2705\" if status == \"PASS\" else \"\u274c\" if status == \"FAIL\" else \"\u2753\"\n    score    = _fmt_float(qr[\"score\"])\n    total    = _fmt_int(metrics[\"total_listings\"])\n    new_     = _fmt_int(metrics[\"new_listings\"])\n    removed  = _fmt_int(metrics[\"removed_listings\"])\n    duration = _fmt_duration(metrics[\"duration_seconds\"])\n    violations = qr[\"violations\"]\n\n    ts_raw = metrics.get(\"timestamp\")\n    try:\n        if ts_raw:\n            ts_str = datetime.fromisoformat(str(ts_raw).replace(\"Z\", \"+00:00\")).strftime(\"%Y-%m-%d %H:%M UTC\")\n        else:\n            raise ValueError\n    except ValueError:\n        ts_str = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n\n    date_str = datetime.now(timezone.utc).strftime(\"%Y-%m-%d\")\n\n    server  = os.getenv(\"GITHUB_SERVER_URL\", \"https://github.com\")\n    repo    = os.getenv(\"GITHUB_REPOSITORY\", \"bader1919/pf-pipeline\")\n    run_id  = os.getenv(\"GITHUB_RUN_ID\", \"\")\n    workflow_link = f\"{server}/{repo}/actions/runs/{run_id}\" if run_id else f\"{server}/{repo}/actions\"\n\n    subject = f\"[PropertyFinder] Run \u2014 {icon} {status} \u2014 {date_str}\"\n\n    if status == \"PASS\":\n        summary = (\n            f\"Scrape completed successfully with {total} active listings. \"\n            f\"{new_} new properties added and {removed} removed since the last run.\"\n        )\n    else:\n        viol_count = len(violations)\n        summary = (\n            f\"Quality gate failed with {viol_count} violation(s) detected. \"\n            f\"Listings collected: {total}. Review violations below.\"\n        )\n\n    lines = [\n        f\"Run completed: {ts_str}\",\n        \"\",\n        f\"Status:      {icon} {status}\",\n        f\"Score:       {score}\",\n        f\"Total:       {total} listings\",\n        f\"New:         {new_}\",\n        f\"Removed:     {removed}\",\n        f\"Duration:    {duration}\",\n        \"\",\n        \"Summary:\",\n        summary,\n    ]\n\n    if violations:\n        lines += [\"\", \"Violations:\"]\n        for v in violations:\n            lines.append(f\"  \u2022 {v}\")\n\n    lines += [\"\", f\"Workflow: {workflow_link}\"]\n\n    return subject, \"\\n\".join(lines)\n\n\n# \u2500\u2500 Sending \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndef send_email(subject: str, body: str) -> None:\n    recipient = os.environ[\"RECIPIENT_EMAIL\"]\n    password  = os.environ[\"SMTP_PASSWORD\"]\n    sender    = os.getenv(\"SMTP_FROM\", recipient)\n\n    msg = MIMEText(body, \"plain\", \"utf-8\")\n    msg[\"Subject\"] = subject\n    msg[\"From\"]    = sender\n    msg[\"To\"]      = recipient\n\n    with smtplib.SMTP_SSL(\"smtp.gmail.com\", 465) as smtp:\n        smtp.login(sender, password)\n        smtp.sendmail(sender, [recipient], msg.as_string())\n\n\ndef main() -> None:\n    test_mode = \"--test\" in sys.argv\n\n    qr      = parse_quality_report(QUALITY_REPORT)\n    metrics = parse_metrics(METRICS_JSON)\n    subject, body = build_email(qr, metrics)\n\n    if test_mode:\n        print(f\"Subject: {subject}\")\n        print(\"-\" * 60)\n        print(body)\n        return\n\n    try:\n        send_email(subject, body)\n        print(f\"[email_notification] Sent: {subject}\")\n    except KeyError as e:\n        print(f\"[email_notification] WARNING: missing env var {e} \u2014 skipping email\", file=sys.stderr)\n    except Exception as e:\n        print(f\"[email_notification] WARNING: email failed \u2014 {e}\", file=sys.stderr)\n    # Always exit 0 \u2014 never block the pipeline\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "generate_briefing.py", "type": "text", "content": "#!/usr/bin/env python3\n\"\"\"\nPropertyFinder Scraper \u2014 Briefing Generator\nCompares current run against the previous run and writes briefing/latest.md.\n\nUsage:\n    python scripts/generate_briefing.py\n\nLooks for the previous run in data/history/ (latest JSON file by mtime).\nAlways produces an output file, even when report files are missing.\n\"\"\"\n\nimport json\nimport os\nimport re\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nQUALITY_REPORT = Path(\"data/latest/quality_report.md\")\nMETRICS_JSON   = Path(\"data/latest_report.json\")\nHISTORY_DIR    = Path(\"data/history\")\nBRIEFING_OUT   = Path(\"briefing/latest.md\")\n\n# \u2500\u2500 Parsers (same logic as email_notification.py) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndef parse_quality_report(path: Path) -> dict:\n    result = {\"status\": \"UNKNOWN\", \"score\": None, \"violations\": [], \"total_listings\": None}\n    if not path.exists():\n        return result\n    text = path.read_text(encoding=\"utf-8\")\n\n    m = re.search(r\"\\b(PASS|FAIL)\\b\", text[:400], re.IGNORECASE)\n    if m:\n        result[\"status\"] = m.group(1).upper()\n\n    m = re.search(r\"quality\\s+score[:\\s]+([0-9]+(?:\\.[0-9]+)?)\\s*%\", text, re.IGNORECASE)\n    if m:\n        result[\"score\"] = float(m.group(1))\n\n    m = re.search(r\"total\\s+listings?[:\\s]+([0-9,]+)\", text, re.IGNORECASE)\n    if m:\n        result[\"total_listings\"] = int(m.group(1).replace(\",\", \"\"))\n\n    violations_block = re.search(\n        r\"#+\\s*violations?\\b(.*?)(?=^#|\\Z)\", text, re.IGNORECASE | re.DOTALL | re.MULTILINE\n    )\n    if violations_block:\n        lines = violations_block.group(1).strip().splitlines()\n        result[\"violations\"] = [\n            l.lstrip(\"-* \").strip() for l in lines if l.strip()\n        ][:5]\n    return result\n\n\ndef parse_metrics(path: Path) -> dict:\n    result = {\n        \"total_listings\": None,\n        \"new_listings\": None,\n        \"removed_listings\": None,\n        \"timestamp\": None,\n        \"duration_seconds\": None,\n    }\n    if not path.exists():\n        return result\n    try:\n        data = json.loads(path.read_text(encoding=\"utf-8\"))\n        for key in result:\n            if key in data:\n                result[key] = data[key]\n        if result[\"total_listings\"] is None:\n            result[\"total_listings\"] = data.get(\"total\") or data.get(\"count\")\n    except (json.JSONDecodeError, OSError):\n        pass\n    return result\n\n\ndef load_previous_metrics() -> dict:\n    \"\"\"Return the most-recent historical JSON from data/history/, or empty dict.\"\"\"\n    if not HISTORY_DIR.exists():\n        return {}\n    candidates = sorted(HISTORY_DIR.glob(\"*.json\"), key=lambda p: p.stat().st_mtime, reverse=True)\n    if not candidates:\n        return {}\n    try:\n        return json.loads(candidates[0].read_text(encoding=\"utf-8\"))\n    except (json.JSONDecodeError, OSError):\n        return {}\n\n\n# \u2500\u2500 Helpers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndef _fmt_int(val) -> str:\n    return f\"{int(val):,}\" if val is not None else \"\u2014\"\n\ndef _fmt_float(val, decimals=1) -> str:\n    return f\"{val:.{decimals}f}%\" if val is not None else \"\u2014\"\n\ndef _fmt_duration(seconds) -> str:\n    if seconds is None:\n        return \"\u2014\"\n    m, s = divmod(int(seconds), 60)\n    return f\"{m}m {s}s\" if m else f\"{s}s\"\n\ndef _trend(current, previous) -> str:\n    if current is None or previous is None:\n        return \"\u2192 (no history)\"\n    diff = current - previous\n    if diff > 0.2:\n        return f\"improving \u2191 (+{diff:.1f}%)\"\n    elif diff < -0.2:\n        return f\"degrading \u2193 ({diff:.1f}%)\"\n    else:\n        return \"stable \u2192\"\n\n\n# \u2500\u2500 Briefing builder \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndef build_briefing(qr: dict, metrics: dict, prev: dict) -> str:\n    now_str   = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n    status    = qr[\"status\"]\n    icon      = \"\u2705\" if status == \"PASS\" else \"\u274c\" if status == \"FAIL\" else \"\u2753\"\n    score     = qr[\"score\"]\n    prev_score = prev.get(\"quality_score\") or prev.get(\"score\")\n    total     = metrics[\"total_listings\"] or qr[\"total_listings\"]\n    new_      = metrics[\"new_listings\"]\n    removed   = metrics[\"removed_listings\"]\n    duration  = metrics[\"duration_seconds\"]\n    violations = qr[\"violations\"]\n    prev_total = prev.get(\"total_listings\") or prev.get(\"total\")\n\n    # Latest run line\n    run_line = (\n        f\"{icon} {status} | Score: {_fmt_float(score)} | \"\n        f\"Total: {_fmt_int(total)} | Duration: {_fmt_duration(duration)}\"\n    )\n\n    # Highlights\n    highlights = []\n    if new_ is not None and removed is not None:\n        highlights.append(f\"{_fmt_int(new_)} new listings added, {_fmt_int(removed)} removed.\")\n    if violations:\n        highlights.append(f\"{len(violations)} quality violation(s): {violations[0]}\" +\n                          (f\" (and {len(violations)-1} more)\" if len(violations) > 1 else \"\"))\n    else:\n        highlights.append(\"No quality violations detected.\")\n\n    if prev_total and total:\n        delta = int(total) - int(prev_total)\n        sign = \"+\" if delta >= 0 else \"\"\n        highlights.append(f\"Listing count changed by {sign}{delta:,} vs previous run.\")\n\n    # Recommendation\n    if status == \"FAIL\":\n        recommendation = \"Investigate quality violations before the next scheduled run.\"\n    elif score is not None and score < 95:\n        recommendation = \"Score is below 95% \u2014 review data quality rules.\"\n    else:\n        recommendation = \"No action needed. Pipeline is healthy.\"\n\n    lines = [\n        \"# PropertyFinder Scraper Briefing\",\n        f\"Generated: {now_str}\",\n        \"\",\n        \"## Latest Run\",\n        f\"- {run_line}\",\n        \"\",\n        \"## Highlights\",\n    ]\n    for h in highlights:\n        lines.append(f\"- {h}\")\n\n    lines += [\n        \"\",\n        \"## Quality Trends\",\n        f\"- Current: {_fmt_float(score)} | Previous: {_fmt_float(prev_score)} | Trend: {_trend(score, prev_score)}\",\n        \"\",\n        \"## Next Steps\",\n        f\"- {recommendation}\",\n    ]\n\n    return \"\\n\".join(lines)\n\n\n# \u2500\u2500 Entry point \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\ndef main() -> None:\n    qr      = parse_quality_report(QUALITY_REPORT)\n    metrics = parse_metrics(METRICS_JSON)\n    prev    = load_previous_metrics()\n\n    BRIEFING_OUT.parent.mkdir(parents=True, exist_ok=True)\n    briefing = build_briefing(qr, metrics, prev)\n    BRIEFING_OUT.write_text(briefing, encoding=\"utf-8\")\n    print(f\"[generate_briefing] Written: {BRIEFING_OUT}\")\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "setup_guide.md", "type": "text", "content": "# PropertyFinder Scraper \u2014 Email Alerts Setup Guide\n\n## 1. Gmail App Password\n\nGmail requires an App Password (not your normal password) for SMTP access.\n\n1. Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)\n2. Sign in if prompted.\n3. Under \"Select app\" choose **Mail**; under \"Select device\" choose **Other** and type `pf-pipeline`.\n4. Click **Generate** \u2014 copy the 16-character password shown. You won't see it again.\n\n> If the App Passwords page is missing, ensure 2-Step Verification is enabled on your account first.\n\n---\n\n## 2. GitHub Secrets\n\nAdd two secrets to `bader1919/pf-pipeline`:\n\n1. Go to **Settings \u2192 Secrets and variables \u2192 Actions \u2192 New repository secret**\n2. Add:\n\n| Name | Value |\n|------|-------|\n| `EMAIL_ADDRESS` | `bader.abdulrahim@gmail.com` |\n| `SMTP_PASSWORD` | the 16-character App Password from step 1 |\n\n---\n\n## 3. Patch Your Workflow\n\nOpen `.github/workflows/scrape.yml` (or whichever file runs the scraper every 4 hours) and paste the contents of `workflow_patch.yml` **after** your quality gate step.\n\nExample placement:\n\n```yaml\n      - name: Quality Gate\n        run: python scripts/quality_check.py\n\n      # \u2190 paste workflow_patch.yml contents here\n```\n\n---\n\n## 4. Local Testing\n\nTest the email script without sending anything:\n\n```bash\npython scripts/email_notification.py --test\n```\n\nThis prints the formatted email to stdout. No credentials needed.\n\nTo test the briefing generator:\n\n```bash\npython scripts/generate_briefing.py\ncat briefing/latest.md\n```\n\n---\n\n## 5. History Tracking (for trend diffs)\n\nThe workflow patch already includes a step that archives each run:\n\n```\ndata/history/20260602T120000Z.json\ndata/history/20260602T160000Z.json\n...\n```\n\n`generate_briefing.py` reads the most recent file in `data/history/` to compute trends. No extra setup needed.\n\nTo persist history across workflow runs, commit it or use a GitHub Actions cache. The simplest approach: add a **commit step** at the end of your workflow:\n\n```yaml\n      - name: Commit history\n        run: |\n          git config user.name \"github-actions[bot]\"\n          git config user.email \"github-actions[bot]@users.noreply.github.com\"\n          git add data/history/ briefing/\n          git diff --cached --quiet || git commit -m \"chore: archive run $(date -u +%Y%m%dT%H%M%SZ)\"\n          git push\n```\n\n---\n\n## 6. Files to Commit\n\n```\nscripts/email_notification.py\nscripts/generate_briefing.py\nbriefing/.gitkeep\ndata/history/.gitkeep\n```\n\nAdd to `.gitignore` if you don't want to track history in git:\n\n```\ndata/history/\nbriefing/\n```\n\n---\n\n## Email Preview (--test output)\n\n```\nSubject: [PropertyFinder] Run \u2014 \u2705 PASS \u2014 2026-06-02\n------------------------------------------------------------\nRun completed: 2026-06-02 12:00 UTC\n\nStatus:      \u2705 PASS\nScore:       97.3%\nTotal:       1,248 listings\nNew:         14\nRemoved:     3\nDuration:    4m 12s\n\nSummary:\nScrape completed successfully with 1,248 active listings.\n14 new properties added and 3 removed since the last run.\n\nWorkflow: https://github.com/bader1919/pf-pipeline/actions/runs/12345\n```\n"}, {"name": "workflow_patch.yml", "type": "text", "content": "# \u2500\u2500 Paste this block after your quality gate step in .github/workflows/*.yml \u2500\u2500\n# Recommended workflow file: .github/workflows/scrape.yml (runs every 4 hours)\n\n      - name: Send Email Notification\n        if: always()\n        env:\n          RECIPIENT_EMAIL: ${{ secrets.EMAIL_ADDRESS }}\n          SMTP_PASSWORD:   ${{ secrets.SMTP_PASSWORD }}\n          SMTP_FROM:       ${{ secrets.EMAIL_ADDRESS }}\n        run: python scripts/email_notification.py\n\n      - name: Generate Briefing\n        if: always()\n        run: python scripts/generate_briefing.py\n\n      - name: Archive run to history\n        if: always()\n        run: |\n          mkdir -p data/history\n          STAMP=$(date -u +\"%Y%m%dT%H%M%SZ\")\n          cp data/latest_report.json \"data/history/${STAMP}.json\" 2>/dev/null || true\n\n      - name: Upload Briefing\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: pipeline-briefing\n          path: briefing/latest.md\n"}], "grading": {"expectations": [{"text": "email_notification.py has --test flag", "passed": true, "evidence": "grep for --test in script"}, {"text": "Script exits 0 on email failure (non-fatal)", "passed": true, "evidence": "grep for exception handling and exit(0)"}, {"text": "All credentials use environment variables only", "passed": true, "evidence": "no hardcoded password literals found"}, {"text": "generate_briefing.py writes to briefing/latest.md", "passed": true, "evidence": "grep for briefing/latest in generate_briefing.py"}, {"text": "Workflow YAML has if: always() on email step", "passed": true, "evidence": "grep in yml file"}, {"text": "Setup guide covers Gmail App Password and GitHub Secrets", "passed": true, "evidence": "grep in setup_guide.md"}]}}, {"id": "propertyfinder-scraper-without_skill", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "email_notification.py", "type": "text", "content": "#!/usr/bin/env python3\n\"\"\"\nSend email notification after PropertyFinder scraper run.\nReads quality_report.md and latest_report.json, sends summary to bader.abdulrahim@gmail.com.\n\nUsage (called from GitHub Actions):\n    python email_notification.py\n\nRequired env vars:\n    SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD\n    NOTIFY_EMAIL (optional, defaults to bader.abdulrahim@gmail.com)\n\"\"\"\n\nimport json\nimport os\nimport re\nimport smtplib\nimport sys\nfrom datetime import datetime\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom pathlib import Path\n\nQUALITY_REPORT = Path(\"data/latest/quality_report.md\")\nLATEST_REPORT = Path(\"data/latest_report.json\")\n\nTO_EMAIL = os.environ.get(\"NOTIFY_EMAIL\", \"bader.abdulrahim@gmail.com\")\nSMTP_HOST = os.environ.get(\"SMTP_HOST\", \"smtp.gmail.com\")\nSMTP_PORT = int(os.environ.get(\"SMTP_PORT\", \"587\"))\nSMTP_USER = os.environ.get(\"SMTP_USER\", \"\")\nSMTP_PASSWORD = os.environ.get(\"SMTP_PASSWORD\", \"\")\nREPO = os.environ.get(\"GITHUB_REPOSITORY\", \"bader1919/pf-pipeline\")\nRUN_ID = os.environ.get(\"GITHUB_RUN_ID\", \"\")\nSERVER_URL = os.environ.get(\"GITHUB_SERVER_URL\", \"https://github.com\")\nRUN_URL = f\"{SERVER_URL}/{REPO}/actions/runs/{RUN_ID}\" if RUN_ID else f\"{SERVER_URL}/{REPO}/actions\"\n\n\ndef parse_quality_report(path):\n    text = path.read_text(encoding=\"utf-8\")\n    result = {\"raw\": text, \"status\": \"UNKNOWN\", \"score\": None, \"total_listings\": None, \"violations\": []}\n\n    if re.search(r\"\\bPASS\\b\", text):\n        result[\"status\"] = \"PASS\"\n    elif re.search(r\"\\bFAIL\\b\", text):\n        result[\"status\"] = \"FAIL\"\n\n    m = re.search(r\"Quality Score[:\\s]+([0-9]+\\.?[0-9]*)%\", text)\n    if m:\n        result[\"score\"] = float(m.group(1))\n\n    m = re.search(r\"(?i)total listings[:\\s]+([0-9,]+)\", text)\n    if m:\n        result[\"total_listings\"] = int(m.group(1).replace(\",\", \"\"))\n\n    violations_block = re.search(r\"(?i)#+\\s*Violations(.*?)(?=\\n#+|\\Z)\", text, re.DOTALL)\n    if violations_block:\n        for line in violations_block.group(1).strip().splitlines():\n            line = line.strip()\n            if line.startswith((\"-\", \"*\", \"\u2022\")) and len(line) > 2:\n                result[\"violations\"].append(line.lstrip(\"-*\u2022 \").strip())\n\n    return result\n\n\ndef parse_latest_report(path):\n    with path.open(encoding=\"utf-8\") as f:\n        return json.load(f)\n\n\ndef build_email(qr, lr):\n    status = qr[\"status\"]\n    score = f\"{qr['score']}%\" if qr[\"score\"] is not None else \"N/A\"\n    total = lr.get(\"total_listings\", qr.get(\"total_listings\", \"N/A\"))\n    new = lr.get(\"new_listings\", \"N/A\")\n    removed = lr.get(\"removed_listings\", \"N/A\")\n    ts = lr.get(\"timestamp\", datetime.utcnow().isoformat())\n    duration = lr.get(\"duration_seconds\")\n    duration_str = f\"{duration}s\" if duration is not None else \"N/A\"\n\n    status_icon = \"PASS\" if status == \"PASS\" else \"FAIL\"\n    subject = f\"[PF Pipeline] Quality {status_icon} | Score {score} | {ts[:10]}\"\n    color = \"#2e7d32\" if status == \"PASS\" else \"#c62828\"\n\n    violations_html = \"\"\n    if qr[\"violations\"]:\n        items = \"\".join(f\"<li>{v}</li>\" for v in qr[\"violations\"])\n        violations_html = f\"<h3>Violations</h3><ul>{items}</ul>\"\n    else:\n        violations_html = \"<p><em>No violations recorded.</em></p>\"\n\n    html = f\"\"\"<html><body style=\"font-family:sans-serif;color:#222;max-width:600px\">\n  <h2 style=\"color:{color}\">PropertyFinder Pipeline &mdash; {status}</h2>\n  <table style=\"border-collapse:collapse;width:100%\">\n    <tr><td style=\"padding:6px;border:1px solid #ddd\"><b>Quality Score</b></td><td style=\"padding:6px;border:1px solid #ddd\">{score}</td></tr>\n    <tr><td style=\"padding:6px;border:1px solid #ddd\"><b>Total Listings</b></td><td style=\"padding:6px;border:1px solid #ddd\">{total}</td></tr>\n    <tr><td style=\"padding:6px;border:1px solid #ddd\"><b>New Listings</b></td><td style=\"padding:6px;border:1px solid #ddd\">{new}</td></tr>\n    <tr><td style=\"padding:6px;border:1px solid #ddd\"><b>Removed Listings</b></td><td style=\"padding:6px;border:1px solid #ddd\">{removed}</td></tr>\n    <tr><td style=\"padding:6px;border:1px solid #ddd\"><b>Duration</b></td><td style=\"padding:6px;border:1px solid #ddd\">{duration_str}</td></tr>\n    <tr><td style=\"padding:6px;border:1px solid #ddd\"><b>Timestamp</b></td><td style=\"padding:6px;border:1px solid #ddd\">{ts}</td></tr>\n  </table>\n  {violations_html}\n  <p><a href=\"{RUN_URL}\">View GitHub Actions run</a></p>\n</body></html>\"\"\"\n\n    plain = (\n        f\"PropertyFinder Pipeline -- {status}\\n\"\n        f\"Quality Score : {score}\\n\"\n        f\"Total Listings: {total}\\n\"\n        f\"New Listings  : {new}\\n\"\n        f\"Removed       : {removed}\\n\"\n        f\"Duration      : {duration_str}\\n\"\n        f\"Timestamp     : {ts}\\n\"\n    )\n    if qr[\"violations\"]:\n        plain += \"\\nViolations:\\n\" + \"\\n\".join(f\"  - {v}\" for v in qr[\"violations\"])\n    plain += f\"\\n\\nRun URL: {RUN_URL}\"\n\n    return subject, plain, html\n\n\ndef send_email(subject, plain, html):\n    if not SMTP_USER or not SMTP_PASSWORD:\n        print(\"ERROR: SMTP_USER and SMTP_PASSWORD must be set.\", file=sys.stderr)\n        sys.exit(1)\n\n    msg = MIMEMultipart(\"alternative\")\n    msg[\"Subject\"] = subject\n    msg[\"From\"] = SMTP_USER\n    msg[\"To\"] = TO_EMAIL\n    msg.attach(MIMEText(plain, \"plain\"))\n    msg.attach(MIMEText(html, \"html\"))\n\n    with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:\n        server.ehlo()\n        server.starttls()\n        server.login(SMTP_USER, SMTP_PASSWORD)\n        server.sendmail(SMTP_USER, TO_EMAIL, msg.as_string())\n\n    print(f\"Email sent to {TO_EMAIL}: {subject}\")\n\n\ndef main():\n    if not QUALITY_REPORT.exists():\n        print(f\"ERROR: {QUALITY_REPORT} not found.\", file=sys.stderr)\n        sys.exit(1)\n    if not LATEST_REPORT.exists():\n        print(f\"ERROR: {LATEST_REPORT} not found.\", file=sys.stderr)\n        sys.exit(1)\n\n    qr = parse_quality_report(QUALITY_REPORT)\n    lr = parse_latest_report(LATEST_REPORT)\n    subject, plain, html = build_email(qr, lr)\n    send_email(subject, plain, html)\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "generate_briefing.py", "type": "text", "content": "#!/usr/bin/env python3\n\"\"\"\nGenerate a plain-text daily briefing from the latest PropertyFinder scraper output.\nPrints to stdout \u2014 pipe to a file or use in a GitHub Actions step.\n\nUsage:\n    python generate_briefing.py\n    python generate_briefing.py > briefing.txt\n\"\"\"\n\nimport json\nimport re\nimport sys\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\nQUALITY_REPORT = Path(\"data/latest/quality_report.md\")\nLATEST_REPORT = Path(\"data/latest_report.json\")\n\n\ndef parse_quality_report(path):\n    text = path.read_text(encoding=\"utf-8\")\n    result = {\"status\": \"UNKNOWN\", \"score\": None, \"total_listings\": None, \"violations\": []}\n\n    if re.search(r\"\\bPASS\\b\", text):\n        result[\"status\"] = \"PASS\"\n    elif re.search(r\"\\bFAIL\\b\", text):\n        result[\"status\"] = \"FAIL\"\n\n    m = re.search(r\"Quality Score[:\\s]+([0-9]+\\.?[0-9]*)%\", text)\n    if m:\n        result[\"score\"] = float(m.group(1))\n\n    m = re.search(r\"(?i)total listings[:\\s]+([0-9,]+)\", text)\n    if m:\n        result[\"total_listings\"] = int(m.group(1).replace(\",\", \"\"))\n\n    violations_block = re.search(r\"(?i)#+\\s*Violations(.*?)(?=\\n#+|\\Z)\", text, re.DOTALL)\n    if violations_block:\n        for line in violations_block.group(1).strip().splitlines():\n            line = line.strip()\n            if line.startswith((\"-\", \"*\", \"\u2022\")) and len(line) > 2:\n                result[\"violations\"].append(line.lstrip(\"-*\u2022 \").strip())\n\n    return result\n\n\ndef parse_latest_report(path):\n    with path.open(encoding=\"utf-8\") as f:\n        return json.load(f)\n\n\ndef format_briefing(qr, lr):\n    now = datetime.now(timezone.utc).strftime(\"%Y-%m-%d %H:%M UTC\")\n    status = qr[\"status\"]\n    score = f\"{qr['score']}%\" if qr[\"score\"] is not None else \"N/A\"\n    total = lr.get(\"total_listings\", qr.get(\"total_listings\", \"N/A\"))\n    new = lr.get(\"new_listings\", \"N/A\")\n    removed = lr.get(\"removed_listings\", \"N/A\")\n    ts = lr.get(\"timestamp\", now)\n    duration = lr.get(\"duration_seconds\")\n    duration_str = f\"{duration}s\" if duration is not None else \"N/A\"\n\n    lines = [\n        \"=\" * 52,\n        \"  PropertyFinder Pipeline \u2014 Daily Briefing\",\n        f\"  Generated : {now}\",\n        \"=\" * 52,\n        \"\",\n        f\"  Status        : {status}\",\n        f\"  Quality Score : {score}\",\n        \"\",\n        \"  Listings\",\n        f\"    Total   : {total}\",\n        f\"    New     : {new}\",\n        f\"    Removed : {removed}\",\n        \"\",\n        \"  Run Info\",\n        f\"    Timestamp : {ts}\",\n        f\"    Duration  : {duration_str}\",\n    ]\n\n    if qr[\"violations\"]:\n        lines += [\"\", f\"  Violations ({len(qr['violations'])})\"]\n        for v in qr[\"violations\"]:\n            lines.append(f\"    - {v}\")\n    else:\n        lines += [\"\", \"  Violations : None\"]\n\n    lines += [\"\", \"=\" * 52]\n    return \"\\n\".join(lines)\n\n\ndef main():\n    missing = [p for p in (QUALITY_REPORT, LATEST_REPORT) if not p.exists()]\n    if missing:\n        for p in missing:\n            print(f\"ERROR: {p} not found.\", file=sys.stderr)\n        sys.exit(1)\n\n    qr = parse_quality_report(QUALITY_REPORT)\n    lr = parse_latest_report(LATEST_REPORT)\n    print(format_briefing(qr, lr))\n\n\nif __name__ == \"__main__\":\n    main()\n"}, {"name": "setup_guide.md", "type": "text", "content": "# Setup Guide \u2014 PropertyFinder Scraper Email Alerts\n\n## What gets deployed\n\n| File | Purpose |\n|---|---|\n| `email_notification.py` | Reads output files, sends HTML + plain-text email |\n| `generate_briefing.py` | Prints a plain-text briefing to stdout |\n| `workflow_patch.yml` | GitHub Actions YAML showing where to add the two steps |\n\n---\n\n## 1. Add scripts to your repo\n\nCopy `email_notification.py` and `generate_briefing.py` to the root of `bader1919/pf-pipeline` (same level as your existing workflow scripts).\n\n```\npf-pipeline/\n\u251c\u2500\u2500 .github/workflows/scraper.yml\n\u251c\u2500\u2500 email_notification.py        \u2190 add this\n\u251c\u2500\u2500 generate_briefing.py         \u2190 add this\n\u2514\u2500\u2500 data/\n    \u251c\u2500\u2500 latest/quality_report.md\n    \u2514\u2500\u2500 latest_report.json\n```\n\n---\n\n## 2. Add GitHub Actions secrets\n\nGo to **Settings \u2192 Secrets and variables \u2192 Actions \u2192 New repository secret** in `bader1919/pf-pipeline`.\n\n| Secret name | Value |\n|---|---|\n| `SMTP_USER` | Your Gmail address, e.g. `yourname@gmail.com` |\n| `SMTP_PASSWORD` | A Gmail **App Password** (see step 3) |\n\n> Do **not** use your regular Gmail password. App Passwords are required when 2FA is enabled.\n\n---\n\n## 3. Create a Gmail App Password\n\n1. Go to <https://myaccount.google.com/security>\n2. Under \"How you sign in to Google\", open **2-Step Verification** (enable it if not already on).\n3. Scroll to the bottom \u2192 **App passwords**.\n4. Choose app: *Mail*, device: *Other* \u2192 type `pf-pipeline` \u2192 click **Generate**.\n5. Copy the 16-character password and paste it as the `SMTP_PASSWORD` secret.\n\n---\n\n## 4. Patch your workflow YAML\n\nOpen `.github/workflows/scraper.yml`. Add the `env:` block and the two new steps shown in `workflow_patch.yml`.\n\nMinimal diff:\n\n```yaml\njobs:\n  scrape:\n    runs-on: ubuntu-latest\n\n    env:                                      # \u2190 add this block\n      SMTP_HOST: smtp.gmail.com\n      SMTP_PORT: \"587\"\n      SMTP_USER: ${{ secrets.SMTP_USER }}\n      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}\n      NOTIFY_EMAIL: bader.abdulrahim@gmail.com\n\n    steps:\n      # ... your existing steps ...\n\n      - name: Generate briefing                # \u2190 add this step\n        run: python generate_briefing.py | tee briefing.txt\n\n      - name: Send email notification          # \u2190 add this step\n        if: always()\n        run: python email_notification.py\n```\n\nThe `if: always()` on the email step ensures you get notified even when the quality gate fails.\n\n---\n\n## 5. Verify it works\n\n**Option A \u2014 trigger manually:**\n1. Push your changes.\n2. Go to **Actions \u2192 PropertyFinder Scraper \u2192 Run workflow**.\n3. Check your inbox at `bader.abdulrahim@gmail.com`.\n\n**Option B \u2014 dry-run locally:**\n```bash\n# Set env vars\nexport SMTP_USER=\"yourname@gmail.com\"\nexport SMTP_PASSWORD=\"your-app-password\"\n\n# Run briefing (no email sent)\npython generate_briefing.py\n\n# Run email script (sends real email)\npython email_notification.py\n```\n\n---\n\n## Email format\n\n**Subject:** `[PF Pipeline] Quality PASS | Score 97.3% | 2026-06-02`\n\n**Body includes:**\n- Quality gate status (PASS / FAIL) with color coding\n- Quality score\n- Total / new / removed listing counts\n- Run duration and timestamp\n- Violations list (if any)\n- Link to the GitHub Actions run\n\n---\n\n## Troubleshooting\n\n| Symptom | Fix |\n|---|---|\n| `SMTPAuthenticationError` | App Password is wrong or 2FA not enabled \u2014 regenerate it |\n| `ERROR: data/latest/quality_report.md not found` | Script ran before the scraper finished \u2014 check step order in YAML |\n| Email lands in spam | Add `yourname@gmail.com` to your contacts or create a Gmail filter |\n| Score shows N/A | Check that `quality_report.md` contains the text `Quality Score: XX.X%` |\n"}, {"name": "workflow_patch.yml", "type": "text", "content": "# Patch: add email notification step to your existing scraper workflow.\n# Merge the job steps below into your .github/workflows/scraper.yml\n# after the step that produces data/latest/quality_report.md and data/latest_report.json.\n#\n# Full minimal example shown. If you already have a workflow, add:\n#   1. The `env:` block at the workflow level (or job level).\n#   2. The two steps at the bottom of your scraper job.\n\nname: PropertyFinder Scraper\n\non:\n  schedule:\n    - cron: \"0 */4 * * *\"   # every 4 hours\n  workflow_dispatch:         # allow manual runs\n\njobs:\n  scrape:\n    runs-on: ubuntu-latest\n\n    env:\n      SMTP_HOST: smtp.gmail.com\n      SMTP_PORT: \"587\"\n      SMTP_USER: ${{ secrets.SMTP_USER }}\n      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}\n      NOTIFY_EMAIL: bader.abdulrahim@gmail.com\n\n    steps:\n      # --- your existing steps go here ---\n      # - name: Checkout\n      #   uses: actions/checkout@v4\n      # - name: Run scraper\n      #   run: python scraper.py\n      # ------------------------------------\n\n      - name: Generate briefing\n        run: python generate_briefing.py | tee briefing.txt\n\n      - name: Send email notification\n        if: always()   # send even when quality gate fails\n        run: python email_notification.py\n"}], "grading": {"expectations": [{"text": "email_notification.py has --test flag", "passed": false, "evidence": "grep for --test in script"}, {"text": "Script exits 0 on email failure (non-fatal)", "passed": false, "evidence": "grep for exception handling and exit(0)"}, {"text": "All credentials use environment variables only", "passed": true, "evidence": "no hardcoded password literals found"}, {"text": "generate_briefing.py writes to briefing/latest.md", "passed": true, "evidence": "grep for briefing/latest in generate_briefing.py"}, {"text": "Workflow YAML has if: always() on email step", "passed": true, "evidence": "grep in yml file"}, {"text": "Setup guide covers Gmail App Password and GitHub Secrets", "passed": true, "evidence": "grep in setup_guide.md"}]}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"skill_name": "pipeline-email-alerts", "iteration": 1, "configurations": [{"name": "with_skill", "evals": [{"eval_name": "propertyfinder-scraper", "pass_rate": 1.0, "total_tokens": 31645, "duration_ms": 139003}, {"eval_name": "ml-training-pipeline", "pass_rate": 1.0, "total_tokens": 30827, "duration_ms": 116592}, {"eval_name": "generic-data-pipeline", "pass_rate": 1.0, "total_tokens": 29713, "duration_ms": 113000}], "summary": {"pass_rate_mean": 1.0, "pass_rate_stddev": 0.0, "tokens_mean": 30728, "tokens_stddev": 987, "duration_ms_mean": 122865, "duration_ms_stddev": 13485}}, {"name": "without_skill", "evals": [{"eval_name": "propertyfinder-scraper", "pass_rate": 0.667, "total_tokens": 29241, "duration_ms": 123210}, {"eval_name": "ml-training-pipeline", "pass_rate": 0.667, "total_tokens": 27770, "duration_ms": 99364}, {"eval_name": "generic-data-pipeline", "pass_rate": 0.667, "total_tokens": 27472, "duration_ms": 102000}], "summary": {"pass_rate_mean": 0.667, "pass_rate_stddev": 0.0, "tokens_mean": 28161, "tokens_stddev": 963, "duration_ms_mean": 108191, "duration_ms_stddev": 12851}}], "delta": {"pass_rate": "+0.333 (with_skill wins)", "tokens": "+2567 tokens (with_skill uses slightly more)", "duration_ms": "+14674ms (with_skill slower due to reading skill)"}}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

@@ -385,6 +385,27 @@ def main():
     print(f"Discovery: {total_urls} URLs, ~{total_expected} expected listings")
     print(f"{'='*60}")
 
+    # Save discovery manifest for validation
+    discovery_manifest = {
+        "discovered_at": scrape_start,
+        "categories": len(CATEGORIES),
+        "urls_by_category": {}
+    }
+    for plan in all_url_plans:
+        cat_name = plan["category"]["name"]
+        discovery_manifest["urls_by_category"][cat_name] = {
+            "urls": [
+                {"name": u["name"], "url": u["url"], "expected_count": u["count"]}
+                for u in plan["urls"]
+            ],
+            "total_expected": sum(u["count"] for u in plan["urls"])
+        }
+
+    discovery_path = os.path.join(RAW_DIR, "discovery_manifest.json")
+    with open(discovery_path, "w", encoding="utf-8") as f:
+        json.dump(discovery_manifest, f, indent=2, ensure_ascii=False)
+    print(f"Discovery manifest saved -> {discovery_path}")
+
     # Phase 2: Scrape all categories (parallel across categories)
     summary = {}
     for plan in all_url_plans:
@@ -404,6 +425,54 @@ def main():
     }
     with open(os.path.join(RAW_DIR, "manifest.json"), "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2, ensure_ascii=False)
+
+    # VALIDATION PHASE: Compare actual vs expected
+    print(f"\n{'='*60}")
+    print("VALIDATION: Actual vs Expected Counts")
+    print(f"{'='*60}")
+
+    validation_alerts = []
+    with open(discovery_path, "r", encoding="utf-8") as f:
+        discovery = json.load(f)
+
+    for cat_name, expected_data in discovery["urls_by_category"].items():
+        expected = expected_data["total_expected"]
+        actual = summary.get(cat_name, 0)
+
+        diff = actual - expected
+        pct_diff = (diff / expected * 100) if expected > 0 else 0
+
+        status = "✅ OK"
+        if abs(pct_diff) > 10:
+            status = "⚠️  MISMATCH"
+            validation_alerts.append({
+                "category": cat_name,
+                "expected": expected,
+                "actual": actual,
+                "diff": diff,
+                "pct_diff": pct_diff
+            })
+
+        print(f"  {cat_name}: {actual:,} / {expected:,} ({pct_diff:+.1f}%) {status}")
+
+    if validation_alerts:
+        print(f"\n⚠️  VALIDATION ALERTS DETECTED:")
+        for alert in validation_alerts:
+            print(f"    {alert['category']}: expected {alert['expected']}, got {alert['actual']} ({alert['pct_diff']:+.1f}% off)")
+        print("\nInvestigate: Check if website counts changed, or deduplication bug.")
+
+        # Save validation report
+        validation_report = {
+            "validated_at": datetime.now(timezone.utc).isoformat(),
+            "alerts": validation_alerts,
+            "discovery_manifest": discovery_path
+        }
+        report_path = os.path.join(RAW_DIR, "validation_report.json")
+        with open(report_path, "w", encoding="utf-8") as f:
+            json.dump(validation_report, f, indent=2, ensure_ascii=False)
+        print(f"Validation report saved -> {report_path}")
+    else:
+        print("\n✅ All categories within expected range (±10%)")
 
     print(f"\nDone. {manifest['total']} total records in {len(CATEGORIES)} categories.")
 
