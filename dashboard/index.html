@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyFinder Pipeline Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .status-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .runs-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .actions-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        .status-badge { display: inline-block; padding: 8px 16px; border-radius: 20px; font-weight: bold; margin-bottom: 15px; }
+        .status-healthy { background: #10b981; color: white; }
+        .status-warning { background: #f59e0b; color: white; }
+        .status-error { background: #ef4444; color: white; }
+        .status-unknown { background: #6b7280; color: white; }
+
+        .metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .metric:last-child { border-bottom: none; }
+        .metric-label { color: #666; }
+        .metric-value { font-weight: bold; }
+
+        .run-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .run-item:last-child { border-bottom: none; }
+        .run-status { margin-right: 10px; font-size: 20px; }
+        .run-time { flex: 1; }
+        .run-details { color: #666; font-size: 14px; }
+
+        .action-button { display: inline-block; padding: 10px 20px; margin: 5px; background: #3b82f6; color: white; text-decoration: none; border-radius: 6px; }
+        .action-button:hover { background: #2563eb; }
+
+        .loading { text-align: center; padding: 40px; color: #666; }
+        .error { background: #fef2f2; border: 1px solid #fee2e2; padding: 15px; border-radius: 6px; color: #991b1b; }
+
+        h1 { margin-bottom: 10px; }
+        h2 { margin-bottom: 15px; font-size: 18px; }
+
+        .last-updated { text-align: center; color: #999; font-size: 12px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 PropertyFinder Pipeline Dashboard</h1>
+            <div class="last-updated" id="lastUpdated">Loading...</div>
+        </div>
+
+        <div class="status-card">
+            <div id="statusBadge" class="status-badge status-unknown">Unknown</div>
+            <h2 id="statusText">Checking pipeline status...</h2>
+
+            <div class="metric">
+                <span class="metric-label">Last Run:</span>
+                <span class="metric-value" id="lastRun">Loading...</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Quality Score:</span>
+                <span class="metric-value" id="qualityScore">Loading...</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Total Listings:</span>
+                <span class="metric-value" id="totalListings">Loading...</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">New Listings:</span>
+                <span class="metric-value" id="newListings">Loading...</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Removed Listings:</span>
+                <span class="metric-value" id="removedListings">Loading...</span>
+            </div>
+        </div>
+
+        <div class="runs-card">
+            <h2>Recent Pipeline Runs</h2>
+            <div id="recentRuns">
+                <div class="loading">Loading recent runs...</div>
+            </div>
+        </div>
+
+        <div class="actions-card">
+            <h2>Quick Actions</h2>
+            <div>
+                <a href="https://github.com/bader1919/pf-pipeline/actions" target="_blank" class="action-button">View GitHub Actions</a>
+                <a href="https://github.com/bader1919/pf-pipeline/tree/main/data/latest" target="_blank" class="action-button">View Latest Data</a>
+                <a href="https://github.com/bader1919/pf-pipeline/blob/main/data/latest/quality_report.md" target="_blank" class="action-button">Quality Report</a>
+                <a href="https://github.com/bader1919/pf-pipeline/actions/workflows/daily_scrape.yml" target="_blank" class="action-button">Run Pipeline Now</a>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            Dashboard updates automatically after each pipeline run
+        </div>
+    </div>
+
+    <script>
+        function formatTime(timestamp) {
+            if (!timestamp) return 'Unknown';
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+
+            if (diffMins < 60) return `${diffMins} minutes ago`;
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            return `${diffDays} days ago`;
+        }
+
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Unknown';
+            const date = new Date(timestamp);
+            return date.toLocaleString();
+        }
+
+        function getStatusClass(status) {
+            switch(status?.toLowerCase()) {
+                case 'healthy': case 'pass': case 'success': return 'status-healthy';
+                case 'warning': return 'status-warning';
+                case 'error': case 'fail': case 'failure': return 'status-error';
+                default: return 'status-unknown';
+            }
+        }
+
+        function getStatusIcon(status) {
+            switch(status?.toLowerCase()) {
+                case 'healthy': case 'pass': case 'success': return '✅';
+                case 'warning': return '⚠️';
+                case 'error': case 'fail': case 'failure': return '❌';
+                default: return '⏳';
+            }
+        }
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+
+                // Update status badge
+                const statusBadge = document.getElementById('statusBadge');
+                statusBadge.className = `status-badge ${getStatusClass(data.status)}`;
+                statusBadge.textContent = data.status?.toUpperCase() || 'UNKNOWN';
+
+                // Update status text
+                document.getElementById('statusText').textContent =
+                    data.status === 'healthy' ? '✨ Pipeline is running smoothly!' :
+                    data.status === 'warning' ? '⚠️ Some issues detected' :
+                    data.status === 'error' ? '❌ Pipeline has problems' :
+                    'Checking pipeline status...';
+
+                // Update metrics
+                document.getElementById('lastRun').textContent = formatTime(data.last_run);
+                document.getElementById('qualityScore').textContent =
+                    `${data.quality_score?.toFixed(1)}%` || 'N/A';
+                document.getElementById('totalListings').textContent =
+                    data.total_listings?.toLocaleString() || 'N/A';
+                document.getElementById('newListings').textContent =
+                    data.new_listings?.toLocaleString() || '0';
+                document.getElementById('removedListings').textContent =
+                    data.removed_listings?.toLocaleString() || '0';
+
+                // Update recent runs
+                const runsContainer = document.getElementById('recentRuns');
+                if (data.recent_runs?.length > 0) {
+                    runsContainer.innerHTML = data.recent_runs.map(run => `
+                        <div class="run-item">
+                            <span class="run-status">${getStatusIcon(run.status)}</span>
+                            <span class="run-time">${formatDate(run.timestamp)}</span>
+                            <span class="run-details">${run.total_listings?.toLocaleString() || 'N/A'} listings • ${formatTime(run.timestamp)}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    runsContainer.innerHTML = '<div class="loading">No recent runs available</div>';
+                }
+
+                // Update last updated time
+                document.getElementById('lastUpdated').textContent =
+                    `Last updated: ${formatDate(data.dashboard_updated)}`;
+
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+                document.getElementById('statusText').innerHTML =
+                    '<div class="error">Failed to load pipeline data. Please check if GitHub Actions are running.</div>';
+                document.getElementById('lastUpdated').textContent = 'Error loading data';
+            }
+        }
+
+        // Load dashboard on page load
+        loadDashboard();
+
+        // Auto-refresh every 5 minutes
+        setInterval(loadDashboard, 5 * 60 * 1000);
+    </script>
+</body>
+</html>

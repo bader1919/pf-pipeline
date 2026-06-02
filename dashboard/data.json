@@ -1,0 +1,10 @@
+{
+  "status": "healthy",
+  "last_run": "2026-06-01T03:27:41.146238+00:00",
+  "quality_score": "PASS",
+  "total_listings": 24607,
+  "new_listings": 25597,
+  "removed_listings": 990,
+  "recent_runs": [],
+  "dashboard_updated": "2026-06-02T05:18:50.997552+00:00"
+}

@@ -1,0 +1,43 @@
+name: Update Pipeline Dashboard
+
+on:
+  workflow_run:
+    workflows: ["Daily Property Scrape", "Timing Study - Find Optimal Scrape Time"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  update_dashboard:
+    name: Update Dashboard Data
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Update dashboard data
+        run: python scripts/update_dashboard.py
+
+      - name: Commit dashboard update
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add dashboard/data.json
+          if git diff --staged --quiet; then
+            echo "No dashboard changes to commit."
+          else
+            git commit -m "dashboard: auto-update after pipeline run"
+            git push
+          fi
