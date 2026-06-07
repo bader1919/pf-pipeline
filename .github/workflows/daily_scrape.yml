@@ -2,9 +2,10 @@ name: Daily Property Scrape
 
 on:
   schedule:
-    # TEMPORARILY DISABLED during timing study
-    # After study completes, uncomment with optimal time:
-    # - cron: "0 2 * * *"  # Runs at 02:00 UTC every day
+    # Optimal time per the June 2026 timing study: 16:00-20:00 UTC (evening
+    # Bahrain time) sees the most listing/price activity, so the snapshot
+    # captures the freshest market state.
+    - cron: "0 20 * * *"  # Runs at 20:00 UTC every day
   workflow_dispatch:
     # Allows manual trigger from GitHub UI
 
