@@ -234,8 +234,8 @@ def main():
 
     # Price changes
     for pid in sorted(common_ids):
-        t_price = today_all[pid].get("price", "")
-        p_price = prev_all[pid].get("price", "")
+        t_price = today_all[pid].get("price_value", "")
+        p_price = prev_all[pid].get("price_value", "")
         if t_price != p_price and t_price and p_price:
             change_rows.append(
                 build_change_row("price_changed", today_all[pid], prev_all[pid], change_date, first_seen)
