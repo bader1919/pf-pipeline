@@ -6,120 +6,158 @@
     <title>PropertyFinder Pipeline Dashboard</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
-        .header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .status-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .runs-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .actions-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1f2937; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
 
         .status-badge { display: inline-block; padding: 8px 16px; border-radius: 20px; font-weight: bold; margin-bottom: 15px; }
         .status-healthy { background: #10b981; color: white; }
         .status-warning { background: #f59e0b; color: white; }
-        .status-error { background: #ef4444; color: white; }
+        .status-error   { background: #ef4444; color: white; }
         .status-unknown { background: #6b7280; color: white; }
 
         .metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
         .metric:last-child { border-bottom: none; }
         .metric-label { color: #666; }
         .metric-value { font-weight: bold; }
+        .metric-value.stale { color: #ef4444; }
 
-        .run-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .run-item:last-child { border-bottom: none; }
-        .run-status { margin-right: 10px; font-size: 20px; }
-        .run-time { flex: 1; }
-        .run-details { color: #666; font-size: 14px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid #eee; }
+        th { color: #666; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+        tr:last-child td { border-bottom: none; }
+        td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+        .pos { color: #059669; }
+        .neg { color: #dc2626; }
 
-        .action-button { display: inline-block; padding: 10px 20px; margin: 5px; background: #3b82f6; color: white; text-decoration: none; border-radius: 6px; }
+        .anomaly { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #eee; align-items: flex-start; }
+        .anomaly:last-child { border-bottom: none; }
+        .anomaly-icon { font-size: 18px; line-height: 1.4; }
+        .anomaly-msg { font-size: 14px; color: #374151; line-height: 1.4; }
+        .sev-warning .anomaly-msg { color: #92400e; }
+        .sev-error .anomaly-msg { color: #991b1b; }
+        .sev-ok .anomaly-msg { color: #065f46; }
+
+        .step-row { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid #eee; align-items: baseline; }
+        .step-row:last-child { border-bottom: none; }
+        .step-name { font-weight: 600; min-width: 110px; font-size: 13px; color: #4338ca; }
+        .step-script { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #6b7280; min-width: 200px; }
+        .step-does { font-size: 13px; color: #4b5563; }
+
+        .bucket-bar { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+        .bucket-label { width: 90px; font-size: 13px; color: #4b5563; }
+        .bucket-track { flex: 1; background: #f3f4f6; border-radius: 4px; height: 14px; overflow: hidden; }
+        .bucket-fill { background: #6366f1; height: 100%; }
+        .bucket-count { width: 50px; text-align: right; font-size: 13px; color: #374151; font-variant-numeric: tabular-nums; }
+
+        .action-button { display: inline-block; padding: 10px 20px; margin: 5px 5px 0 0; background: #3b82f6; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; }
         .action-button:hover { background: #2563eb; }
 
-        .loading { text-align: center; padding: 40px; color: #666; }
+        .loading { text-align: center; padding: 30px; color: #666; }
         .error { background: #fef2f2; border: 1px solid #fee2e2; padding: 15px; border-radius: 6px; color: #991b1b; }
 
-        h1 { margin-bottom: 10px; }
-        h2 { margin-bottom: 15px; font-size: 18px; }
-
-        .last-updated { text-align: center; color: #999; font-size: 12px; margin-top: 20px; }
+        h1 { margin-bottom: 4px; font-size: 24px; }
+        h2 { margin-bottom: 15px; font-size: 16px; }
+        .subtitle { color: #6b7280; font-size: 13px; }
+        .last-updated { text-align: center; color: #999; font-size: 12px; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🏠 PropertyFinder Pipeline Dashboard</h1>
+        <div class="card">
+            <h1>🏠 PropertyFinder Bahrain — Pipeline Dashboard</h1>
+            <div class="subtitle">A live, analyst-facing view of data collection, cleaning, and change-tracking health — no GitHub digging required.</div>
             <div class="last-updated" id="lastUpdated">Loading...</div>
         </div>
 
-        <div class="status-card">
+        <div class="card">
             <div id="statusBadge" class="status-badge status-unknown">Unknown</div>
             <h2 id="statusText">Checking pipeline status...</h2>
 
-            <div class="metric">
-                <span class="metric-label">Last Run:</span>
-                <span class="metric-value" id="lastRun">Loading...</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Quality Score:</span>
-                <span class="metric-value" id="qualityScore">Loading...</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Total Listings:</span>
-                <span class="metric-value" id="totalListings">Loading...</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">New Listings:</span>
-                <span class="metric-value" id="newListings">Loading...</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Removed Listings:</span>
-                <span class="metric-value" id="removedListings">Loading...</span>
+            <div class="grid-2">
+                <div>
+                    <div class="metric"><span class="metric-label">Last Run:</span><span class="metric-value" id="lastRun">Loading...</span></div>
+                    <div class="metric"><span class="metric-label">Snapshot Age:</span><span class="metric-value" id="dataAge">Loading...</span></div>
+                    <div class="metric"><span class="metric-label">Quality Score:</span><span class="metric-value" id="qualityScore">Loading...</span></div>
+                    <div class="metric"><span class="metric-label">Total Listings:</span><span class="metric-value" id="totalListings">Loading...</span></div>
+                </div>
+                <div>
+                    <div class="metric"><span class="metric-label">New (latest run):</span><span class="metric-value" id="newListings">Loading...</span></div>
+                    <div class="metric"><span class="metric-label">Removed (latest run):</span><span class="metric-value" id="removedListings">Loading...</span></div>
+                    <div class="metric"><span class="metric-label">Price changes (latest run):</span><span class="metric-value" id="priceChanged">Loading...</span></div>
+                </div>
             </div>
         </div>
 
-        <div class="runs-card">
-            <h2>Recent Pipeline Runs</h2>
-            <div id="recentRuns">
-                <div class="loading">Loading recent runs...</div>
+        <div class="card">
+            <h2>🔍 Anomalies &amp; things worth checking</h2>
+            <div id="anomalies"><div class="loading">Loading...</div></div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <h2>📊 Listings by category</h2>
+                <table id="categoryTable">
+                    <thead><tr><th>Category</th><th class="num">Rows</th><th class="num">Quality</th></tr></thead>
+                    <tbody><tr><td colspan="3" class="loading">Loading...</td></tr></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>⏳ Listing aging (days on market before removal)</h2>
+                <div id="agingSummary"><div class="loading">Loading...</div></div>
             </div>
         </div>
 
-        <div class="actions-card">
-            <h2>Quick Actions</h2>
+        <div class="card">
+            <h2>📈 Daily change trend (last 14 days)</h2>
+            <table id="trendTable">
+                <thead><tr><th>Date</th><th class="num">New</th><th class="num">Removed</th><th class="num">Price Δ</th><th class="num">Total</th></tr></thead>
+                <tbody><tr><td colspan="5" class="loading">Loading...</td></tr></tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>⚙️ Pipeline steps (what runs, in order)</h2>
+            <div id="pipelineSteps"><div class="loading">Loading...</div></div>
+        </div>
+
+        <div class="card">
+            <h2>🔗 Quick Actions</h2>
             <div>
                 <a href="https://github.com/bader1919/pf-pipeline/actions" target="_blank" class="action-button">View GitHub Actions</a>
-                <a href="https://github.com/bader1919/pf-pipeline/tree/main/data/latest" target="_blank" class="action-button">View Latest Data</a>
-                <a href="https://github.com/bader1919/pf-pipeline/blob/main/data/latest/quality_report.md" target="_blank" class="action-button">Quality Report</a>
+                <a href="https://github.com/bader1919/pf-pipeline/tree/master/data/latest" target="_blank" class="action-button">View Latest Data</a>
+                <a href="https://github.com/bader1919/pf-pipeline/blob/master/data/latest/quality_report.md" target="_blank" class="action-button">Quality Report</a>
+                <a href="https://github.com/bader1919/pf-pipeline/tree/master/data/changes" target="_blank" class="action-button">Change Logs</a>
                 <a href="https://github.com/bader1919/pf-pipeline/actions/workflows/daily_scrape.yml" target="_blank" class="action-button">Run Pipeline Now</a>
             </div>
         </div>
 
-        <div class="last-updated">
-            Dashboard updates automatically after each pipeline run
-        </div>
+        <div class="last-updated">Dashboard regenerates automatically after every Daily Scrape / Timing Study run · auto-refreshes every 5 minutes</div>
     </div>
 
     <script>
         function formatTime(timestamp) {
             if (!timestamp) return 'Unknown';
             const date = new Date(timestamp);
-            const now = new Date();
-            const diffMs = now - date;
+            const diffMs = new Date() - date;
             const diffMins = Math.floor(diffMs / 60000);
             const diffHours = Math.floor(diffMins / 60);
             const diffDays = Math.floor(diffHours / 24);
-
-            if (diffMins < 60) return `${diffMins} minutes ago`;
-            if (diffHours < 24) return `${diffHours} hours ago`;
-            return `${diffDays} days ago`;
+            if (diffMins < 60) return `${diffMins}m ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            return `${diffDays}d ago`;
         }
 
         function formatDate(timestamp) {
             if (!timestamp) return 'Unknown';
-            const date = new Date(timestamp);
-            return date.toLocaleString();
+            return new Date(timestamp).toLocaleString();
         }
 
         function getStatusClass(status) {
-            switch(status?.toLowerCase()) {
+            switch ((status || '').toLowerCase()) {
                 case 'healthy': case 'pass': case 'success': return 'status-healthy';
                 case 'warning': return 'status-warning';
                 case 'error': case 'fail': case 'failure': return 'status-error';
@@ -127,73 +165,169 @@
             }
         }
 
-        function getStatusIcon(status) {
-            switch(status?.toLowerCase()) {
-                case 'healthy': case 'pass': case 'success': return '✅';
+        function severityIcon(sev) {
+            switch (sev) {
+                case 'ok': return '✅';
+                case 'info': return 'ℹ️';
                 case 'warning': return '⚠️';
-                case 'error': case 'fail': case 'failure': return '❌';
-                default: return '⏳';
+                case 'error': return '❌';
+                default: return '•';
             }
+        }
+
+        function fmtNum(n) {
+            return (n === null || n === undefined) ? 'N/A' : n.toLocaleString();
+        }
+
+        function deltaSpan(n) {
+            if (n === null || n === undefined) return 'N/A';
+            const cls = n > 0 ? 'pos' : (n < 0 ? 'neg' : '');
+            const sign = n > 0 ? '+' : '';
+            return `<span class="${cls}">${sign}${n.toLocaleString()}</span>`;
+        }
+
+        function renderAnomalies(anomalies) {
+            const el = document.getElementById('anomalies');
+            if (!anomalies || !anomalies.length) {
+                el.innerHTML = '<div class="loading">No anomaly data available.</div>';
+                return;
+            }
+            el.innerHTML = anomalies.map(a => `
+                <div class="anomaly sev-${a.severity}">
+                    <span class="anomaly-icon">${severityIcon(a.severity)}</span>
+                    <span class="anomaly-msg">${a.message}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderCategories(categories) {
+            const tbody = document.querySelector('#categoryTable tbody');
+            if (!categories || !categories.length) {
+                tbody.innerHTML = '<tr><td colspan="3" class="loading">No category data available.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = categories.map(c => `
+                <tr>
+                    <td>${c.category}</td>
+                    <td class="num">${fmtNum(c.rows)}</td>
+                    <td class="num">${c.quality_score != null ? c.quality_score + '%' : 'N/A'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderTrend(trend) {
+            const tbody = document.querySelector('#trendTable tbody');
+            if (!trend || !trend.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="loading">No change-trend data available yet.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = trend.slice().reverse().map(d => `
+                <tr>
+                    <td>${d.date}</td>
+                    <td class="num pos">+${fmtNum(d.new)}</td>
+                    <td class="num neg">−${fmtNum(d.removed)}</td>
+                    <td class="num">${fmtNum(d.price_changed)}</td>
+                    <td class="num">${fmtNum(d.total)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderAging(aging) {
+            const el = document.getElementById('agingSummary');
+            if (!aging) {
+                el.innerHTML = '<div class="loading">No aging data available yet (needs "removed" listings with days_on_market).</div>';
+                return;
+            }
+            const order = ['same_day', '1-7_days', '8-30_days', '31-90_days', '90+_days'];
+            const labels = {same_day: 'Same day', '1-7_days': '1–7 days', '8-30_days': '8–30 days', '31-90_days': '31–90 days', '90+_days': '90+ days'};
+            const dist = aging.distribution || {};
+            const max = Math.max(1, ...Object.values(dist));
+            const bars = order.filter(k => dist[k] !== undefined).map(k => `
+                <div class="bucket-bar">
+                    <span class="bucket-label">${labels[k]}</span>
+                    <span class="bucket-track"><span class="bucket-fill" style="width:${(dist[k] / max * 100).toFixed(0)}%"></span></span>
+                    <span class="bucket-count">${fmtNum(dist[k])}</span>
+                </div>
+            `).join('');
+
+            const byCat = Object.entries(aging.by_category_avg || {})
+                .map(([cat, avg]) => `<span class="metric-label">${cat || 'unknown'}:</span> <span class="metric-value">${avg}d</span>`)
+                .join(' &nbsp;·&nbsp; ');
+
+            el.innerHTML = `
+                <div class="metric"><span class="metric-label">Sample size (removed listings):</span><span class="metric-value">${fmtNum(aging.sample_size)}</span></div>
+                <div class="metric"><span class="metric-label">Average days on market:</span><span class="metric-value">${aging.avg_days_on_market}d</span></div>
+                <div class="metric"><span class="metric-label">Median days on market:</span><span class="metric-value">${aging.median_days_on_market}d</span></div>
+                <div class="metric"><span class="metric-label">Longest observed:</span><span class="metric-value">${aging.max_days_on_market}d</span></div>
+                <div style="margin-top:14px">${bars}</div>
+                ${byCat ? `<div style="margin-top:12px;font-size:13px">${byCat}</div>` : ''}
+            `;
+        }
+
+        function renderPipelineSteps(steps) {
+            const el = document.getElementById('pipelineSteps');
+            if (!steps || !steps.length) {
+                el.innerHTML = '<div class="loading">No pipeline-step data available.</div>';
+                return;
+            }
+            el.innerHTML = steps.map(s => `
+                <div class="step-row">
+                    <span class="step-name">${s.step}</span>
+                    <span class="step-script">${s.script}</span>
+                    <span class="step-does">${s.does}</span>
+                </div>
+            `).join('');
         }
 
         async function loadDashboard() {
             try {
-                const response = await fetch('data.json');
+                const response = await fetch('data.json?_=' + Date.now());
                 const data = await response.json();
 
-                // Update status badge
                 const statusBadge = document.getElementById('statusBadge');
                 statusBadge.className = `status-badge ${getStatusClass(data.status)}`;
-                statusBadge.textContent = data.status?.toUpperCase() || 'UNKNOWN';
+                statusBadge.textContent = (data.status || 'unknown').toUpperCase();
 
-                // Update status text
                 document.getElementById('statusText').textContent =
-                    data.status === 'healthy' ? '✨ Pipeline is running smoothly!' :
-                    data.status === 'warning' ? '⚠️ Some issues detected' :
-                    data.status === 'error' ? '❌ Pipeline has problems' :
-                    'Checking pipeline status...';
+                    data.status === 'healthy' ? '✨ Pipeline is running smoothly' :
+                    data.status === 'warning' ? '⚠️ Running, but a few things need attention (see Anomalies below)' :
+                    data.status === 'error'   ? '❌ Pipeline has problems — see Anomalies below' :
+                    'Status unknown — check Anomalies and GitHub Actions';
 
-                // Update metrics
-                document.getElementById('lastRun').textContent = formatTime(data.last_run);
-                document.getElementById('qualityScore').textContent =
-                    `${data.quality_score?.toFixed(1)}%` || 'N/A';
-                document.getElementById('totalListings').textContent =
-                    data.total_listings?.toLocaleString() || 'N/A';
-                document.getElementById('newListings').textContent =
-                    data.new_listings?.toLocaleString() || '0';
-                document.getElementById('removedListings').textContent =
-                    data.removed_listings?.toLocaleString() || '0';
+                document.getElementById('lastRun').textContent = `${formatDate(data.last_run)} (${formatTime(data.last_run)})`;
 
-                // Update recent runs
-                const runsContainer = document.getElementById('recentRuns');
-                if (data.recent_runs?.length > 0) {
-                    runsContainer.innerHTML = data.recent_runs.map(run => `
-                        <div class="run-item">
-                            <span class="run-status">${getStatusIcon(run.status)}</span>
-                            <span class="run-time">${formatDate(run.timestamp)}</span>
-                            <span class="run-details">${run.total_listings?.toLocaleString() || 'N/A'} listings • ${formatTime(run.timestamp)}</span>
-                        </div>
-                    `).join('');
+                const ageEl = document.getElementById('dataAge');
+                if (data.data_age_hours != null) {
+                    ageEl.textContent = `${data.data_age_hours}h old`;
+                    ageEl.className = 'metric-value' + (data.data_age_hours > 30 ? ' stale' : '');
                 } else {
-                    runsContainer.innerHTML = '<div class="loading">No recent runs available</div>';
+                    ageEl.textContent = 'N/A';
                 }
 
-                // Update last updated time
-                document.getElementById('lastUpdated').textContent =
-                    `Last updated: ${formatDate(data.dashboard_updated)}`;
+                document.getElementById('qualityScore').textContent =
+                    (data.quality_score != null) ? (typeof data.quality_score === 'number' ? data.quality_score + '%' : data.quality_score) : 'N/A';
+                document.getElementById('totalListings').textContent = fmtNum(data.total_listings);
+                document.getElementById('newListings').innerHTML = deltaSpan(data.new_listings);
+                document.getElementById('removedListings').innerHTML = data.removed_listings != null ? `<span class="neg">−${data.removed_listings.toLocaleString()}</span>` : 'N/A';
+                document.getElementById('priceChanged').textContent = fmtNum(data.price_changed_listings);
+
+                document.getElementById('lastUpdated').textContent = `Dashboard data generated: ${formatDate(data.dashboard_updated)} (${formatTime(data.dashboard_updated)})`;
+
+                renderAnomalies(data.anomalies);
+                renderCategories(data.categories);
+                renderTrend(data.change_trend);
+                renderAging(data.aging);
+                renderPipelineSteps(data.pipeline_steps);
 
             } catch (error) {
                 console.error('Failed to load dashboard data:', error);
                 document.getElementById('statusText').innerHTML =
-                    '<div class="error">Failed to load pipeline data. Please check if GitHub Actions are running.</div>';
+                    '<div class="error">Failed to load pipeline data. Please check if GitHub Actions are running and that data.json exists.</div>';
                 document.getElementById('lastUpdated').textContent = 'Error loading data';
             }
         }
 
-        // Load dashboard on page load
         loadDashboard();
-
-        // Auto-refresh every 5 minutes
         setInterval(loadDashboard, 5 * 60 * 1000);
     </script>
 </body>
