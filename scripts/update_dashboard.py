@@ -13,6 +13,8 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from statistics import mean, median
+from urllib.error import URLError, HTTPError
+from urllib.request import Request, urlopen
 
 LATEST_REPORT   = Path("data/latest_report.json")
 QUALITY_REPORT  = Path("data/latest/quality_report.json")
@@ -22,6 +24,11 @@ ALL_CHANGES     = CHANGES_DIR / "all_changes.csv"
 DASHBOARD_DATA  = Path("dashboard/data.json")
 
 TREND_DAYS = 14   # how many days of daily change history to surface
+
+GITHUB_API     = "https://api.github.com"
+GITHUB_REPO    = os.environ.get("GITHUB_REPOSITORY", "bader1919/pf-pipeline")
+GITHUB_TOKEN   = os.environ.get("GITHUB_TOKEN")
+ACTIONS_LOOKBACK = 25   # how many recent workflow runs to scan for health
 
 
 def load_json(path: Path):
@@ -38,6 +45,95 @@ def file_age_hours(path: Path):
         return None
     mtime = datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
     return round((datetime.now(timezone.utc) - mtime).total_seconds() / 3600, 1)
+
+
+# ---------------------------------------------------------------------------
+# GitHub Actions run health -- tells an analyst whether the "red" runs they
+# see in the Actions tab are real failures (jobs ran and broke) or cosmetic
+# no-ops (GitHub creates a check-suite for every workflow file on every push,
+# even when that workflow's triggers don't match the event, and marks it red
+# with zero jobs spawned). Without this, red runs look alarming but most are
+# noise -- this lets the dashboard say so explicitly, with receipts.
+# ---------------------------------------------------------------------------
+def _gh_get(url, params=None):
+    if not url:
+        return None
+    if params:
+        url = f"{url}?{'&'.join(f'{k}={v}' for k, v in params.items())}"
+    headers = {"Accept": "application/vnd.github+json"}
+    if GITHUB_TOKEN:
+        headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+    try:
+        with urlopen(Request(url, headers=headers), timeout=15) as resp:
+            if resp.status != 200:
+                return None
+            return json.loads(resp.read().decode("utf-8"))
+    except (URLError, HTTPError, json.JSONDecodeError, OSError):
+        return None
+
+
+def load_actions_health():
+    runs_data = _gh_get(
+        f"{GITHUB_API}/repos/{GITHUB_REPO}/actions/runs",
+        params={"per_page": ACTIONS_LOOKBACK},
+    )
+    if not runs_data or "workflow_runs" not in runs_data:
+        return None
+
+    by_workflow = {}
+    real_failures = []
+
+    for run in runs_data["workflow_runs"]:
+        name = run.get("name") or run.get("path", "unknown")
+        wf = by_workflow.setdefault(name, {
+            "name": name,
+            "last_status": run.get("status"),
+            "last_conclusion": run.get("conclusion"),
+            "last_run_at": run.get("run_started_at") or run.get("created_at"),
+            "real_failures_recent": 0,
+            "cosmetic_red_recent": 0,
+        })
+
+        if run.get("conclusion") != "failure":
+            continue
+
+        jobs = _gh_get(run.get("jobs_url")) if run.get("jobs_url") else None
+        job_count = (jobs or {}).get("total_count", 0)
+
+        if job_count == 0:
+            wf["cosmetic_red_recent"] += 1
+        else:
+            wf["real_failures_recent"] += 1
+            failed_step = None
+            for job in (jobs or {}).get("jobs", []):
+                if job.get("conclusion") == "failure":
+                    for step in job.get("steps", []):
+                        if step.get("conclusion") == "failure":
+                            failed_step = step.get("name")
+                            break
+                    break
+            real_failures.append({
+                "workflow": name,
+                "run_id": run.get("id"),
+                "failed_step": failed_step,
+                "ran_at": run.get("run_started_at") or run.get("created_at"),
+                "html_url": run.get("html_url"),
+            })
+
+    workflows = []
+    for wf in by_workflow.values():
+        note = None
+        if wf["cosmetic_red_recent"] and not wf["real_failures_recent"]:
+            note = (f"{wf['cosmetic_red_recent']} red run(s) shown by GitHub but 0 jobs executed -- "
+                    f"this workflow's triggers don't match those push events, so nothing ran or broke. Safe to ignore.")
+        elif wf["real_failures_recent"]:
+            note = f"{wf['real_failures_recent']} run(s) actually failed -- see details below, needs attention."
+        workflows.append({**wf, "note": note})
+
+    return {
+        "workflows": sorted(workflows, key=lambda w: -(w["real_failures_recent"])),
+        "real_failure_details": real_failures,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -138,8 +234,17 @@ def load_category_breakdown(quality_report):
 # ---------------------------------------------------------------------------
 # Anomaly detection -- the things an analyst would want flagged automatically
 # ---------------------------------------------------------------------------
-def detect_anomalies(latest_report, quality_report, trend, listings_age_hours, all_listings_total):
+def detect_anomalies(latest_report, quality_report, trend, listings_age_hours, all_listings_total, actions_health=None):
     anomalies = []
+
+    if actions_health:
+        for failure in actions_health.get("real_failure_details", []):
+            step = f" (failed at step: {failure['failed_step']})" if failure.get("failed_step") else ""
+            anomalies.append({
+                "severity": "warning",
+                "message": f"'{failure['workflow']}' run actually failed{step} -- "
+                           f"see {failure['html_url']} for logs.",
+            })
 
     if listings_age_hours is not None and listings_age_hours > 30:
         anomalies.append({
@@ -266,7 +371,8 @@ def main():
         if last_run:
             break
 
-    anomalies = detect_anomalies(latest_report, quality_report, trend, listings_age_hours, all_listings_total)
+    actions_health = load_actions_health()
+    anomalies = detect_anomalies(latest_report, quality_report, trend, listings_age_hours, all_listings_total, actions_health)
     status = determine_status(latest_report, quality_report, listings_age_hours, anomalies)
 
     quality_score = None
@@ -291,6 +397,7 @@ def main():
         "change_trend": trend,
         "aging": aging,
         "anomalies": anomalies,
+        "actions_health": actions_health,
         "pipeline_steps": PIPELINE_STEPS,
         "dashboard_updated": datetime.now(timezone.utc).isoformat(),
     }

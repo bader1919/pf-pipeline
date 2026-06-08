@@ -46,6 +46,11 @@
         .step-script { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #6b7280; min-width: 200px; }
         .step-does { font-size: 13px; color: #4b5563; }
 
+        .ah-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; margin-right: 6px; }
+        .ah-good  { background: #d1fae5; color: #065f46; }
+        .ah-noise { background: #e5e7eb; color: #374151; }
+        .ah-bad   { background: #fee2e2; color: #991b1b; }
+
         .bucket-bar { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
         .bucket-label { width: 90px; font-size: 13px; color: #4b5563; }
         .bucket-track { flex: 1; background: #f3f4f6; border-radius: 4px; height: 14px; overflow: hidden; }
@@ -94,6 +99,11 @@
         <div class="card">
             <h2>🔍 Anomalies &amp; things worth checking</h2>
             <div id="anomalies"><div class="loading">Loading...</div></div>
+        </div>
+
+        <div class="card">
+            <h2>🚦 Pipeline run health (GitHub Actions)</h2>
+            <div id="actionsHealth"><div class="loading">Loading...</div></div>
         </div>
 
         <div class="grid-2">
@@ -279,6 +289,41 @@
             `).join('');
         }
 
+        function renderActionsHealth(health) {
+            const el = document.getElementById('actionsHealth');
+            if (!health || !health.workflows || !health.workflows.length) {
+                el.innerHTML = '<div class="loading">No GitHub Actions data available (API unreachable when this was generated).</div>';
+                return;
+            }
+            const rows = health.workflows.map(w => {
+                let line;
+                if (w.real_failures_recent > 0) {
+                    line = `<span class="ah-badge ah-bad">⚠️ ${w.real_failures_recent} real failure(s)</span>`;
+                } else if (w.cosmetic_red_recent > 0) {
+                    line = `<span class="ah-badge ah-noise">ℹ️ ${w.cosmetic_red_recent} red but harmless</span>`;
+                } else {
+                    line = `<span class="ah-badge ah-good">✅ all clear</span>`;
+                }
+                return `
+                    <div class="step-row">
+                        <span class="step-name">${w.name}</span>
+                        <span class="step-script">last: ${w.last_conclusion || w.last_status || 'unknown'} · ${formatTime(w.last_run_at)}</span>
+                        <span class="step-does">${line}${w.note ? ' — ' + w.note : ''}</span>
+                    </div>
+                `;
+            }).join('');
+
+            const failureLinks = (health.real_failure_details || []).map(f => `
+                <div class="anomaly sev-warning">
+                    <span class="anomaly-icon">⚠️</span>
+                    <span class="anomaly-msg">'${f.workflow}'${f.failed_step ? ` failed at step "${f.failed_step}"` : ' failed'}
+                        (${formatTime(f.ran_at)}) — <a href="${f.html_url}" target="_blank">view logs</a></span>
+                </div>
+            `).join('');
+
+            el.innerHTML = rows + failureLinks;
+        }
+
         async function loadDashboard() {
             try {
                 const response = await fetch('data.json?_=' + Date.now());
@@ -317,6 +362,7 @@
                 renderCategories(data.categories);
                 renderTrend(data.change_trend);
                 renderAging(data.aging);
+                renderActionsHealth(data.actions_health);
                 renderPipelineSteps(data.pipeline_steps);
 
             } catch (error) {

@@ -27,6 +27,9 @@ jobs:
           cache: pip
 
       - name: Update dashboard data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: python scripts/update_dashboard.py
 
       - name: Commit dashboard update
