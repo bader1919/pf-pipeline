@@ -3,10 +3,10 @@
   "last_run": "2026-06-07T23:56:52.207753+00:00",
   "data_age_hours": 0.0,
   "quality_score": 100.0,
-  "total_listings": 25088,
-  "new_listings": 241,
-  "removed_listings": 185,
-  "price_changed_listings": 17,
+  "total_listings": 25096,
+  "new_listings": 211,
+  "removed_listings": 203,
+  "price_changed_listings": 7,
   "categories": [
     {
       "category": "residential_rent",
@@ -101,24 +101,24 @@
     },
     {
       "date": "2026-06-08",
-      "new": 241,
-      "removed": 185,
-      "price_changed": 17,
-      "total": 443,
-      "scraped_at": "2026-06-08T09:36:29.074314+00:00"
+      "new": 211,
+      "removed": 203,
+      "price_changed": 7,
+      "total": 421,
+      "scraped_at": "2026-06-08T13:27:32.832375+00:00"
     }
   ],
   "aging": {
-    "sample_size": 8574,
-    "avg_days_on_market": 2.1,
-    "median_days_on_market": 2.0,
+    "sample_size": 8777,
+    "avg_days_on_market": 2.2,
+    "median_days_on_market": 2,
     "max_days_on_market": 7,
     "distribution": {
-      "same_day": 1786,
-      "1-7_days": 6788
+      "same_day": 1793,
+      "1-7_days": 6984
     },
     "by_category_avg": {
-      "unknown": 2.1
+      "unknown": 2.2
     }
   },
   "anomalies": [
@@ -141,7 +141,7 @@
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-08T09:44:49Z",
+        "last_run_at": "2026-06-08T13:35:05Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -150,7 +150,7 @@
         "name": "pages build and deployment",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-08T09:44:43Z",
+        "last_run_at": "2026-06-08T13:34:58Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -159,7 +159,7 @@
         "name": "Timing Study - Find Optimal Scrape Time",
         "last_status": "completed",
         "last_conclusion": "success",
-        "last_run_at": "2026-06-08T09:35:59Z",
+        "last_run_at": "2026-06-08T13:27:15Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -217,5 +217,5 @@
       "does": "Generates this page's data.json (runs after Daily Scrape or Timing Study)"
     }
   ],
-  "dashboard_updated": "2026-06-08T09:45:06.493658+00:00"
+  "dashboard_updated": "2026-06-08T13:35:25.171478+00:00"
 }
