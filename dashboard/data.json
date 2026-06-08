@@ -125,6 +125,10 @@
   "anomalies": [
     {
       "severity": "warning",
+      "message": "'Daily Property Scrape' run actually failed (failed at step: Commit data) -- see https://github.com/bader1919/pf-pipeline/actions/runs/27166555466 for logs."
+    },
+    {
+      "severity": "warning",
       "message": "'Timing Study - Find Optimal Scrape Time' run actually failed (failed at step: Commit timing data) -- see https://github.com/bader1919/pf-pipeline/actions/runs/27166279452 for logs."
     },
     {
@@ -143,6 +147,15 @@
   "actions_health": {
     "workflows": [
       {
+        "name": "Daily Property Scrape",
+        "last_status": "completed",
+        "last_conclusion": "failure",
+        "last_run_at": "2026-06-08T20:58:55Z",
+        "real_failures_recent": 1,
+        "cosmetic_red_recent": 0,
+        "note": "1 run(s) actually failed -- see details below, needs attention."
+      },
+      {
         "name": "Timing Study - Find Optimal Scrape Time",
         "last_status": "completed",
         "last_conclusion": "failure",
@@ -155,7 +168,7 @@
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-08T21:01:56Z",
+        "last_run_at": "2026-06-08T21:06:41Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -164,22 +177,20 @@
         "name": "pages build and deployment",
         "last_status": "completed",
         "last_conclusion": "success",
-        "last_run_at": "2026-06-08T21:00:50Z",
-        "real_failures_recent": 0,
-        "cosmetic_red_recent": 0,
-        "note": null
-      },
-      {
-        "name": "Daily Property Scrape",
-        "last_status": "in_progress",
-        "last_conclusion": null,
-        "last_run_at": "2026-06-08T20:58:55Z",
+        "last_run_at": "2026-06-08T21:02:14Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
       }
     ],
     "real_failure_details": [
+      {
+        "workflow": "Daily Property Scrape",
+        "run_id": 27166555466,
+        "failed_step": "Commit data",
+        "ran_at": "2026-06-08T20:58:55Z",
+        "html_url": "https://github.com/bader1919/pf-pipeline/actions/runs/27166555466"
+      },
       {
         "workflow": "Timing Study - Find Optimal Scrape Time",
         "run_id": 27166279452,
@@ -221,5 +232,5 @@
       "does": "Generates this page's data.json (runs after Daily Scrape or Timing Study)"
     }
   ],
-  "dashboard_updated": "2026-06-08T21:02:12.198933+00:00"
+  "dashboard_updated": "2026-06-08T21:06:58.062671+00:00"
 }
