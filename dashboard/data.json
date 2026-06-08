@@ -1,5 +1,5 @@
 {
-  "status": "healthy",
+  "status": "warning",
   "last_run": "2026-06-07T23:56:52.207753+00:00",
   "data_age_hours": 0.0,
   "quality_score": 100.0,
@@ -124,6 +124,10 @@
   },
   "anomalies": [
     {
+      "severity": "warning",
+      "message": "'Timing Study - Find Optimal Scrape Time' run actually failed (failed at step: Commit timing data) -- see https://github.com/bader1919/pf-pipeline/actions/runs/27166279452 for logs."
+    },
+    {
       "severity": "info",
       "message": "Minimum listed price is 1 BHD -- likely placeholder/incomplete listings worth spot-checking."
     },
@@ -139,19 +143,28 @@
   "actions_health": {
     "workflows": [
       {
+        "name": "Timing Study - Find Optimal Scrape Time",
+        "last_status": "completed",
+        "last_conclusion": "failure",
+        "last_run_at": "2026-06-08T20:53:43Z",
+        "real_failures_recent": 1,
+        "cosmetic_red_recent": 0,
+        "note": "1 run(s) actually failed -- see details below, needs attention."
+      },
+      {
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-08T21:00:33Z",
+        "last_run_at": "2026-06-08T21:01:56Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
       },
       {
         "name": "pages build and deployment",
-        "last_status": "in_progress",
-        "last_conclusion": null,
-        "last_run_at": "2026-06-08T21:00:29Z",
+        "last_status": "completed",
+        "last_conclusion": "success",
+        "last_run_at": "2026-06-08T21:00:50Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -164,18 +177,17 @@
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
-      },
-      {
-        "name": "Timing Study - Find Optimal Scrape Time",
-        "last_status": "in_progress",
-        "last_conclusion": null,
-        "last_run_at": "2026-06-08T20:53:43Z",
-        "real_failures_recent": 0,
-        "cosmetic_red_recent": 0,
-        "note": null
       }
     ],
-    "real_failure_details": []
+    "real_failure_details": [
+      {
+        "workflow": "Timing Study - Find Optimal Scrape Time",
+        "run_id": 27166279452,
+        "failed_step": "Commit timing data",
+        "ran_at": "2026-06-08T20:53:43Z",
+        "html_url": "https://github.com/bader1919/pf-pipeline/actions/runs/27166279452"
+      }
+    ]
   },
   "pipeline_steps": [
     {
@@ -209,5 +221,5 @@
       "does": "Generates this page's data.json (runs after Daily Scrape or Timing Study)"
     }
   ],
-  "dashboard_updated": "2026-06-08T21:00:47.408080+00:00"
+  "dashboard_updated": "2026-06-08T21:02:12.198933+00:00"
 }
