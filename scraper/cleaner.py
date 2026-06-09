@@ -52,6 +52,7 @@ COLUMNS = [
     "location_slug", "location_type", "location_name", "location_path_name",
     "region_id", "region_name", "region_slug",
     "area_id", "area_name", "area_slug",
+    "community", "sub_community",
     "agent_id", "agent_image", "agent_is_super_agent", "agent_name", "agent_email",
     "agent_slug", "agent_whatsapp_response_time", "agent_total_properties",
     "agent_position", "agent_years_experience", "agent_transactions_count", "agent_languages",
@@ -86,6 +87,7 @@ PROJECT_COLUMNS = [
     "location_slug", "location_type", "location_name", "location_path_name",
     "region_id", "region_name", "region_slug",
     "area_id", "area_name", "area_slug",
+    "community", "sub_community",
     "agent_id", "agent_image", "agent_is_super_agent", "agent_name", "agent_email",
     "agent_slug", "agent_whatsapp_response_time", "agent_total_properties",
     "agent_position", "agent_years_experience", "agent_transactions_count", "agent_languages",
@@ -224,28 +226,50 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
 
     region_id = region_name = region_slug = ""
     area_id = area_name = area_slug = ""
+    community = sub_community = ""
+
+    # PF uses two parallel location hierarchies:
+    #   Standard:  REGION → AREA (→ AREA sub-area)
+    #   Community: REGION → COMMUNITY (level 1) → COMMUNITY (level 2)
+    # We map level-1 COMMUNITY as area when no AREA node exists,
+    # and always capture COMMUNITY names in community/sub_community columns.
     loc_tree = p.get("locationTree") or []
+    community_nodes = []
     for node in loc_tree:
         ntype = (node.get("type") or "").upper()
+        level = str(node.get("level", ""))
         if ntype == "REGION":
             region_id   = s(node.get("id"))
             region_name = s(node.get("name"))
-            region_slug = s(node.get("slug"))
+            region_slug = s(node.get("slug") or node.get("slug_en"))
         elif ntype == "AREA":
             area_id   = s(node.get("id"))
             area_name = s(node.get("name"))
-            area_slug = s(node.get("slug"))
-    # Fallbacks from old location structure
+            area_slug = s(node.get("slug") or node.get("slug_en"))
+        elif ntype == "COMMUNITY":
+            community_nodes.append(node)
+
+    # Map COMMUNITY nodes → community / sub_community columns
+    if community_nodes:
+        community     = s(community_nodes[0].get("name"))
+        sub_community = s(community_nodes[1].get("name")) if len(community_nodes) > 1 else ""
+        # If no AREA node, treat the first COMMUNITY level as the area equivalent
+        if not area_name:
+            area_id   = s(community_nodes[0].get("id"))
+            area_name = community
+            area_slug = s(community_nodes[0].get("slug") or community_nodes[0].get("slug_en"))
+
+    # Fallbacks from old nested location structure (pre-flat API)
     if not region_name:
-        region     = loc.get("region") or {}
-        region_id  = s(loc.get("region", {}).get("id")) if isinstance(loc.get("region"), dict) else ""
-        region_name= s(loc.get("region", {}).get("name")) if isinstance(loc.get("region"), dict) else ""
-        region_slug= s(loc.get("region", {}).get("slug")) if isinstance(loc.get("region"), dict) else ""
+        r = loc.get("region") or {}
+        if isinstance(r, dict):
+            region_id, region_name, region_slug = s(r.get("id")), s(r.get("name")), s(r.get("slug"))
     if not area_name:
-        area_obj   = loc.get("area") or {}
-        area_id    = s(area_obj.get("id")) if isinstance(area_obj, dict) else ""
-        area_name  = s(area_obj.get("name")) if isinstance(area_obj, dict) else ""
-        area_slug  = s(area_obj.get("slug")) if isinstance(area_obj, dict) else ""
+        a = loc.get("area") or {}
+        if isinstance(a, dict):
+            area_id, area_name, area_slug = s(a.get("id")), s(a.get("name")), s(a.get("slug"))
+    if not community:
+        community = s(p.get("community") or p.get("communityName"))
 
     # --- Agent ---
     # Real API: agent = string display name; agentInfo = dict with full details
@@ -398,6 +422,8 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         "area_id":                     area_id,
         "area_name":                   area_name,
         "area_slug":                   area_slug,
+        "community":                   community,
+        "sub_community":               sub_community,
         "agent_id":                    s(agent_info.get("id")),
         "agent_image":                 s(agent_info.get("image") or agent_info.get("photo")),
         "agent_is_super_agent":        b(agent_info.get("is_super_agent") or agent_info.get("isSuperAgent")),
