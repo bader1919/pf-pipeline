@@ -290,9 +290,15 @@ def scrape_url(url_info: dict) -> list:
             break
 
         next_data = parse_next_data(html)
+        if not next_data and page == 1:
+            safe_print(f"    {name} p{page}: WARNING - __NEXT_DATA__ not found in page HTML. "
+                       f"Site may have changed structure or blocked the request.")
         records = get_listings_from_page(next_data, data_key)
 
         if not records:
+            if page == 1 and next_data:
+                safe_print(f"    {name} p{page}: WARNING - __NEXT_DATA__ found but no '{data_key}' "
+                           f"at props.pageProps.searchResult. Path may have changed.")
             break
 
         # Add price trends data to each record (only for listings, not projects/agents)
@@ -300,13 +306,13 @@ def scrape_url(url_info: dict) -> list:
         # To enable, set ENABLE_PRICE_TRENDS = True at the top of the file
         if data_key == "listings" and ENABLE_PRICE_TRENDS:
             for record in records:
-                if isinstance(record, dict) and record.get("listing_type") == "property":
-                    prop = record.get("property", {})
-                    share_url = prop.get("share_url", "")
+                if isinstance(record, dict):
+                    # Real API: url is a top-level field. Old nested API used property.share_url.
+                    share_url = record.get("url") or record.get("share_url") or (record.get("property") or {}).get("share_url", "")
                     if share_url:
                         trends = fetch_price_trends(share_url, session)
-                        record["price_trends"] = trends
-                        # Small delay to avoid overwhelming the server
+                        if trends:
+                            record["price_trends"] = trends
                         time.sleep(0.2)
 
         all_records.extend(records)
@@ -344,13 +350,16 @@ def scrape_category(plan: dict) -> tuple:
             new_count = 0
             for rec in records:
                 # Skip non-listing records like project_recommendation
+                # Real API: listings are flat dicts with no listing_type field.
+                # Old API used listing_type == "property" with a nested property sub-object.
+                # Support both: skip only if listing_type is explicitly set to something else.
                 if isinstance(rec, dict) and rec.get("listing_type") not in ["property", None]:
                     continue
 
                 rec_id = None
                 if isinstance(rec, dict):
-                    prop = rec.get("property") or {}
-                    rec_id = prop.get("id") or rec.get("id")
+                    # Real API: id is a top-level field. Old API: nested under property.id.
+                    rec_id = rec.get("id") or (rec.get("property") or {}).get("id")
                 if rec_id and rec_id not in seen_ids:
                     seen_ids.add(rec_id)
                     all_records.append(rec)
