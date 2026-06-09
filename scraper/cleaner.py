@@ -150,85 +150,172 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
     """
     Map a raw PropertyFinder API listing object to the exact 114-column schema.
     Every field that the API returns is captured. Nothing is dropped.
-    """
-    # Sub-objects
-    price    = p.get("price") or {}
-    size     = p.get("size") or {}
-    loc      = p.get("location") or {}
-    region   = loc.get("region") or {}
-    area_obj = loc.get("area") or {}
-    agent    = p.get("agent") or {}
-    broker   = p.get("broker") or p.get("agency") or {}
-    amenities = p.get("amenities") or []
-    photos   = p.get("photos") or p.get("images") or []
-    contacts = p.get("contactOptions") or p.get("contacts") or []
 
-    # Property type -- can be string or {id, name}
+    Real API shape (confirmed from raw data):
+      - price: flat int (not a dict)
+      - priceCurrency, priceDuration: separate top-level fields
+      - size: flat int; sizeUnit: separate field
+      - coordinates: top-level dict with latitude/longitude keys
+      - agent: string (display name); agentInfo: dict with id/name/email/etc.
+      - broker: string (display name); brokerInfo: dict with id/name/phone/etc.
+      - addedOn: listed date (not listedDate)
+      - agentPhone/agentWhatsapp/agentEmail: top-level contact fields
+      - amenities: list of short code strings; features: list of human-readable strings
+      - locationTree: list of {id, name, type} dicts for region/area hierarchy
+    """
+    # Boolean helper
+    def b(val):
+        if val is None:
+            return ""
+        return str(bool(val)).lower()
+
+    # --- Price ---
+    # Real API: price is a flat int; priceCurrency and priceDuration are separate
+    price_raw = p.get("price") or p.get("propertyValue")
+    if isinstance(price_raw, dict):
+        # Old nested format fallback
+        price_value    = s(price_raw.get("value") or price_raw.get("amount"))
+        price_currency = s(price_raw.get("currency"), "BHD")
+        price_period   = s(price_raw.get("period"))
+        price_is_hidden= b(price_raw.get("isHidden") or price_raw.get("onRequest"))
+        ppa_price      = s((price_raw.get("perArea") or {}).get("price"))
+        ppa_unit       = s((price_raw.get("perArea") or {}).get("unit"))
+        ppa_plot       = s(price_raw.get("perAreaPlot"))
+    else:
+        price_value    = s(price_raw)
+        price_currency = s(p.get("priceCurrency"), "BHD")
+        price_period   = s(p.get("priceDuration"))
+        price_is_hidden= ""
+        ppa_price      = ""
+        ppa_unit       = ""
+        ppa_plot       = ""
+
+    # --- Size ---
+    # Real API: size is a flat int; sizeUnit is separate
+    size_raw = p.get("size") or p.get("area")
+    if isinstance(size_raw, dict):
+        size_value = s(size_raw.get("value") or size_raw.get("size"))
+        size_unit  = s(size_raw.get("unit"), "sqm")
+    else:
+        size_value = s(size_raw)
+        size_unit  = s(p.get("sizeUnit") or p.get("sizeMin", "").split(" ")[-1] if p.get("sizeMin") else "", "sqm")
+
+    # --- Coordinates ---
+    # Real API: top-level coordinates dict with latitude/longitude keys
+    coords = p.get("coordinates") or {}
+    if coords:
+        lat = s(coords.get("latitude") or coords.get("lat"))
+        lon = s(coords.get("longitude") or coords.get("lng") or coords.get("lon"))
+    else:
+        loc = p.get("location") or {}
+        loc_coords = loc.get("coordinates") or {}
+        lat = s(loc_coords.get("lat") or loc_coords.get("latitude") or loc.get("lat") or loc.get("latitude"))
+        lon = s(loc_coords.get("lon") or loc_coords.get("lng") or loc_coords.get("longitude") or loc.get("lng") or loc.get("longitude"))
+
+    # --- Location ---
+    # Real API: displayAddress at top level; locationTree list for region/area hierarchy
+    loc = p.get("location") or {}
+    loc_full = (
+        s(p.get("displayAddress"))
+        or s(loc.get("fullName"))
+        or s(loc.get("locationFullName"))
+        or s(loc.get("name"))
+    )
+
+    region_id = region_name = region_slug = ""
+    area_id = area_name = area_slug = ""
+    loc_tree = p.get("locationTree") or []
+    for node in loc_tree:
+        ntype = (node.get("type") or "").upper()
+        if ntype == "REGION":
+            region_id   = s(node.get("id"))
+            region_name = s(node.get("name"))
+            region_slug = s(node.get("slug"))
+        elif ntype == "AREA":
+            area_id   = s(node.get("id"))
+            area_name = s(node.get("name"))
+            area_slug = s(node.get("slug"))
+    # Fallbacks from old location structure
+    if not region_name:
+        region     = loc.get("region") or {}
+        region_id  = s(loc.get("region", {}).get("id")) if isinstance(loc.get("region"), dict) else ""
+        region_name= s(loc.get("region", {}).get("name")) if isinstance(loc.get("region"), dict) else ""
+        region_slug= s(loc.get("region", {}).get("slug")) if isinstance(loc.get("region"), dict) else ""
+    if not area_name:
+        area_obj   = loc.get("area") or {}
+        area_id    = s(area_obj.get("id")) if isinstance(area_obj, dict) else ""
+        area_name  = s(area_obj.get("name")) if isinstance(area_obj, dict) else ""
+        area_slug  = s(area_obj.get("slug")) if isinstance(area_obj, dict) else ""
+
+    # --- Agent ---
+    # Real API: agent = string display name; agentInfo = dict with full details
+    agent_info = p.get("agentInfo") or {}
+    if not isinstance(agent_info, dict):
+        agent_info = {}
+    agent_str = p.get("agent") or ""   # string display name (fallback if agentInfo absent)
+
+    agent_langs_raw = agent_info.get("languages") or []
+    if isinstance(agent_langs_raw, list):
+        agent_langs_str = pipe_list(agent_langs_raw, key="name") or pipe_list(agent_langs_raw)
+    else:
+        agent_langs_str = s(agent_langs_raw)
+
+    # --- Broker ---
+    # Real API: broker = string display name; brokerInfo = dict with full details
+    broker_info = p.get("brokerInfo") or p.get("clientInfo") or {}
+    if not isinstance(broker_info, dict):
+        broker_info = {}
+    # Fallback: old nested broker/agency dict
+    if not broker_info:
+        broker_info = p.get("broker") if isinstance(p.get("broker"), dict) else {}
+        if not broker_info:
+            broker_info = p.get("agency") if isinstance(p.get("agency"), dict) else {}
+
+    # --- Contact ---
+    contact_phone    = s(p.get("agentPhone") or p.get("contactPhone") or agent_info.get("phone"))
+    contact_whatsapp = s(p.get("agentWhatsapp") or p.get("contactWhatsapp"))
+    contact_email    = s(p.get("agentEmail") or p.get("contactEmail") or agent_info.get("email"))
+
+    # --- Property type ---
     prop_type = p.get("propertyType") or {}
     if isinstance(prop_type, dict):
         prop_type_name = s(prop_type.get("name") or prop_type.get("label"))
         prop_type_id   = s(prop_type.get("id"))
     else:
         prop_type_name = s(prop_type)
-        prop_type_id   = ""
+        prop_type_id   = s(p.get("propertyTypeId"))
 
-    # Offering type -- rent vs sale
+    # --- Offering type ---
     offering = (
         s(p.get("offeringType"))
+        or s(p.get("priceDuration"))
         or s(p.get("listingType"))
         or s(p.get("type"))
     )
 
-    # Bedrooms -- various API formats
-    beds_raw   = p.get("bedrooms") or p.get("bedsMin") or p.get("beds")
-    beds_val   = p.get("bedroomsValue") or p.get("bedroomsLabel") or beds_raw
-    baths_raw  = p.get("bathrooms") or p.get("bathsMin") or p.get("baths")
-    baths_val  = p.get("bathroomsValue") or p.get("bathroomsLabel") or baths_raw
-    rooms_raw  = p.get("rooms") or p.get("roomsMin")
-    rooms_val  = p.get("roomsValue") or p.get("roomsLabel") or rooms_raw
+    # --- Bedrooms / Bathrooms ---
+    beds_raw  = p.get("bedrooms") or p.get("bedsMin") or p.get("beds")
+    beds_val  = p.get("bedroomsValue") or p.get("bedroomsLabel") or beds_raw
+    baths_raw = p.get("bathrooms") or p.get("bathsMin") or p.get("baths")
+    baths_val = p.get("bathroomsValue") or p.get("bathroomsLabel") or baths_raw
+    rooms_raw = p.get("rooms") or p.get("roomsMin")
+    rooms_val = p.get("roomsValue") or p.get("roomsLabel") or rooms_raw
 
-    # Price sub-fields
-    price_pa   = price.get("perArea") or price.get("pricePerArea") or {}
-    if isinstance(price_pa, dict):
-        ppa_price = s(price_pa.get("price") or price_pa.get("value"))
-        ppa_unit  = s(price_pa.get("unit"))
+    # --- Amenities ---
+    # Real API: amenities = list of short code strings e.g. ["CP","LB"]
+    #           features  = list of human-readable strings e.g. ["Covered Parking"]
+    amenities = p.get("amenities") or []
+    features  = p.get("features") or []
+    if amenities and isinstance(amenities[0], dict):
+        amenity_codes = pipe_list(amenities, key="code") or pipe_list(amenities, key="id")
+        amenity_names = pipe_list(amenities, key="name") or pipe_list(amenities, key="label")
     else:
-        ppa_price = s(price_pa)
-        ppa_unit  = ""
+        amenity_codes = pipe_list(amenities)
+        amenity_names = pipe_list(features) if features else pipe_list(amenities)
 
-    # Location sub-fields
-    loc_full = (
-        s(loc.get("fullName"))
-        or s(loc.get("locationFullName"))
-        or s(loc.get("name"))
-    )
-
-    # Agent sub-fields
-    agent_langs = agent.get("languages") or []
-    if isinstance(agent_langs, list):
-        agent_langs_str = pipe_list(agent_langs, key="name") or pipe_list(agent_langs)
-    else:
-        agent_langs_str = s(agent_langs)
-
-    # Contact options -- phone, whatsapp, email extracted individually
-    def extract_contact(contacts_list, ctype):
-        for c in contacts_list:
-            if isinstance(c, dict):
-                t = (c.get("type") or "").lower()
-                if ctype in t:
-                    return s(c.get("value") or c.get("number") or c.get("url"))
-        return ""
-
-    contact_phone    = s(p.get("contactPhone"))    or extract_contact(contacts, "phone")    or s(get(agent, "phone"))
-    contact_whatsapp = s(p.get("contactWhatsapp")) or extract_contact(contacts, "whatsapp")
-    contact_email    = s(p.get("contactEmail"))    or extract_contact(contacts, "email")    or s(get(agent, "email"))
-
-    # Amenities -- codes and names as pipe-separated strings
-    amenity_codes = pipe_list(amenities, key="code") or pipe_list(amenities, key="id")
-    amenity_names = pipe_list(amenities, key="name") or pipe_list(amenities, key="label")
-
-    # Images
-    images_count  = len(photos)
+    # --- Images ---
+    photos = p.get("photos") or p.get("images") or []
+    images_count = len(photos)
     image_url_first = ""
     if photos:
         first = photos[0]
@@ -237,17 +324,19 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         else:
             image_url_first = s(first)
 
-    # Boolean helper
-    def b(val):
-        if val is None:
-            return ""
-        return str(bool(val)).lower()
+    # --- Payment methods ---
+    pm = p.get("paymentMethods") or p.get("paymentMethod") or []
+    payment_methods = pipe_list(pm, key="name") if (pm and isinstance(pm[0], dict)) else pipe_list(pm)
 
-    # Payment methods
-    pm = p.get("paymentMethods") or []
-    payment_methods = pipe_list(pm, key="name") if pm and isinstance(pm[0], dict) else pipe_list(pm)
+    # --- Listed date ---
+    listed_date = s(
+        p.get("addedOn")
+        or p.get("listedDate")
+        or p.get("createdAt")
+        or p.get("publishedAt")
+    )
 
-    # Extract ID from nested structure - property.id for listings, direct id for projects
+    # --- Listing ID ---
     if p.get("listing_type") == "property" and isinstance(p.get("property"), dict):
         pf_id = str(p.get("property", {}).get("id") or "")
     else:
@@ -270,9 +359,9 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         "rooms":                       s(rooms_raw),
         "rooms_value":                 s(rooms_val),
         "completion_status":           s(p.get("completionStatus")),
-        "furnished":                   s(p.get("furnishingStatus") or p.get("furnished")),
+        "furnished":                   s(p.get("furnishingStatus") or p.get("furnished") or p.get("furnishing")),
         "utilities_price_type":        s(p.get("utilitiesPriceType")),
-        "listed_date":                 s(p.get("listedDate") or p.get("createdAt") or p.get("publishedAt")),
+        "listed_date":                 listed_date,
         "last_refreshed_at":           s(p.get("lastRefreshedAt") or p.get("updatedAt")),
         "rental_availability_date":    s(p.get("rentalAvailabilityDate")),
         "age":                         s(p.get("age")),
@@ -283,59 +372,59 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         "plot_size":                   s(p.get("plotSize") or get(p.get("plotArea") or {}, "size")),
         "images_count":                images_count,
         "zone_name":                   s(p.get("zoneName")),
-        "agent_license_no":            s(get(agent, "licenseNo") or get(agent, "license")),
+        "agent_license_no":            s(agent_info.get("licenseNo") or agent_info.get("license")),
         "payment_methods":             payment_methods,
-        "price_value":                 s(price.get("value") or price.get("amount")),
-        "price_currency":              s(price.get("currency"), "BHD"),
-        "price_period":                s(price.get("period")),
-        "price_is_hidden":             b(price.get("isHidden") or price.get("onRequest")),
+        "price_value":                 price_value,
+        "price_currency":              price_currency,
+        "price_period":                price_period,
+        "price_is_hidden":             price_is_hidden,
         "price_per_area_price":        ppa_price,
         "price_per_area_unit":         ppa_unit,
-        "price_per_area_plot":         s(price.get("perAreaPlot") or price.get("pricePerAreaPlot")),
+        "price_per_area_plot":         ppa_plot,
         "mortgage_cashback":           s(p.get("mortgageCashback")),
-        "size_value":                  s(size.get("value") or size.get("size") or p.get("area")),
-        "size_unit":                   s(size.get("unit"), "sqft"),
+        "size_value":                  size_value,
+        "size_unit":                   size_unit,
         "location_id":                 s(loc.get("id")),
         "location_full_name":          loc_full,
-        "latitude":                    s(get(loc, "coordinates", "lat") or loc.get("lat") or loc.get("latitude")),
-        "longitude":                   s(get(loc, "coordinates", "lon") or loc.get("lng") or loc.get("longitude")),
+        "latitude":                    lat,
+        "longitude":                   lon,
         "location_slug":               s(loc.get("slug")),
         "location_type":               s(loc.get("type")),
-        "location_name":               s(loc.get("name")),
-        "location_path_name":          s(loc.get("pathName") or loc.get("path")),
-        "region_id":                   s(region.get("id")),
-        "region_name":                 s(region.get("name")),
-        "region_slug":                 s(region.get("slug")),
-        "area_id":                     s(area_obj.get("id")),
-        "area_name":                   s(area_obj.get("name")),
-        "area_slug":                   s(area_obj.get("slug")),
-        "agent_id":                    s(agent.get("id")),
-        "agent_image":                 s(agent.get("image") or agent.get("photo")),
-        "agent_is_super_agent":        b(agent.get("isSuperAgent") or agent.get("superAgent")),
-        "agent_name":                  s(agent.get("name") or p.get("contactName")),
-        "agent_email":                 s(agent.get("email")),
-        "agent_slug":                  s(agent.get("slug")),
-        "agent_whatsapp_response_time":s(agent.get("whatsappResponseTime")),
-        "agent_total_properties":      s(agent.get("totalProperties")),
-        "agent_position":              s(agent.get("position")),
-        "agent_years_experience":      s(agent.get("yearsExperience") or agent.get("experience")),
-        "agent_transactions_count":    s(agent.get("transactionsCount") or agent.get("transactions")),
+        "location_name":               s(loc.get("name") or area_name),
+        "location_path_name":          s(loc.get("pathName") or loc.get("path") or loc_full),
+        "region_id":                   region_id,
+        "region_name":                 region_name,
+        "region_slug":                 region_slug,
+        "area_id":                     area_id,
+        "area_name":                   area_name,
+        "area_slug":                   area_slug,
+        "agent_id":                    s(agent_info.get("id")),
+        "agent_image":                 s(agent_info.get("image") or agent_info.get("photo")),
+        "agent_is_super_agent":        b(agent_info.get("is_super_agent") or agent_info.get("isSuperAgent")),
+        "agent_name":                  s(agent_info.get("name") or agent_str or p.get("contactName")),
+        "agent_email":                 s(agent_info.get("email") or contact_email),
+        "agent_slug":                  s(agent_info.get("slug")),
+        "agent_whatsapp_response_time":s(agent_info.get("whatsappResponseTime")),
+        "agent_total_properties":      s(agent_info.get("totalProperties")),
+        "agent_position":              s(agent_info.get("position")),
+        "agent_years_experience":      s(agent_info.get("yearsExperience") or agent_info.get("experience")),
+        "agent_transactions_count":    s(agent_info.get("transactionsCount") or agent_info.get("transactions")),
         "agent_languages":             agent_langs_str,
         "contact_phone":               contact_phone,
         "contact_whatsapp":            contact_whatsapp,
         "contact_email":               contact_email,
-        "broker_id":                   s(broker.get("id")),
-        "broker_name":                 s(broker.get("name")),
-        "broker_address":              s(broker.get("address")),
-        "broker_email":                s(broker.get("email")),
-        "broker_phone":                s(broker.get("phone")),
-        "broker_slug":                 s(broker.get("slug")),
-        "broker_total_properties":     s(broker.get("totalProperties")),
-        "broker_license_number":       s(broker.get("licenseNumber") or broker.get("license")),
-        "broker_is_exclusive":         b(broker.get("isExclusive")),
-        "broker_total_agents":         s(broker.get("totalAgents")),
-        "broker_total_super_agents":   s(broker.get("totalSuperAgents")),
-        "rera_number":                 s(p.get("reraNumber") or p.get("permitNumber")),
+        "broker_id":                   s(broker_info.get("id")),
+        "broker_name":                 s(broker_info.get("name")),
+        "broker_address":              s(broker_info.get("address")),
+        "broker_email":                s(broker_info.get("email")),
+        "broker_phone":                s(broker_info.get("phone")),
+        "broker_slug":                 s(broker_info.get("slug")),
+        "broker_total_properties":     s(broker_info.get("totalProperties")),
+        "broker_license_number":       s(broker_info.get("licenseNumber") or broker_info.get("license")),
+        "broker_is_exclusive":         b(broker_info.get("isExclusive")),
+        "broker_total_agents":         s(broker_info.get("totalAgents")),
+        "broker_total_super_agents":   s(broker_info.get("totalSuperAgents")),
+        "rera_number":                 s(p.get("reraNumber") or p.get("rera") or p.get("permitNumber")),
         "rera_authority_name":         s(p.get("reraAuthorityName")),
         "rera_permit_url":             s(p.get("reraPermitUrl") or p.get("dldPermit")),
         "is_verified":                 b(p.get("isVerified") or p.get("verified")),
@@ -349,7 +438,7 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         "is_cts":                      b(p.get("isCts")),
         "is_exclusive":                b(p.get("isExclusive")),
         "is_broker_project_property":  b(p.get("isBrokerProjectProperty")),
-        "is_smart_ad":                 b(p.get("isSmartAd")),
+        "is_smart_ad":                 b(p.get("isSmartAd") or (p.get("listingLevelLabel") == "smart_ad")),
         "is_spotlight_listing":        b(p.get("isSpotlightListing")),
         "is_claimed_by_agent":         b(p.get("isClaimedByAgent")),
         "is_under_offer_by_competitor":b(p.get("isUnderOfferByCompetitor")),
