@@ -3,10 +3,10 @@
   "last_run": "2026-06-07T23:56:52.207753+00:00",
   "data_age_hours": 0.0,
   "quality_score": 100.0,
-  "total_listings": 25178,
-  "new_listings": 82,
-  "removed_listings": 23,
-  "price_changed_listings": 1,
+  "total_listings": 25187,
+  "new_listings": 15,
+  "removed_listings": 6,
+  "price_changed_listings": 4,
   "categories": [
     {
       "category": "residential_rent",
@@ -106,17 +106,25 @@
       "price_changed": 1,
       "total": 106,
       "scraped_at": "2026-06-08T20:53:00.490897+00:00"
+    },
+    {
+      "date": "2026-06-09",
+      "new": 15,
+      "removed": 6,
+      "price_changed": 4,
+      "total": 25,
+      "scraped_at": "2026-06-09T00:38:35.603892+00:00"
     }
   ],
   "aging": {
-    "sample_size": 8837,
+    "sample_size": 8843,
     "avg_days_on_market": 2.2,
     "median_days_on_market": 2,
     "max_days_on_market": 8,
     "distribution": {
       "same_day": 1794,
-      "1-7_days": 7026,
-      "8-30_days": 17
+      "1-7_days": 7028,
+      "8-30_days": 21
     },
     "by_category_avg": {
       "unknown": 2.2
@@ -147,6 +155,15 @@
   "actions_health": {
     "workflows": [
       {
+        "name": "Timing Study - Find Optimal Scrape Time",
+        "last_status": "completed",
+        "last_conclusion": "success",
+        "last_run_at": "2026-06-09T00:38:23Z",
+        "real_failures_recent": 1,
+        "cosmetic_red_recent": 0,
+        "note": "1 run(s) actually failed -- see details below, needs attention."
+      },
+      {
         "name": "Daily Property Scrape",
         "last_status": "completed",
         "last_conclusion": "failure",
@@ -156,28 +173,19 @@
         "note": "1 run(s) actually failed -- see details below, needs attention."
       },
       {
-        "name": "Timing Study - Find Optimal Scrape Time",
-        "last_status": "completed",
-        "last_conclusion": "failure",
-        "last_run_at": "2026-06-08T20:53:43Z",
-        "real_failures_recent": 1,
-        "cosmetic_red_recent": 0,
-        "note": "1 run(s) actually failed -- see details below, needs attention."
-      },
-      {
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-08T21:06:41Z",
+        "last_run_at": "2026-06-09T00:46:24Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
       },
       {
         "name": "pages build and deployment",
-        "last_status": "completed",
-        "last_conclusion": "success",
-        "last_run_at": "2026-06-08T21:02:14Z",
+        "last_status": "in_progress",
+        "last_conclusion": null,
+        "last_run_at": "2026-06-09T00:46:19Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -232,5 +240,5 @@
       "does": "Generates this page's data.json (runs after Daily Scrape or Timing Study)"
     }
   ],
-  "dashboard_updated": "2026-06-08T21:06:58.062671+00:00"
+  "dashboard_updated": "2026-06-09T00:46:36.537083+00:00"
 }
