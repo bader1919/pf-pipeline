@@ -238,13 +238,21 @@ def detect_anomalies(latest_report, quality_report, trend, listings_age_hours, a
     anomalies = []
 
     if actions_health:
+        # Build a lookup of latest conclusion per workflow
+        latest_conclusion = {
+            wf["name"]: wf.get("last_conclusion")
+            for wf in actions_health.get("workflows", [])
+        }
         for failure in actions_health.get("real_failure_details", []):
-            step = f" (failed at step: {failure['failed_step']})" if failure.get("failed_step") else ""
-            anomalies.append({
-                "severity": "warning",
-                "message": f"'{failure['workflow']}' run actually failed{step} -- "
-                           f"see {failure['html_url']} for logs.",
-            })
+            # Only warn if the most recent run for this workflow is still failed
+            # (i.e. it hasn't recovered yet)
+            if latest_conclusion.get(failure["workflow"]) == "failure":
+                step = f" (failed at step: {failure['failed_step']})" if failure.get("failed_step") else ""
+                anomalies.append({
+                    "severity": "warning",
+                    "message": f"'{failure['workflow']}' run actually failed{step} -- "
+                               f"see {failure['html_url']} for logs.",
+                })
 
     if listings_age_hours is not None and listings_age_hours > 30:
         anomalies.append({
