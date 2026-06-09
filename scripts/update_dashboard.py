@@ -313,6 +313,79 @@ def detect_anomalies(latest_report, quality_report, trend, listings_age_hours, a
 
 
 # ---------------------------------------------------------------------------
+# Field fill-rate audit -- scan all_listings.csv and report fill % for every
+# column so gaps are visible on the dashboard without opening the CSV.
+# Groups columns by category so the analyst can see which data areas are weak.
+# ---------------------------------------------------------------------------
+FIELD_GROUPS = {
+    "Identity":   ["listing_id", "pf_id", "title", "share_url"],
+    "Price":      ["price_value", "price_currency", "price_period"],
+    "Size":       ["size_value", "size_unit"],
+    "Location":   ["latitude", "longitude", "region_name", "area_name", "community", "sub_community", "location_full_name"],
+    "Agent":      ["agent_name", "agent_id", "agent_email", "agent_is_super_agent", "agent_languages"],
+    "Broker":     ["broker_name", "broker_id", "broker_phone", "broker_address"],
+    "Contact":    ["contact_phone", "contact_whatsapp", "contact_email"],
+    "Dates":      ["listed_date", "last_refreshed_at"],
+    "Property":   ["property_type", "bedrooms", "bathrooms", "completion_status", "furnished"],
+    "Amenities":  ["amenity_codes", "amenity_names"],
+}
+
+def load_field_fill_rates():
+    if not ALL_LISTINGS.exists():
+        return None
+
+    totals = {}
+    filled = {}
+    row_count = 0
+
+    with open(ALL_LISTINGS, encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        headers = reader.fieldnames or []
+        for col in headers:
+            totals[col] = 0
+            filled[col] = 0
+        for row in reader:
+            row_count += 1
+            for col in headers:
+                totals[col] += 1
+                if row.get(col, "").strip() not in ("", "false"):
+                    filled[col] += 1
+
+    if row_count == 0:
+        return None
+
+    groups_out = {}
+    for group, cols in FIELD_GROUPS.items():
+        group_fields = []
+        for col in cols:
+            pct = round(filled.get(col, 0) / row_count * 100, 1) if row_count else 0
+            group_fields.append({
+                "field": col,
+                "fill_pct": pct,
+                "filled": filled.get(col, 0),
+                "total": row_count,
+                "present_in_schema": col in totals,
+            })
+        groups_out[group] = group_fields
+
+    # Also surface all columns with fill < 50% as "gaps"
+    gaps = []
+    for col in totals:
+        pct = round(filled.get(col, 0) / row_count * 100, 1)
+        if pct < 50 and col not in ("detail_scraped_at", "qs", "sub_community",
+                                    "rooms", "rooms_value", "rental_availability_date",
+                                    "plot_size", "video_id", "view_360", "agent_license_no"):
+            gaps.append({"field": col, "fill_pct": pct})
+    gaps.sort(key=lambda x: x["fill_pct"])
+
+    return {
+        "row_count": row_count,
+        "groups": groups_out,
+        "gaps": gaps[:20],  # top 20 worst gaps
+    }
+
+
+# ---------------------------------------------------------------------------
 # Pipeline steps -- static description of the scrape -> clean -> compare chain
 # so an analyst can see what runs, in order, without opening the workflow YAML.
 # ---------------------------------------------------------------------------
@@ -352,6 +425,7 @@ def main():
     trend = load_daily_change_trend()
     aging = load_aging_stats()
     categories = load_category_breakdown(quality_report)
+    field_fill_rates = load_field_fill_rates()
     listings_age_hours = file_age_hours(ALL_LISTINGS)
 
     # Always recount the live snapshot so the headline number is never stale,
@@ -399,6 +473,7 @@ def main():
         "anomalies": anomalies,
         "actions_health": actions_health,
         "pipeline_steps": PIPELINE_STEPS,
+        "field_fill_rates": field_fill_rates,
         "dashboard_updated": datetime.now(timezone.utc).isoformat(),
     }
 

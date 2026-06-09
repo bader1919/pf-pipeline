@@ -1,4 +1,4 @@
-# Raw JSON files — large, not committed
+# Raw JSON — large, not committed directly (use data/raw_archive/ for compressed copies)
 data/raw/
 
 # Python

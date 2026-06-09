@@ -55,7 +55,22 @@ jobs:
         run: python scraper/quality_gate.py --detailed
         continue-on-error: true
 
-      # ── Step 6: Commit updated data back to repo ─────────────────────────────
+      # ── Step 6: Compress and archive raw JSON for future re-cleaning ──────────
+      # Raw JSON is gzip-compressed (~85% smaller) then committed to data/raw_archive/.
+      # This allows re-running the cleaner against any past snapshot if the schema changes.
+      - name: Archive raw JSON (compressed)
+        run: |
+          DATE=$(date -u '+%Y-%m-%d')
+          ARCHIVE_DIR="data/raw_archive/${DATE}"
+          mkdir -p "${ARCHIVE_DIR}"
+          for f in data/raw/*.json; do
+            [ -f "$f" ] || continue
+            gzip -c "$f" > "${ARCHIVE_DIR}/$(basename $f).gz"
+          done
+          echo "Archived raw JSON to ${ARCHIVE_DIR}"
+          ls -lh "${ARCHIVE_DIR}/"
+
+      # ── Step 7: Commit updated data back to repo ─────────────────────────────
       - name: Commit data
         run: |
           git config user.name  "github-actions[bot]"
@@ -67,6 +82,7 @@ jobs:
           git add data/latest_report.json
           git add data/latest/quality_report.json
           git add data/latest/quality_report.md
+          git add data/raw_archive/
 
           # Only commit if there is something staged
           if git diff --staged --quiet; then

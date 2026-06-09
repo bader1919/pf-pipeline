@@ -130,6 +130,12 @@
         </div>
 
         <div class="card">
+            <h2>🔬 Field fill rates (data completeness per column group)</h2>
+            <p style="color:#888;font-size:0.85em;margin:0 0 10px">Shows % of listings where each field is populated. Gaps below 80% are highlighted. Use this to spot schema mismatches or API changes early.</p>
+            <div id="fieldFillRates"><div class="loading">Loading...</div></div>
+        </div>
+
+        <div class="card">
             <h2>⚙️ Pipeline steps (what runs, in order)</h2>
             <div id="pipelineSteps"><div class="loading">Loading...</div></div>
         </div>
@@ -324,6 +330,57 @@
             el.innerHTML = rows + failureLinks;
         }
 
+        function renderFieldFillRates(fillData) {
+            const el = document.getElementById('fieldFillRates');
+            if (!fillData || !fillData.groups) {
+                el.innerHTML = '<div class="loading">No field fill data available yet.</div>';
+                return;
+            }
+
+            const barColor = pct => pct >= 90 ? '#27ae60' : pct >= 60 ? '#e67e22' : '#e74c3c';
+
+            let html = `<p style="color:#aaa;font-size:0.82em;margin-bottom:12px">Based on ${(fillData.row_count||0).toLocaleString()} listings</p>`;
+
+            if (fillData.gaps && fillData.gaps.length) {
+                html += `<div class="anomaly sev-warning" style="margin-bottom:14px">
+                    <span class="anomaly-icon">⚠️</span>
+                    <span class="anomaly-msg"><strong>Gaps detected</strong> — fields below 50% fill (may indicate schema mismatch or API change):
+                    ${fillData.gaps.map(g => `<code>${g.field}</code> ${g.fill_pct}%`).join(' · ')}</span>
+                </div>`;
+            } else {
+                html += `<div class="anomaly sev-ok" style="margin-bottom:14px">
+                    <span class="anomaly-icon">✅</span>
+                    <span class="anomaly-msg">No critical gaps detected — all tracked fields are above 50% fill.</span>
+                </div>`;
+            }
+
+            for (const [group, fields] of Object.entries(fillData.groups)) {
+                html += `<div style="margin-bottom:16px">
+                    <div style="font-weight:600;color:#ccc;margin-bottom:6px">${group}</div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px">`;
+                for (const f of fields) {
+                    const pct = f.present_in_schema ? f.fill_pct : null;
+                    if (pct === null) {
+                        html += `<div style="font-size:0.8em;color:#666;padding:4px 8px">
+                            <code>${f.field}</code> <span style="color:#555">not in schema</span></div>`;
+                    } else {
+                        const color = barColor(pct);
+                        html += `<div style="font-size:0.8em;padding:4px 8px;border-radius:4px;background:#1a1a2e">
+                            <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                                <code style="color:#ccc">${f.field}</code>
+                                <span style="color:${color};font-weight:600">${pct}%</span>
+                            </div>
+                            <div style="background:#2a2a3e;border-radius:2px;height:4px">
+                                <div style="background:${color};width:${pct}%;height:4px;border-radius:2px"></div>
+                            </div>
+                        </div>`;
+                    }
+                }
+                html += `</div></div>`;
+            }
+            el.innerHTML = html;
+        }
+
         async function loadDashboard() {
             try {
                 const response = await fetch('data.json?_=' + Date.now());
@@ -363,6 +420,7 @@
                 renderTrend(data.change_trend);
                 renderAging(data.aging);
                 renderActionsHealth(data.actions_health);
+                renderFieldFillRates(data.field_fill_rates);
                 renderPipelineSteps(data.pipeline_steps);
 
             } catch (error) {
