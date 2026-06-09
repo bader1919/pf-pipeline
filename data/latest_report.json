@@ -1,29 +1,29 @@
 {
-  "report_generated_at": "2026-06-09T13:38:37.773032+00:00",
+  "report_generated_at": "2026-06-09T13:50:45.355895+00:00",
   "pipeline_status": "success",
-  "total_listings": 25263,
-  "complete_records": 25263,
+  "total_listings": 25264,
+  "complete_records": 25264,
   "data_completeness_rate": 100.0,
   "categories": {
     "residential_rent": {
       "exists": true,
-      "size": 35340726,
-      "rows": 13738,
-      "total_rows": 13738,
+      "size": 35339252,
+      "rows": 13740,
+      "total_rows": 13740,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 13738
+      "complete_records": 13740
     },
     "residential_sale": {
       "exists": true,
-      "size": 23833169,
-      "rows": 9653,
-      "total_rows": 9653,
+      "size": 23831673,
+      "rows": 9652,
+      "total_rows": 9652,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 9653
+      "complete_records": 9652
     },
     "commercial_rent": {
       "exists": true,
@@ -57,24 +57,35 @@
     }
   },
   "changes": {
-    "total_changes": 42910,
+    "total_changes": 43654,
     "by_type": {
-      "new": 34030,
-      "removed": 8843,
-      "price_changed": 37
+      "new": 34427,
+      "removed": 9163,
+      "price_changed": 64
     }
   },
   "raw_data": {
-    "exists": false
+    "exists": true,
+    "scraped_at": "2026-06-09T13:43:30.186118+00:00",
+    "categories": 6,
+    "total_records": 25264,
+    "counts": {
+      "residential_rent": 13740,
+      "residential_sale": 9652,
+      "commercial_rent": 1387,
+      "commercial_sale": 467,
+      "new_projects": 18,
+      "agents": 0
+    }
   },
   "all_listings_file": {
     "exists": true,
-    "size": 63590724,
-    "rows": 25263,
-    "total_rows": 25263,
+    "size": 63587754,
+    "rows": 25264,
+    "total_rows": 25264,
     "empty_ids": 0,
     "empty_prices": 0,
     "empty_locations": 0,
-    "complete_records": 25263
+    "complete_records": 25264
   }
 }
