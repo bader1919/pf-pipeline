@@ -181,6 +181,14 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
             return ""
         return str(bool(val)).lower()
 
+    def bk(*keys):
+        """Safe boolean getter — avoids False being treated as falsy in `or` chains."""
+        for k in keys:
+            v = p.get(k)
+            if v is not None:
+                return b(v)
+        return ""
+
     # ── Detect format: live (snake_case property_type) vs flat (camelCase propertyType) ──
     is_live = "property_type" in p or "listed_date" in p or "share_url" in p
 
@@ -241,7 +249,9 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
     area_id = area_name = area_slug = ""
     community = sub_community = ""
 
-    loc_tree = p.get("locationTree") or (loc.get("locationTree") if isinstance(loc, dict) else []) or []
+    loc_tree = (p.get("location_tree") or p.get("locationTree")
+                or (loc.get("location_tree") or loc.get("locationTree") if isinstance(loc, dict) else [])
+                or [])
     community_nodes = []
     for node in loc_tree:
         ntype = (node.get("type") or "").upper()
@@ -452,7 +462,7 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         "sub_community":               sub_community,
         "agent_id":                    s(agent_merged.get("id")),
         "agent_image":                 s(agent_merged.get("image") or agent_merged.get("photo")),
-        "agent_is_super_agent":        b(agent_merged.get("is_super_agent") or agent_merged.get("isSuperAgent")),
+        "agent_is_super_agent":        b(agent_merged.get("is_super_agent") if agent_merged.get("is_super_agent") is not None else agent_merged.get("isSuperAgent")),
         "agent_name":                  s(agent_merged.get("name") or p.get("contactName")),
         "agent_email":                 s(agent_merged.get("email") or contact_email),
         "agent_slug":                  s(agent_merged.get("slug")),
@@ -473,32 +483,32 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
         "broker_slug":                 s(broker_merged.get("slug")),
         "broker_total_properties":     s(broker_merged.get("total_properties") or broker_merged.get("totalProperties")),
         "broker_license_number":       s(broker_merged.get("license_number") or broker_merged.get("licenseNumber")),
-        "broker_is_exclusive":         b(broker_merged.get("is_exclusive") or broker_merged.get("isExclusive")),
+        "broker_is_exclusive":         b(broker_merged.get("is_exclusive") if broker_merged.get("is_exclusive") is not None else broker_merged.get("isExclusive")),
         "broker_total_agents":         s(broker_merged.get("total_agents") or broker_merged.get("totalAgents")),
         "broker_total_super_agents":   s(broker_merged.get("total_super_agents") or broker_merged.get("totalSuperAgents")),
         "rera_number":                 rera,
         "rera_authority_name":         s(p.get("rera_authority_name") or p.get("reraAuthorityName")),
         "rera_permit_url":             s(p.get("rera_permit_url") or p.get("reraPermitUrl") or p.get("dldPermit")),
-        "is_verified":                 b(p.get("is_verified") or p.get("isVerified") or p.get("verified")),
-        "is_direct_from_developer":    b(p.get("is_direct_from_developer") or p.get("isDirectFromDeveloper")),
-        "is_new_construction":         b(p.get("is_new_construction") or p.get("isNewConstruction")),
-        "is_available":                b(p.get("is_available") or p.get("isAvailable")),
-        "is_featured":                 b(p.get("is_featured") or p.get("isFeatured") or p.get("featured")),
-        "is_premium":                  b(p.get("is_premium") or p.get("isPremium") or p.get("premium")),
-        "is_new_insert":               b(p.get("is_new_insert") or p.get("isNewInsert")),
-        "is_community_expert":         b(p.get("is_community_expert") or p.get("isCommunityExpert")),
-        "is_cts":                      b(p.get("is_cts") or p.get("isCts")),
-        "is_exclusive":                b(p.get("is_exclusive") or p.get("isExclusive")),
-        "is_broker_project_property":  b(p.get("is_broker_project_property") or p.get("isBrokerProjectProperty")),
-        "is_smart_ad":                 b(p.get("is_smart_ad") or p.get("isSmartAd") or (p.get("listing_level_label") == "smart_ad") or (p.get("listingLevelLabel") == "smart_ad")),
-        "is_spotlight_listing":        b(p.get("is_spotlight_listing") or p.get("isSpotlightListing")),
-        "is_claimed_by_agent":         b(p.get("is_claimed_by_agent") or p.get("isClaimedByAgent")),
-        "is_under_offer_by_competitor":b(p.get("is_under_offer_by_competitor") or p.get("isUnderOfferByCompetitor")),
-        "is_pf_exclusive":             b(p.get("is_pf_exclusive") or p.get("isPfExclusive")),
-        "is_fhm":                      b(p.get("is_fhm") or p.get("isFhm")),
-        "is_great_value":              b(p.get("is_great_value") or p.get("isGreatValue")),
-        "is_high_demand":              b(p.get("is_high_demand") or p.get("isHighDemand")),
-        "is_luxe":                     b(p.get("is_luxe") or p.get("isLuxe")),
+        "is_verified":                 bk("is_verified", "isVerified", "verified"),
+        "is_direct_from_developer":    bk("is_direct_from_developer", "isDirectFromDeveloper"),
+        "is_new_construction":         bk("is_new_construction", "isNewConstruction"),
+        "is_available":                bk("is_available", "isAvailable"),
+        "is_featured":                 bk("is_featured", "isFeatured", "featured"),
+        "is_premium":                  bk("is_premium", "isPremium", "premium"),
+        "is_new_insert":               bk("is_new_insert", "isNewInsert"),
+        "is_community_expert":         bk("is_community_expert", "isCommunityExpert"),
+        "is_cts":                      bk("is_cts", "isCts"),
+        "is_exclusive":                bk("is_exclusive", "isExclusive"),
+        "is_broker_project_property":  bk("is_broker_project_property", "isBrokerProjectProperty"),
+        "is_smart_ad":                 bk("is_smart_ad", "isSmartAd"),
+        "is_spotlight_listing":        bk("is_spotlight_listing", "isSpotlightListing"),
+        "is_claimed_by_agent":         bk("is_claimed_by_agent", "isClaimedByAgent"),
+        "is_under_offer_by_competitor":bk("is_under_offer_by_competitor", "isUnderOfferByCompetitor"),
+        "is_pf_exclusive":             bk("is_pf_exclusive", "isPfExclusive"),
+        "is_fhm":                      bk("is_fhm", "isFhm"),
+        "is_great_value":              bk("is_great_value", "isGreatValue"),
+        "is_high_demand":              bk("is_high_demand", "isHighDemand"),
+        "is_luxe":                     bk("is_luxe", "isLuxe"),
         "listing_level":               s(p.get("listing_level") or p.get("listingLevel")),
         "listing_level_label":         s(p.get("listing_level_label") or p.get("listingLevelLabel")),
         "lead_value":                  s(p.get("lead_value") or p.get("leadValue")),
@@ -596,7 +606,7 @@ def flatten_listing(p: dict, category_id: str, category_name: str, scraped_at: s
     #   Community: REGION → COMMUNITY (level 1) → COMMUNITY (level 2)
     # We map level-1 COMMUNITY as area when no AREA node exists,
     # and always capture COMMUNITY names in community/sub_community columns.
-    loc_tree = p.get("locationTree") or []
+    loc_tree = p.get("location_tree") or p.get("locationTree") or []
     community_nodes = []
     for node in loc_tree:
         ntype = (node.get("type") or "").upper()

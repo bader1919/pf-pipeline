@@ -348,7 +348,7 @@ def load_field_fill_rates():
             row_count += 1
             for col in headers:
                 totals[col] += 1
-                if row.get(col, "").strip() not in ("", "false"):
+                if row.get(col, "").strip() not in ("",):
                     filled[col] += 1
 
     if row_count == 0:
