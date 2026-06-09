@@ -2,9 +2,9 @@ name: Timing Study - Find Optimal Scrape Time
 
 on:
   workflow_dispatch:
-  schedule:
-    # Run every 4 hours for timing study
-    - cron: "0 */4 * * *"
+  # Schedule disabled: study ran June 2-9 2026. Optimal window identified
+  # as 16:00-20:00 UTC -- applied to daily_scrape.yml cron. Keep
+  # workflow_dispatch in case a new timing study is ever needed.
 
 jobs:
   timing_study:
