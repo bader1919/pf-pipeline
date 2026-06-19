@@ -1,31 +1,31 @@
 {
   "status": "healthy",
-  "last_run": "2026-06-18T21:05:22.428978+00:00",
+  "last_run": "2026-06-19T20:46:13.115797+00:00",
   "data_age_hours": 0.0,
   "quality_score": 100.0,
-  "total_listings": 25617,
-  "new_listings": 1159,
-  "removed_listings": 320,
-  "price_changed_listings": 23,
+  "total_listings": 25515,
+  "new_listings": 184,
+  "removed_listings": 286,
+  "price_changed_listings": 18,
   "categories": [
     {
       "category": "residential_rent",
-      "rows": 14142,
+      "rows": 14140,
       "quality_score": 100.0
     },
     {
       "category": "residential_sale",
-      "rows": 9600,
+      "rows": 9503,
       "quality_score": 100.0
     },
     {
       "category": "commercial_rent",
-      "rows": 1384,
+      "rows": 1386,
       "quality_score": 100.0
     },
     {
       "category": "commercial_sale",
-      "rows": 473,
+      "rows": 468,
       "quality_score": 100.0
     },
     {
@@ -35,14 +35,6 @@
     }
   ],
   "change_trend": [
-    {
-      "date": "2026-06-05",
-      "new": 71,
-      "removed": 83,
-      "price_changed": 0,
-      "total": 154,
-      "scraped_at": "2026-06-05T20:36:54.354740+00:00"
-    },
     {
       "date": "2026-06-06",
       "new": 88,
@@ -146,20 +138,28 @@
       "price_changed": 23,
       "total": 1502,
       "scraped_at": "2026-06-18T20:57:37.279688+00:00"
+    },
+    {
+      "date": "2026-06-19",
+      "new": 184,
+      "removed": 286,
+      "price_changed": 18,
+      "total": 488,
+      "scraped_at": "2026-06-19T20:38:08.437876+00:00"
     }
   ],
   "aging": {
-    "sample_size": 15791,
-    "avg_days_on_market": 5.8,
+    "sample_size": 16077,
+    "avg_days_on_market": 6.0,
     "median_days_on_market": 5,
-    "max_days_on_market": 17,
+    "max_days_on_market": 18,
     "distribution": {
-      "same_day": 1977,
-      "1-7_days": 7668,
-      "8-30_days": 6146
+      "same_day": 1986,
+      "1-7_days": 7694,
+      "8-30_days": 6397
     },
     "by_category_avg": {
-      "unknown": 5.8
+      "unknown": 6.0
     }
   },
   "anomalies": [
@@ -182,7 +182,7 @@
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-18T21:06:17Z",
+        "last_run_at": "2026-06-19T20:47:13Z",
         "real_failures_recent": 1,
         "cosmetic_red_recent": 0,
         "note": "1 run(s) actually failed -- see details below, needs attention."
@@ -191,7 +191,7 @@
         "name": "pages build and deployment",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-18T21:06:08Z",
+        "last_run_at": "2026-06-19T20:47:00Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -200,7 +200,7 @@
         "name": "Daily Property Scrape",
         "last_status": "completed",
         "last_conclusion": "success",
-        "last_run_at": "2026-06-18T20:57:07Z",
+        "last_run_at": "2026-06-19T20:37:42Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -249,35 +249,35 @@
     }
   ],
   "field_fill_rates": {
-    "row_count": 25617,
+    "row_count": 25515,
     "groups": {
       "Identity": [
         {
           "field": "listing_id",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "pf_id",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "title",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "share_url",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -285,22 +285,22 @@
         {
           "field": "price_value",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "price_currency",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "price_period",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -308,15 +308,15 @@
         {
           "field": "size_value",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "size_unit",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -324,50 +324,50 @@
         {
           "field": "latitude",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "longitude",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "region_name",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "area_name",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "community",
           "fill_pct": 25.1,
-          "filled": 6418,
-          "total": 25617,
+          "filled": 6412,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "sub_community",
           "fill_pct": 3.3,
-          "filled": 836,
-          "total": 25617,
+          "filled": 834,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "location_full_name",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -375,36 +375,36 @@
         {
           "field": "agent_name",
           "fill_pct": 100.0,
-          "filled": 25615,
-          "total": 25617,
+          "filled": 25513,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "agent_id",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "agent_email",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "agent_is_super_agent",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "agent_languages",
           "fill_pct": 90.7,
-          "filled": 23242,
-          "total": 25617,
+          "filled": 23144,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -412,29 +412,29 @@
         {
           "field": "broker_name",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "broker_id",
           "fill_pct": 100.0,
-          "filled": 25617,
-          "total": 25617,
+          "filled": 25515,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "broker_phone",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "broker_address",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -442,22 +442,22 @@
         {
           "field": "contact_phone",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "contact_whatsapp",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "contact_email",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -465,15 +465,15 @@
         {
           "field": "listed_date",
           "fill_pct": 99.9,
-          "filled": 25599,
-          "total": 25617,
+          "filled": 25497,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "last_refreshed_at",
           "fill_pct": 0.3,
           "filled": 80,
-          "total": 25617,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -481,36 +481,36 @@
         {
           "field": "property_type",
           "fill_pct": 100.0,
-          "filled": 25615,
-          "total": 25617,
+          "filled": 25513,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "bedrooms",
-          "fill_pct": 78.9,
-          "filled": 20221,
-          "total": 25617,
+          "fill_pct": 79.0,
+          "filled": 20147,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "bathrooms",
           "fill_pct": 85.1,
-          "filled": 21802,
-          "total": 25617,
+          "filled": 21725,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "completion_status",
-          "fill_pct": 24.4,
-          "filled": 6262,
-          "total": 25617,
+          "fill_pct": 24.2,
+          "filled": 6187,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "furnished",
-          "fill_pct": 84.9,
-          "filled": 21754,
-          "total": 25617,
+          "fill_pct": 85.0,
+          "filled": 21679,
+          "total": 25515,
           "present_in_schema": true
         }
       ],
@@ -518,15 +518,15 @@
         {
           "field": "amenity_codes",
           "fill_pct": 84.7,
-          "filled": 21693,
-          "total": 25617,
+          "filled": 21618,
+          "total": 25515,
           "present_in_schema": true
         },
         {
           "field": "amenity_names",
           "fill_pct": 84.7,
-          "filled": 21693,
-          "total": 25617,
+          "filled": 21618,
+          "total": 25515,
           "present_in_schema": true
         }
       ]
@@ -614,5 +614,5 @@
       }
     ]
   },
-  "dashboard_updated": "2026-06-18T21:07:19.529798+00:00"
+  "dashboard_updated": "2026-06-19T20:47:42.142210+00:00"
 }
