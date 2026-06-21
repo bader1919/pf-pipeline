@@ -95,22 +95,6 @@ def create_handover():
         f.write(initial_content.format(timestamp=timestamp))
 
 
-def log_pipeline_run(run_type: str, metrics: dict):
-    """Log a pipeline run to handover."""
-    details = {
-        "who": "GitHub Actions",
-        "what": f"{run_type} pipeline run",
-        "status": "Success",
-        "total_listings": metrics.get("total_listings", 0),
-        "quality_score": f"{metrics.get('quality_score', 0)}%",
-        "new_listings": metrics.get("new_listings", 0),
-        "removed_listings": metrics.get("removed_listings", 0),
-        "files": ["all_listings.csv", "quality_report.json", "quality_report.md"]
-    }
-
-    update_handover(f"{run_type} Run", details)
-
-
 def main():
     import argparse
 
