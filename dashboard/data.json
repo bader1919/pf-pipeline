@@ -182,25 +182,25 @@
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-06-20T20:44:07Z",
+        "last_run_at": "2026-06-21T10:37:15Z",
         "real_failures_recent": 1,
         "cosmetic_red_recent": 0,
         "note": "1 run(s) actually failed -- see details below, needs attention."
       },
       {
-        "name": "pages build and deployment",
-        "last_status": "in_progress",
-        "last_conclusion": null,
-        "last_run_at": "2026-06-20T20:43:58Z",
+        "name": "Daily Property Scrape",
+        "last_status": "completed",
+        "last_conclusion": "success",
+        "last_run_at": "2026-06-21T10:27:47Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
       },
       {
-        "name": "Daily Property Scrape",
+        "name": "pages build and deployment",
         "last_status": "completed",
         "last_conclusion": "success",
-        "last_run_at": "2026-06-20T20:35:05Z",
+        "last_run_at": "2026-06-20T20:44:52Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -614,5 +614,5 @@
       }
     ]
   },
-  "dashboard_updated": "2026-06-20T20:44:48.641155+00:00"
+  "dashboard_updated": "2026-06-21T10:37:50.677921+00:00"
 }
