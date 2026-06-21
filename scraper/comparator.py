@@ -69,53 +69,27 @@ CHANGE_COLUMNS = [
 ]
 
 
-# Fallback alternatives for columns that have been renamed before.
-# First match found in the CSV wins; a loud warning is printed if none match.
-COLUMN_ALIASES = {
-    "listing_id":  ["listing_id", "pf_id", "id", "property_id"],
-    "price_value": ["price_value", "price", "listing_price", "rent_price", "sale_price"],
-}
+CRITICAL_COLUMNS = ["listing_id", "price_value"]
 
 
-def detect_columns(headers: list) -> dict:
-    """
-    Map canonical column names to their actual name in this CSV.
-    Warns loudly if a critical column can't be resolved -- that warning shows
-    up in GitHub Actions logs so the problem is never silent again.
-    """
-    resolved = {}
-    header_lower = {h.lower(): h for h in headers}
-    for canonical, aliases in COLUMN_ALIASES.items():
-        for alias in aliases:
-            if alias in headers:
-                resolved[canonical] = alias
-                if alias != canonical:
-                    print(f"  [schema] '{canonical}' resolved to '{alias}' in this CSV")
-                break
-            if alias.lower() in header_lower:
-                resolved[canonical] = header_lower[alias.lower()]
-                print(f"  [schema] '{canonical}' resolved to '{resolved[canonical]}' (case-insensitive match)")
-                break
-        else:
-            print(f"  [schema] WARNING: could not find '{canonical}' in CSV headers. "
-                  f"Tried: {aliases}. Available: {headers[:10]}...")
-            resolved[canonical] = canonical  # fall back to canonical; will produce empty values
-    return resolved
+def warn_if_columns_missing(headers: list):
+    """Warn loudly if a critical column is missing from this CSV's header --
+    that warning shows up in GitHub Actions logs so a cleaner.py schema
+    change is never silent."""
+    for col in CRITICAL_COLUMNS:
+        if col not in headers:
+            print(f"  [schema] WARNING: could not find '{col}' in CSV headers. Available: {headers[:10]}...")
 
 
-def load_csv_by_id(path: str) -> tuple[dict, dict]:
-    """
-    Load a CSV into {listing_id: row_dict}. Empty dict if file missing.
-    Also returns the detected column mapping so callers can use the right names.
-    """
+def load_csv_by_id(path: str) -> dict:
+    """Load a CSV into {listing_id: row_dict}. Empty dict if file missing."""
     if not os.path.exists(path):
-        return {}, {}
+        return {}
     with open(path, encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
-        cols = detect_columns(reader.fieldnames or [])
-        id_col = cols["listing_id"]
-        rows = {row[id_col]: row for row in reader if row.get(id_col)}
-    return rows, cols
+        warn_if_columns_missing(reader.fieldnames or [])
+        rows = {row["listing_id"]: row for row in reader if row.get("listing_id")}
+    return rows
 
 
 def load_first_seen(all_changes_path: str) -> dict:
@@ -151,10 +125,9 @@ def build_change_row(
     base = today_row or prev_row or {}
     pid  = base.get("listing_id", "")
 
-    price_col = _price_col  # set by main() after detecting headers
     try:
-        price_curr = float(today_row[price_col]) if today_row and today_row.get(price_col) else None
-        price_prev = float(prev_row[price_col])  if prev_row  and prev_row.get(price_col)  else None
+        price_curr = float(today_row["price_value"]) if today_row and today_row.get("price_value") else None
+        price_prev = float(prev_row["price_value"])  if prev_row  and prev_row.get("price_value")  else None
     except (ValueError, TypeError):
         price_curr = None
         price_prev = None
@@ -237,20 +210,14 @@ def write_daily_csv(rows: list, change_date: str):
     print(f"  Daily delta -> {path}")
 
 
-_price_col = "price_value"   # module-level sentinel; overwritten by main()
-
-
 def main():
-    global _price_col
     os.makedirs(CHANGES_DIR, exist_ok=True)
 
     change_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     print(f"Comparing snapshots for: {change_date}\n")
 
-    # Load current and previous snapshots; detect actual column names from headers
-    today_all, cols = load_csv_by_id(os.path.join(LATEST_DIR, "all_listings.csv"))
-    prev_all,  _    = load_csv_by_id(os.path.join(PREV_DIR,  "all_listings.csv"))
-    _price_col = cols.get("price_value", "price_value")
+    today_all = load_csv_by_id(os.path.join(LATEST_DIR, "all_listings.csv"))
+    prev_all  = load_csv_by_id(os.path.join(PREV_DIR,  "all_listings.csv"))
 
     if not today_all:
         print("  No today snapshot found — aborting comparison.")
@@ -281,8 +248,8 @@ def main():
 
     # Price changes
     for pid in sorted(common_ids):
-        t_price = today_all[pid].get(_price_col, "")
-        p_price = prev_all[pid].get(_price_col, "")
+        t_price = today_all[pid].get("price_value", "")
+        p_price = prev_all[pid].get("price_value", "")
         if t_price != p_price and t_price and p_price:
             change_rows.append(
                 build_change_row("price_changed", today_all[pid], prev_all[pid], change_date, first_seen)
