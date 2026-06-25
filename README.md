@@ -5,6 +5,8 @@ Tracks every new listing, removal (sold/rented), and price change over time.
 
 **Live dashboard:** [bader1919.github.io/pf-pipeline/dashboard/](https://bader1919.github.io/pf-pipeline/dashboard/)
 
+`master` is the live branch. `v1` is an archival snapshot from 2026-06-25 (pre `node_modules`/`.playwright-cli` cleanup) — not maintained.
+
 ## What it does
 
 Every day at 20:00 UTC the pipeline:
