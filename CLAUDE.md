@@ -25,6 +25,11 @@ python scripts/update_dashboard.py
 
 No tests exist in this repository.
 
+## Branches
+
+- **`master`** — the live, current version. The daily pipeline commits here.
+- **`v1`** — archival snapshot of `master` taken 2026-06-25, right before `node_modules/` and `.playwright-cli/` were removed from version control and gitignored. Same commit history as `master` up to that point; not maintained going forward.
+
 ## Architecture
 
 **Daily PropertyFinder Bahrain market intelligence pipeline.** Scrapes ~25-30k listings and tracks market changes (new listings, removals, price changes) over time for Power BI / AI training use.
