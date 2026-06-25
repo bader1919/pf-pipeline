@@ -1,33 +1,33 @@
 # Data Quality Gate Report
-**Generated:** 2026-06-24T20:48:42.867752+00:00
+**Generated:** 2026-06-25T13:48:57.613755+00:00
 **Status:** PASS
 
 ## Overall Statistics
-- **Total Listings:** 25,816
+- **Total Listings:** 25,730
 - **Quality Score:** 100.0%
 
 ## Critical Field Completeness
-- [PASS] **listing_id:** 100.0% (25,816 / 25,816)
-- [PASS] **price_value:** 100.0% (25,816 / 25,816)
-- [PASS] **latitude:** 100.0% (25,816 / 25,816)
-- [PASS] **longitude:** 100.0% (25,816 / 25,816)
-- [PASS] **title:** 100.0% (25,816 / 25,816)
+- [PASS] **listing_id:** 100.0% (25,730 / 25,730)
+- [PASS] **price_value:** 100.0% (25,730 / 25,730)
+- [PASS] **latitude:** 100.0% (25,730 / 25,730)
+- [PASS] **longitude:** 100.0% (25,730 / 25,730)
+- [PASS] **title:** 100.0% (25,730 / 25,730)
 
 ## Categories
 ### residential_rent
-- Rows: 14,203
+- Rows: 14,150
 - Quality: 100.0%
 
 ### residential_sale
-- Rows: 9,691
+- Rows: 9,676
 - Quality: 100.0%
 
 ### commercial_rent
-- Rows: 1,426
+- Rows: 1,407
 - Quality: 100.0%
 
 ### commercial_sale
-- Rows: 478
+- Rows: 479
 - Quality: 100.0%
 
 ### new_projects
@@ -35,6 +35,6 @@
 - Quality: 100.0%
 
 ## Pipeline Status
-- **Raw Records:** 25,816
-- **Last Scrape:** 2026-06-24T20:40:58.428770+00:00
-- **Total Changes:** 62,352
+- **Raw Records:** 25,730
+- **Last Scrape:** 2026-06-25T13:41:13.950752+00:00
+- **Total Changes:** 62,722
