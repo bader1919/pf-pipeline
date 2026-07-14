@@ -1,8 +1,8 @@
 {
-  "report_generated_at": "2026-07-13T21:10:25.911847+00:00",
+  "report_generated_at": "2026-07-14T21:08:10.906427+00:00",
   "pipeline_status": "success",
-  "total_listings": 25126,
-  "complete_records": 25126,
+  "total_listings": 25136,
+  "complete_records": 25136,
   "data_completeness_rate": 100.0,
   "categories": {
     "residential_rent": {
@@ -27,23 +27,23 @@
     },
     "commercial_rent": {
       "exists": true,
-      "size": 3091133,
-      "rows": 1240,
-      "total_rows": 1240,
+      "size": 3116940,
+      "rows": 1249,
+      "total_rows": 1249,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 1240
+      "complete_records": 1249
     },
     "commercial_sale": {
       "exists": true,
-      "size": 1099421,
-      "rows": 462,
-      "total_rows": 462,
+      "size": 1101140,
+      "rows": 463,
+      "total_rows": 463,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 462
+      "complete_records": 463
     },
     "new_projects": {
       "exists": true,
@@ -57,35 +57,35 @@
     }
   },
   "changes": {
-    "total_changes": 79863,
+    "total_changes": 103293,
     "by_type": {
-      "new": 52030,
-      "removed": 26904,
+      "new": 52047,
+      "removed": 50317,
       "price_changed": 929
     }
   },
   "raw_data": {
     "exists": true,
-    "scraped_at": "2026-07-13T21:03:18.261017+00:00",
+    "scraped_at": "2026-07-14T21:06:25.485608+00:00",
     "categories": 6,
-    "total_records": 25126,
+    "total_records": 1730,
     "counts": {
-      "residential_rent": 14262,
-      "residential_sale": 9144,
-      "commercial_rent": 1240,
-      "commercial_sale": 462,
+      "residential_rent": 0,
+      "residential_sale": 0,
+      "commercial_rent": 1249,
+      "commercial_sale": 463,
       "new_projects": 18,
       "agents": 0
     }
   },
   "all_listings_file": {
     "exists": true,
-    "size": 65854114,
-    "rows": 25126,
-    "total_rows": 25126,
+    "size": 4236073,
+    "rows": 1730,
+    "total_rows": 1730,
     "empty_ids": 0,
     "empty_prices": 0,
     "empty_locations": 0,
-    "complete_records": 25126
+    "complete_records": 1730
   }
 }
