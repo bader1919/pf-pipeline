@@ -1,8 +1,8 @@
 {
-  "report_generated_at": "2026-07-14T21:08:10.906427+00:00",
+  "report_generated_at": "2026-07-15T21:07:55.933137+00:00",
   "pipeline_status": "success",
-  "total_listings": 25136,
-  "complete_records": 25136,
+  "total_listings": 25139,
+  "complete_records": 25139,
   "data_completeness_rate": 100.0,
   "categories": {
     "residential_rent": {
@@ -37,55 +37,55 @@
     },
     "commercial_sale": {
       "exists": true,
-      "size": 1101140,
-      "rows": 463,
-      "total_rows": 463,
+      "size": 1104087,
+      "rows": 464,
+      "total_rows": 464,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 463
+      "complete_records": 464
     },
     "new_projects": {
       "exists": true,
-      "size": 25306,
-      "rows": 18,
-      "total_rows": 18,
+      "size": 27440,
+      "rows": 20,
+      "total_rows": 20,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 18
+      "complete_records": 20
     }
   },
   "changes": {
-    "total_changes": 103293,
+    "total_changes": 104549,
     "by_type": {
-      "new": 52047,
-      "removed": 50317,
+      "new": 52052,
+      "removed": 51568,
       "price_changed": 929
     }
   },
   "raw_data": {
     "exists": true,
-    "scraped_at": "2026-07-14T21:06:25.485608+00:00",
+    "scraped_at": "2026-07-15T21:07:22.501480+00:00",
     "categories": 6,
-    "total_records": 1730,
+    "total_records": 484,
     "counts": {
       "residential_rent": 0,
       "residential_sale": 0,
-      "commercial_rent": 1249,
-      "commercial_sale": 463,
-      "new_projects": 18,
+      "commercial_rent": 0,
+      "commercial_sale": 464,
+      "new_projects": 20,
       "agents": 0
     }
   },
   "all_listings_file": {
     "exists": true,
-    "size": 4236073,
-    "rows": 1730,
-    "total_rows": 1730,
+    "size": 1125639,
+    "rows": 484,
+    "total_rows": 484,
     "empty_ids": 0,
     "empty_prices": 0,
     "empty_locations": 0,
-    "complete_records": 1730
+    "complete_records": 484
   }
 }
