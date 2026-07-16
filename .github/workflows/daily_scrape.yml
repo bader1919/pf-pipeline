@@ -55,7 +55,16 @@ jobs:
         run: python scraper/quality_gate.py --detailed
         continue-on-error: true
 
-      # ── Step 6: Compress and archive raw JSON for future re-cleaning ──────────
+      # ── Step 6: Load snapshot + changes into Neon Postgres ───────────────────
+      # Skipped when the NEON_DATABASE_URL secret is not configured.
+      # continue-on-error: a DB outage must never block the data commit.
+      - name: Load to Neon Postgres
+        env:
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+        run: python scripts/load_to_neon.py
+        continue-on-error: true
+
+      # ── Step 7: Compress and archive raw JSON for future re-cleaning ──────────
       # Raw JSON is gzip-compressed (~85% smaller) then committed to data/raw_archive/.
       # This allows re-running the cleaner against any past snapshot if the schema changes.
       - name: Archive raw JSON (compressed)
