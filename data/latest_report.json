@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-07-15T21:07:55.933137+00:00",
+  "report_generated_at": "2026-07-16T13:12:15.781716+00:00",
   "pipeline_status": "success",
   "total_listings": 25139,
   "complete_records": 25139,
@@ -37,7 +37,7 @@
     },
     "commercial_sale": {
       "exists": true,
-      "size": 1104087,
+      "size": 1105161,
       "rows": 464,
       "total_rows": 464,
       "empty_ids": 0,
@@ -47,7 +47,7 @@
     },
     "new_projects": {
       "exists": true,
-      "size": 27440,
+      "size": 27448,
       "rows": 20,
       "total_rows": 20,
       "empty_ids": 0,
@@ -57,16 +57,16 @@
     }
   },
   "changes": {
-    "total_changes": 104549,
+    "total_changes": 104553,
     "by_type": {
-      "new": 52052,
-      "removed": 51568,
+      "new": 52054,
+      "removed": 51570,
       "price_changed": 929
     }
   },
   "raw_data": {
     "exists": true,
-    "scraped_at": "2026-07-15T21:07:22.501480+00:00",
+    "scraped_at": "2026-07-16T13:11:42.165838+00:00",
     "categories": 6,
     "total_records": 484,
     "counts": {
@@ -80,7 +80,7 @@
   },
   "all_listings_file": {
     "exists": true,
-    "size": 1125639,
+    "size": 1126717,
     "rows": 484,
     "total_rows": 484,
     "empty_ids": 0,

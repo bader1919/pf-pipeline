@@ -1,5 +1,5 @@
 {
-  "report_time": "2026-07-15T21:07:58.600491+00:00",
+  "report_time": "2026-07-16T13:12:18.376239+00:00",
   "all_listings": {
     "filename": "all_listings.csv",
     "exists": true,
@@ -33,8 +33,8 @@
       }
     },
     "price_stats": {
-      "avg": 649334.89,
-      "min": 27.0,
+      "avg": 648294.18,
+      "min": 20.0,
       "max": 141000000.0,
       "populated_count": 480
     }
@@ -190,8 +190,8 @@
         }
       },
       "price_stats": {
-        "avg": 667227.79,
-        "min": 27.0,
+        "avg": 666151.2,
+        "min": 20.0,
         "max": 141000000.0,
         "populated_count": 464
       }
@@ -237,7 +237,7 @@
     }
   },
   "raw_data": {
-    "scraped_at": "2026-07-15T21:07:22.501480+00:00",
+    "scraped_at": "2026-07-16T13:11:42.165838+00:00",
     "total_records": 484,
     "categories": {
       "residential_rent": 0,
@@ -249,7 +249,7 @@
     }
   },
   "changes": {
-    "total_changes": 104549,
+    "total_changes": 104553,
     "latest_date": null
   },
   "violations": [

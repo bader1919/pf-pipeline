@@ -1,17 +1,17 @@
 # Data Quality Gate Report
-**Generated:** 2026-07-14T21:08:13.041593+00:00
+**Generated:** 2026-07-15T21:07:58.600491+00:00
 **Status:** FAIL
 
 ## Overall Statistics
-- **Total Listings:** 1,730
+- **Total Listings:** 484
 - **Quality Score:** 100.0%
 
 ## Critical Field Completeness
-- [PASS] **listing_id:** 100.0% (1,730 / 1,730)
-- [PASS] **price_value:** 100.0% (1,730 / 1,730)
-- [PASS] **latitude:** 100.0% (1,730 / 1,730)
-- [PASS] **longitude:** 100.0% (1,730 / 1,730)
-- [PASS] **title:** 100.0% (1,730 / 1,730)
+- [PASS] **listing_id:** 100.0% (484 / 484)
+- [PASS] **price_value:** 100.0% (484 / 484)
+- [PASS] **latitude:** 100.0% (484 / 484)
+- [PASS] **longitude:** 100.0% (484 / 484)
+- [PASS] **title:** 100.0% (484 / 484)
 
 ## Categories
 ### residential_rent
@@ -27,17 +27,17 @@
 - Quality: 100.0%
 
 ### commercial_sale
-- Rows: 463
+- Rows: 464
 - Quality: 100.0%
 
 ### new_projects
-- Rows: 18
+- Rows: 20
 - Quality: 100.0%
 
 ## Quality Threshold Violations
-- [CRITICAL] **min_listings:** 1730 (threshold: 20000)
+- [CRITICAL] **min_listings:** 484 (threshold: 20000)
 
 ## Pipeline Status
-- **Raw Records:** 1,730
-- **Last Scrape:** 2026-07-14T21:06:25.485608+00:00
-- **Total Changes:** 103,293
+- **Raw Records:** 484
+- **Last Scrape:** 2026-07-15T21:07:22.501480+00:00
+- **Total Changes:** 104,549
