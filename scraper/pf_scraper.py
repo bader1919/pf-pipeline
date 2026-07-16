@@ -18,6 +18,7 @@ import json
 import os
 import random
 import re
+import sys
 import threading
 import time
 import requests
@@ -269,6 +270,7 @@ def discover_and_split(category: dict, session: requests.Session) -> list:
     next_data = parse_next_data(html)
     meta = get_meta(next_data)
     total = meta["total_count"]
+    category["site_total"] = total   # ground truth from the site, for the final sanity gate
 
     if data_key != "listings":
         print(f"    {name}: {total} records (non-listing, no split)")
@@ -559,6 +561,18 @@ def main():
         print("\n✅ All categories within expected range (±10%)")
 
     print(f"\nDone. {manifest['total']} total records in {len(CATEGORIES)} categories.")
+
+    # ── Hard sanity gate ─────────────────────────────────────────────────────
+    # Compare what we scraped against the totals the SITE itself reported on
+    # each category page (ground truth, independent of how splitting went).
+    # A silent 484-of-25,000 day must fail the run, not commit as healthy.
+    site_total = sum(c.get("site_total", 0) for c in CATEGORIES if c["data_key"] == "listings")
+    scraped_total = sum(summary.get(c["name"], 0) for c in CATEGORIES if c["data_key"] == "listings")
+    if site_total > 0 and scraped_total < site_total * 0.6:
+        print(f"\nERROR: scraped only {scraped_total:,} of {site_total:,} listings "
+              f"the site reports ({scraped_total/site_total*100:.0f}%). "
+              f"Discovery/splitting is likely broken -- failing the run.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

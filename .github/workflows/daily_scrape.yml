@@ -120,6 +120,16 @@ jobs:
         if: always()
         run: python scraper/update_handover.py --event "Daily Scrape" --what "Daily pipeline execution completed" --status "${{ steps.quality-gate.outcome }}"
 
+      # ── Hard gate: make quality failures LOUD ─────────────────────────────────
+      # The data is already committed above (it's still evidence), but the run
+      # itself goes red so GitHub emails the owner. A 484-listing day must never
+      # look green again.
+      - name: Fail run if quality gate failed
+        if: steps.quality-gate.outcome != 'success'
+        run: |
+          echo "::error::Quality gate FAILED -- see data/latest/quality_report.md. Data was committed for forensics but this run is marked failed."
+          exit 1
+
       # ── Summary ──────────────────────────────────────────────────────────────
       - name: Print summary
         if: always()

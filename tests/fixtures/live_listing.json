@@ -1,0 +1,196 @@
+{
+  "listing_type": "property",
+  "property": {
+    "id": "52355115",
+    "category_id": 3,
+    "property_type": "Whole Building",
+    "price": {
+      "value": 195000,
+      "currency": "BHD",
+      "period": "sell",
+      "is_hidden": false
+    },
+    "title": "Good income | Fully renovated.",
+    "location": {
+      "id": "83",
+      "full_name": "Jurdab, Central Governorate",
+      "coordinates": {
+        "lat": 26.168216705322266,
+        "lon": 50.57180404663086
+      },
+      "slug": "jurdab",
+      "path": "2.83",
+      "type": "AREA",
+      "name": "Jurdab",
+      "path_name": "Central Governorate"
+    },
+    "images": [
+      {
+        "small": "https://static.shared.propertyfinder.bh/media/images/listing/28833840KWVZ3RB62NDKX69P44/8710b217-223e-4df7-9af7-4b9d3f85a43a/416x272.jpg",
+        "medium": "https://static.shared.propertyfinder.bh/media/images/listing/28833840KWVZ3RB62NDKX69P44/8710b217-223e-4df7-9af7-4b9d3f85a43a/668x452.jpg",
+        "classification_label": ""
+      },
+      {
+        "small": "https://static.shared.propertyfinder.bh/media/images/listing/28833840KWVZ3RB62NDKX69P44/84ab7f23-f41d-4897-8916-48bdc808af83/416x272.jpg",
+        "medium": "https://static.shared.propertyfinder.bh/media/images/listing/28833840KWVZ3RB62NDKX69P44/84ab7f23-f41d-4897-8916-48bdc808af83/668x452.jpg",
+        "classification_label": ""
+      },
+      {
+        "small": "https://static.shared.propertyfinder.bh/media/images/listing/28833840KWVZ3RB62NDKX69P44/cd1ccff2-24cd-4fe5-8a57-185b59a5558c/416x272.jpg",
+        "medium": "https://static.shared.propertyfinder.bh/media/images/listing/28833840KWVZ3RB62NDKX69P44/cd1ccff2-24cd-4fe5-8a57-185b59a5558c/668x452.jpg",
+        "classification_label": ""
+      }
+    ],
+    "agent": {
+      "id": "7503",
+      "image": "https://www.propertyfinder.bh/images/pf_agent/picture/0fab1df89475b4ecb070e88e4de28ec3de09d530/desktop",
+      "is_super_agent": false,
+      "name": "Al Lagoon Real Estate ",
+      "user_id": 0,
+      "email": "allagoonbh@gmail.com",
+      "languages": [],
+      "slug": "al-lagoon-real-estate"
+    },
+    "broker": {
+      "id": "1265",
+      "logo": "https://static.shared.propertyfinder.bh/media/images/client_logos/1265/e0256333-04c9-46d2-8368-47ae6ab0828b/178x98.jpg",
+      "name": "Al Lagoon Properties",
+      "address": "Office 21, Building 603, Nuwaidrat, 46, Central Governorate, PO Box 646",
+      "email": "allagoonbh@gmail.com",
+      "phone": "+97337222529",
+      "slug": "al-lagoon-properties-v2-1265"
+    },
+    "is_verified": false,
+    "is_direct_from_developer": false,
+    "is_new_construction": false,
+    "is_available": true,
+    "is_featured": false,
+    "is_premium": false,
+    "is_new_insert": false,
+    "utilities_price_type": "notSelected",
+    "live_viewing": null,
+    "is_community_expert": false,
+    "is_cts": false,
+    "bedrooms": null,
+    "bathrooms": "7+",
+    "size": {
+      "value": 355,
+      "unit": "sqm"
+    },
+    "share_url": "https://www.propertyfinder.bh/en/plp/commercial-buy/whole-building-for-sale-central-governorate-jurdab-52355115.html",
+    "reference": "ALM-67",
+    "listed_date": "2026-04-01T11:38:50Z",
+    "last_refreshed_at": null,
+    "contact_options": [
+      {
+        "type": "email",
+        "value": "allagoonbh@gmail.com",
+        "link": "mailto:allagoonbh@gmail.com",
+        "is_did": false
+      },
+      {
+        "type": "phone",
+        "value": "+97337222529",
+        "link": "tel:+97337222529",
+        "is_did": false
+      },
+      {
+        "type": "whatsapp",
+        "value": "+97316191073",
+        "link": "https://api.whatsapp.com/send?phone=+97316191073&text=Hello%2C%0AI+would+like+to+get+more+information+about+this+property%3A+%0A+%0AReference%3A+ALM-67%0AType%3A+Whole+Building%0APrice%3A+195%2C000+BHD+%0ALocation%3A+Jurdab+%0ALink%3A+https%3A%2F%2Fwww.propertyfinder.bh%2Fto%2F52355115%2Fen+%0A+%0AAny+changes+made+to+this+message+will+result+in+the+enquiry+not+being+sent+to+the+agent.",
+        "is_did": false
+      }
+    ],
+    "images_count": 11,
+    "amenities": [
+      "AN",
+      "CP"
+    ],
+    "completion_status": "completed",
+    "furnished": "NO",
+    "property_type_id": 10,
+    "has_view_360": false,
+    "rsp": 0,
+    "rss": 0,
+    "qs": 100,
+    "is_exclusive": false,
+    "is_broker_project_property": false,
+    "rera": "",
+    "offering_type": "Commercial for Sale",
+    "video_url": "",
+    "is_smart_ad": true,
+    "is_spotlight_listing": false,
+    "is_claimed_by_agent": false,
+    "is_under_offer_by_competitor": false,
+    "listing_level": "standard",
+    "listing_level_label": "smart_ad",
+    "location_tree": [
+      {
+        "id": "2",
+        "name": "Central Governorate",
+        "type": "REGION",
+        "slug": "central-governorate",
+        "slug_en": "central-governorate",
+        "level": "0"
+      },
+      {
+        "id": "83",
+        "name": "Jurdab",
+        "type": "AREA",
+        "slug": "jurdab",
+        "slug_en": "jurdab",
+        "level": "1"
+      }
+    ],
+    "description": "Building for sale in Jurdab.\n\nRenovated building with a stone facade.\n\nThree floors.\n\n7 apartments.\n\n7 electricity meters. (Apartment 7 has its own meter).\n\n6 apartments are currently rented.\n\nMonthly income: 1200 BD (excluding apartment 7).\n\n6 apartments are fully renovated to a deluxe standard.\n6 parking spaces.\n\nAsking price: 195,000 BD \n..........\nللبيع بناية في جرداب \nالمبنى مجدّد مع واجهة حجر\nيتكوّن من ثلاثة طوابق.\nفيه 7 شقق.\n7 عدّادات. ( الشقة السابعه مع عدّاد المبنى ).\n6 شقق مؤجّرة حاليّاً.\nالمدخول الشهري 1200/- دب ( بدون الشقة السابعه ).\n6 شقق *صيانة ديلوكس بالكامل*\n6 مواقف.\n\nالمطلوب: 195000 الف دينار\n......................................................................................................................................",
+    "amenity_names": [
+      "Networked",
+      "Covered Parking"
+    ],
+    "payment_method": [
+      "cash"
+    ],
+    "lead_value": 10,
+    "details_path": "/en/plp/commercial-buy/whole-building-for-sale-central-governorate-jurdab-52355115.html",
+    "rank_score": 0,
+    "bedrooms_value": null,
+    "bathrooms_value": 14,
+    "ranking_factors": "PcrA0vJIgkEwTuDySzS4LFXHHr9ycEJCpY3i5Q==",
+    "is_pf_exclusive": false,
+    "listing_id": "28833840KWVZ3RB62NDKX69P44",
+    "client": {
+      "id": "1265",
+      "logo": "https://static.shared.propertyfinder.bh/media/images/client_logos/1265/e0256333-04c9-46d2-8368-47ae6ab0828b/178x98.jpg",
+      "name": "Al Lagoon Properties",
+      "address": "Office 21, Building 603, Nuwaidrat, 46, Central Governorate, PO Box 646",
+      "email": "allagoonbh@gmail.com",
+      "phone": "+97337222529",
+      "slug": "al-lagoon-properties-v2-1265"
+    },
+    "is_fhm": false,
+    "travel_time_tags": [],
+    "floor_plans": [],
+    "mortgage_cashback": 0,
+    "price_per_area": {
+      "price": 549,
+      "unit": "sqm"
+    },
+    "view_360": "",
+    "rnpm": {
+      "enabled": false
+    },
+    "is_great_value": false,
+    "is_high_demand": false,
+    "is_luxe": false,
+    "rooms": "14",
+    "rooms_value": 14,
+    "is_price_drop": false
+  },
+  "project": null,
+  "project_carousel": [],
+  "project_unit": null,
+  "top_super_agents": [],
+  "project_recommendation": null,
+  "position": 1,
+  "aggregated_position": 1
+}
