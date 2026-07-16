@@ -9,6 +9,7 @@ Idempotent: UNIQUE constraints + ON CONFLICT DO NOTHING mean re-runs never
 duplicate rows. Creates tables/indexes on first run.
 
 Requires NEON_DATABASE_URL env var (Neon connection string).
+In pull requests, CI points this at an isolated Neon branch (see neon_branch_preview.yml).
 """
 
 import csv
