@@ -81,6 +81,26 @@ def changes_col_type(col: str) -> str:
     return "TEXT"
 
 
+def safe_cast(col_sql: str, target_type: str) -> str:
+    """
+    SQL expression that casts a TEXT staging column to target_type, turning
+    anything unparseable ('', 'none', 'N/A', junk) into NULL instead of
+    aborting the whole load.
+    """
+    if target_type == "TEXT":
+        return f"NULLIF({col_sql}, '')"
+    if target_type in ("NUMERIC", "SMALLINT", "INTEGER", "DOUBLE PRECISION"):
+        return (f"CASE WHEN {col_sql} ~ '^\\s*-?([0-9]+\\.?[0-9]*|\\.[0-9]+)([eE][+-]?[0-9]+)?\\s*$' "
+                f"THEN {col_sql}::{target_type} END")
+    if target_type == "BOOLEAN":
+        return (f"CASE WHEN LOWER(TRIM({col_sql})) IN ('true','t','1','yes') THEN TRUE "
+                f"WHEN LOWER(TRIM({col_sql})) IN ('false','f','0','no') THEN FALSE END")
+    if target_type in ("TIMESTAMPTZ", "DATE"):
+        return (f"CASE WHEN {col_sql} ~ '^\\s*[0-9]{{4}}-[0-9]{{2}}-[0-9]{{2}}' "
+                f"THEN {col_sql}::{target_type} END")
+    return f"NULLIF({col_sql}, '')::{target_type}"
+
+
 def read_headers(path: Path) -> list:
     with open(path, encoding="utf-8-sig") as f:
         return next(csv.reader(f))
@@ -157,28 +177,27 @@ def load_listings(cur, cols, has_postgis=True) -> tuple:
     # Typed select: cast each column; empty string → NULL
     casts = []
     for c in cols:
-        t = col_type(c)
-        if t == "TEXT":
-            casts.append(f"NULLIF({qident(c)}, '')")
-        else:
-            casts.append(f"NULLIF({qident(c)}, '')::{t}")
+        casts.append(safe_cast(qident(c), col_type(c)))
     cast_list = ", ".join(casts)
 
+    lat_ok = safe_cast("latitude", "DOUBLE PRECISION")
+    lon_ok = safe_cast("longitude", "DOUBLE PRECISION")
     if has_postgis:
         geom_col = ", geom"
-        geom_expr = """,
+        geom_expr = f""",
             CASE
-                WHEN NULLIF(latitude, '') IS NOT NULL AND NULLIF(longitude, '') IS NOT NULL
-                THEN ST_SetSRID(ST_MakePoint(longitude::DOUBLE PRECISION, latitude::DOUBLE PRECISION), 4326)
+                WHEN ({lat_ok}) IS NOT NULL AND ({lon_ok}) IS NOT NULL
+                THEN ST_SetSRID(ST_MakePoint({lon_ok}, {lat_ok}), 4326)
             END"""
     else:
         geom_col = ""
         geom_expr = ""
 
+    scrape_date = safe_cast("scraped_at", "TIMESTAMPTZ")
     cur.execute(f"""
         INSERT INTO listings (_scrape_date, {col_list}{geom_col})
         SELECT
-            COALESCE(NULLIF(scraped_at, '')::TIMESTAMPTZ::DATE, CURRENT_DATE),
+            COALESCE(({scrape_date})::DATE, CURRENT_DATE),
             {cast_list}{geom_expr}
         FROM _stage_listings
         ON CONFLICT (pf_id, _scrape_date) DO NOTHING;
@@ -199,14 +218,7 @@ def load_changes(cur, cols) -> tuple:
     cur.execute("SELECT COUNT(*) FROM _stage_changes;")
     staged = cur.fetchone()[0]
 
-    casts = []
-    for c in cols:
-        t = changes_col_type(c)
-        if t == "TEXT":
-            casts.append(f"NULLIF({qident(c)}, '')")
-        else:
-            casts.append(f"NULLIF({qident(c)}, '')::{t}")
-    cast_list = ", ".join(casts)
+    cast_list = ", ".join(safe_cast(qident(c), changes_col_type(c)) for c in cols)
 
     cur.execute(f"""
         INSERT INTO changes ({col_list})
