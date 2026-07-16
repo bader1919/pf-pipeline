@@ -200,6 +200,64 @@ def drill_level(session: requests.Session, parent_name: str, sub: dict, data_key
         drill_level(session, sub_name, d, data_key, results, level + 1)
 
 
+def build_price_url(base_url: str, price_from, price_to) -> str:
+    """Add price-range filter params (pf/pt) to a search URL."""
+    parsed = urlparse(base_url)
+    qs = parse_qs(parsed.query, keep_blank_values=True)
+    if price_from is not None:
+        qs["pf"] = [str(price_from)]
+    if price_to is not None:
+        qs["pt"] = [str(price_to)]
+    return urlunparse(parsed._replace(query=urlencode(qs, doseq=True)))
+
+
+def fetch_count(url: str, session: requests.Session) -> int:
+    """Total listing count for a search URL, from __NEXT_DATA__."""
+    html = fetch_html(url, session)
+    return get_meta(parse_next_data(html))["total_count"]
+
+
+def split_by_price(base_url: str, name: str, total: int, data_key: str,
+                   session: requests.Session) -> list:
+    """
+    HTML-independent splitting: recursively bisect the price range until each
+    bracket holds <= MAX_LISTINGS. Relies only on __NEXT_DATA__ counts, so it
+    survives PropertyFinder redesigning their page markup.
+    Returns [] if price filtering doesn't work (caller falls back further).
+    """
+    # Sanity check: a filter that excludes nothing means pf/pt are ignored.
+    probe = fetch_count(build_price_url(base_url, 0, 1), session)
+    if probe >= total:
+        safe_print("      price-filter probe ineffective -- pf/pt params not honored")
+        return []
+    time.sleep(BASE_DELAY + random.uniform(0, JITTER_MAX))
+
+    results = []
+
+    def bisect(lo, hi, count, depth):
+        indent = "      " + "  " * depth
+        label = f"{name}/price {lo}-{hi if hi is not None else 'max'}"
+        if count <= MAX_LISTINGS or depth >= 12 or (hi is not None and hi - lo < 2):
+            safe_print(f"{indent}{label}: {count} - OK")
+            results.append({"name": label, "url": build_price_url(base_url, lo, hi),
+                            "count": count, "data_key": data_key})
+            return
+        # Open-ended top bracket: pick a pivot by doubling; else midpoint.
+        mid = (lo + hi) // 2 if hi is not None else max(lo * 2, 1000)
+        lo_url = build_price_url(base_url, lo, mid)
+        time.sleep(BASE_DELAY + random.uniform(0, JITTER_MAX))
+        lo_count = fetch_count(lo_url, session)
+        hi_count = count - lo_count
+        safe_print(f"{indent}{label}: {count} -> [{lo}-{mid}]={lo_count}, [{mid+1}-...]={hi_count}")
+        bisect(lo, mid, lo_count, depth + 1)
+        bisect(mid + 1, hi, hi_count, depth + 1)
+
+    bisect(0, None, total, 0)
+    covered = sum(r["count"] for r in results)
+    safe_print(f"      price split covered {covered}/{total}")
+    return results if covered >= total * 0.8 else []
+
+
 def discover_and_split(category: dict, session: requests.Session) -> list:
     base_url = category["url"]
     data_key = category["data_key"]
@@ -235,6 +293,23 @@ def discover_and_split(category: dict, session: requests.Session) -> list:
 
     total_split = sum(u["count"] for u in results)
     print(f"    Split into {len(results)} URLs, sum: {total_split}")
+
+    # Fallback 1: HTML sub-links vanished or cover too little (site redesign)
+    # -> split by price range instead (relies only on __NEXT_DATA__ counts).
+    if total_split < total * 0.8:
+        print(f"    WARNING: sub-link split covers {total_split}/{total} -- "
+              f"falling back to price-range splitting")
+        price_results = split_by_price(base_url, name, total, data_key, session)
+        if price_results:
+            return price_results
+
+        # Fallback 2: never scrape zero. Take the base URL's first 50 pages
+        # (1,250 listings) rather than losing the whole category.
+        print(f"    WARNING: price split also failed -- scraping base URL "
+              f"(max {MAX_LISTINGS} of {total} listings)")
+        return [{"name": name, "url": base_url, "count": min(total, MAX_LISTINGS),
+                 "data_key": data_key}]
+
     return results
 
 
