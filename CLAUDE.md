@@ -23,7 +23,7 @@ python scraper/quality_gate.py --detailed
 python scripts/update_dashboard.py
 ```
 
-No tests exist in this repository.
+Tests: `pytest tests/` — cleaner regression tests against a real archived listing fixture. CI runs them on every push touching `scraper/`, `scripts/`, or `tests/` (`.github/workflows/tests.yml`).
 
 ## Branches
 
