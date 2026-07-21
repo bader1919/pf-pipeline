@@ -60,7 +60,7 @@ jobs:
       # continue-on-error: a DB outage must never block the data commit.
       - name: Load to Postgres
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL || secrets.SUPBASE_DB_URL || secrets.SUPABSE_DB_URL || secrets.SUPAASE_DB_URL || secrets.SUPABASE_URL }}
           NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
         run: python scripts/load_to_db.py
         continue-on-error: true
