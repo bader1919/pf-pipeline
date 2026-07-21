@@ -5,13 +5,13 @@ description: Operate, debug, and recover the PropertyFinder BH pipeline. Use whe
 
 # Pipeline Operations
 
-Daily flow (all automatic, 20:00 UTC): scrape → clean → compare → report → quality gate → Neon load → archive → commit → dashboard.
+Daily flow (all automatic, 20:00 UTC): scrape → clean → compare → report → quality gate → Postgres load (Supabase) → archive → commit → dashboard.
 
 ## Check health (in order)
 
 1. **Dashboard data**: fetch `dashboard/data.json` from master — `status` field, `anomalies`, `field_fill_rates.gaps`, `actions_health`.
 2. **Latest run**: `actions_list` on `daily_scrape.yml`. A red run = real problem now (hard gates added 2026-07-16); before that date red could be cosmetic.
-3. **Neon**: `SELECT COUNT(*), MAX(_scrape_date) FROM listings;` via Neon MCP (project `icy-salad-40937814`) — confirm today's snapshot landed (~25k rows/day).
+3. **Supabase**: `SELECT COUNT(*), MAX(_scrape_date) FROM listings;` via Supabase MCP (project `ssfkjzskwoxhlczhasgo`) — confirm today's snapshot landed (~25k rows/day). Also check DB size vs the 500 MB free cap: `SELECT pg_size_pretty(pg_database_size(current_database()));` — full snapshots grow ~74 MB/day.
 
 ## Diagnose a bad scrape day
 
@@ -32,14 +32,14 @@ DATE=YYYY-MM-DD
 mkdir -p data/raw
 for f in data/raw_archive/$DATE/*.json.gz; do gzip -d -c "$f" > "data/raw/$(basename $f .gz)"; done
 python scraper/cleaner.py
-NEON_DATABASE_URL=<secret> python scripts/load_to_neon.py   # ON CONFLICT DO NOTHING — safe
+SUPABASE_DB_URL=<secret> python scripts/load_to_db.py   # ON CONFLICT DO NOTHING — safe
 ```
 
 ## Changing loader/schema/scraper code
 
-Open a PR touching `scraper/`, `scripts/`, or `tests/` — CI runs pytest AND `neon_branch_preview.yml` creates an isolated Neon DB branch (`preview/pr-N`), runs the loader against it, and asserts rows. Never test schema changes against production directly. Branch auto-deletes on PR close.
+Open a PR touching `scraper/`, `scripts/`, or `tests/` — CI runs pytest. For loader/schema changes, test locally against a scratch Postgres (postgresql-16 + postgis are installable in the sandbox) before merging; Supabase free tier has no DB branching.
 
-Schema contract: `COLUMNS` (116) order/names must not change without updating Neon + Power BI + dashboard FIELD_GROUPS.
+Schema contract: `COLUMNS` (116) order/names must not change without updating Supabase + Power BI + dashboard FIELD_GROUPS.
 
 ## Manual triggers
 

@@ -55,13 +55,14 @@ jobs:
         run: python scraper/quality_gate.py --detailed
         continue-on-error: true
 
-      # ── Step 6: Load snapshot + changes into Neon Postgres ───────────────────
-      # Skipped when the NEON_DATABASE_URL secret is not configured.
+      # ── Step 6: Load snapshot + changes into Postgres (Supabase primary) ─────
+      # Skipped when no DB secret is configured.
       # continue-on-error: a DB outage must never block the data commit.
-      - name: Load to Neon Postgres
+      - name: Load to Postgres
         env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
-        run: python scripts/load_to_neon.py
+        run: python scripts/load_to_db.py
         continue-on-error: true
 
       # ── Step 7: Compress and archive raw JSON for future re-cleaning ──────────

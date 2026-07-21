@@ -1,15 +1,18 @@
 """
-Neon Postgres loader for the PropertyFinder pipeline.
+Postgres loader for the PropertyFinder pipeline (works with Supabase, Neon,
+or any Postgres).
 
 Appends today's snapshot (data/latest/all_listings.csv) into the `listings`
-table (one row per listing per day) and upserts market events from
-data/changes/all_changes.csv into the `changes` table.
+table (one row per listing per day, all 116 columns -- flat dump by user
+choice; cleaning/reshaping happens downstream in SQL) and upserts market
+events from data/changes/all_changes.csv into the `changes` table.
 
 Idempotent: UNIQUE constraints + ON CONFLICT DO NOTHING mean re-runs never
 duplicate rows. Creates tables/indexes on first run.
 
-Requires NEON_DATABASE_URL env var (Neon connection string).
-In pull requests, CI points this at an isolated Neon branch (see neon_branch_preview.yml).
+Connection string env var (first one set wins):
+  SUPABASE_DB_URL  -> current primary (Supabase project pf-pipeline)
+  NEON_DATABASE_URL -> legacy/fallback
 """
 
 import csv
@@ -26,7 +29,7 @@ except ImportError:
 ALL_LISTINGS = Path("data/latest/all_listings.csv")
 ALL_CHANGES  = Path("data/changes/all_changes.csv")
 
-DB_URL = os.environ.get("NEON_DATABASE_URL")
+DB_URL = os.environ.get("SUPABASE_DB_URL") or os.environ.get("NEON_DATABASE_URL")
 
 # Column type map for listings — everything not listed here is TEXT.
 NUMERIC_COLS = {
@@ -232,7 +235,7 @@ def load_changes(cur, cols) -> tuple:
 
 def main():
     if not DB_URL:
-        print("NEON_DATABASE_URL not set -- skipping Neon load (this is fine locally).")
+        print("SUPABASE_DB_URL / NEON_DATABASE_URL not set -- skipping DB load (fine locally).")
         sys.exit(0)
 
     if not ALL_LISTINGS.exists():
