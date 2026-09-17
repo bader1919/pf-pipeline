@@ -11,7 +11,7 @@ Idempotent: UNIQUE constraints + ON CONFLICT DO NOTHING mean re-runs never
 duplicate rows. Creates tables/indexes on first run.
 
 Connection string env var (first one set wins):
-  SUPABASE_DB_URL  -> current primary (Supabase project pf-pipeline)
+  SUPABASE_DB_URL  -> current primary (Supabase project pf-pipeline1)
   NEON_DATABASE_URL -> legacy/fallback
 """
 

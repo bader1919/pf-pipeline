@@ -67,7 +67,7 @@ Boolean fields use a `bk(*keys)` helper so Python's `or` chain never drops `Fals
 
 **`scraper/quality_gate.py`** — Validates 5 critical fields (listing_id, price_value, latitude, longitude, title) at 95% threshold, price ranges, row count (min 20,000). Writes `data/latest/quality_report.json`/`.md`. Flags: `--detailed`, `--report-only`.
 
-**`scripts/load_to_db.py`** — Appends the daily snapshot into Postgres — primary target is Supabase project `pf-pipeline` (`ssfkjzskwoxhlczhasgo`, us-east-1); reads `SUPABASE_DB_URL` first, falls back to `NEON_DATABASE_URL` (legacy Neon project `icy-salad-40937814`, retired 2026-07-21 after hitting the 0.5 GB free cap in 5 days of full snapshots). Tables `listings` + `changes`, flat dump by explicit user choice — cleaning/reshaping happens downstream in SQL. Append-only: one row per listing per day, `UNIQUE (pf_id, _scrape_date)` + `ON CONFLICT DO NOTHING` makes re-runs idempotent. `safe_cast()` regex-guards all numeric/boolean/timestamp casts — junk like the literal string `'none'` (studios' bedrooms_value) becomes NULL instead of aborting the COPY. PostGIS `geom` column built from lat/lon (graceful fallback if PostGIS is unavailable). Skips silently when no DB URL env var is set. Flat schema by design — no normalization; derive dimension views in SQL when needed.
+**`scripts/load_to_db.py`** — Appends the daily snapshot into Postgres — primary target is Supabase project `pf-pipeline1` (`<ref pending>`, us-east-1; replaces the retired `pf-pipeline` / `ssfkjzskwoxhlczhasgo` project); reads `SUPABASE_DB_URL` first, falls back to `NEON_DATABASE_URL` (legacy Neon project `icy-salad-40937814`, retired 2026-07-21 after hitting the 0.5 GB free cap in 5 days of full snapshots). Tables `listings` + `changes`, flat dump by explicit user choice — cleaning/reshaping happens downstream in SQL. Append-only: one row per listing per day, `UNIQUE (pf_id, _scrape_date)` + `ON CONFLICT DO NOTHING` makes re-runs idempotent. `safe_cast()` regex-guards all numeric/boolean/timestamp casts — junk like the literal string `'none'` (studios' bedrooms_value) becomes NULL instead of aborting the COPY. PostGIS `geom` column built from lat/lon (graceful fallback if PostGIS is unavailable). Skips silently when no DB URL env var is set. Flat schema by design — no normalization; derive dimension views in SQL when needed.
 
 **`scraper/reporter.py`** — Writes `data/latest_report.json` with category counts, change summaries, pipeline health.
 
@@ -86,12 +86,12 @@ Boolean fields use a `bk(*keys)` helper so Python's `or` chain never drops `Fals
 
 ### Secrets (repo → Settings → Secrets → Actions)
 
-- `SUPABASE_DB_URL` — Postgres connection string for the Supabase `pf-pipeline` project (primary)
+- `SUPABASE_DB_URL` — Postgres connection string for the Supabase `pf-pipeline1` project (primary)
 - `NEON_DATABASE_URL` / `NEON_API_KEY` — legacy (Neon retired 2026-07-21; safe to delete)
 
 ### Supabase database
 
-Project `pf-pipeline` (`ssfkjzskwoxhlczhasgo`, AWS us-east-1, free tier 500 MB). Two append-only flat tables (loader auto-creates on first run):
+Project `pf-pipeline1` (`<ref pending>`, AWS us-east-1, free tier 500 MB) — replaces the retired `pf-pipeline` project (`ssfkjzskwoxhlczhasgo`, stopped resolving ~2026-09). Two append-only flat tables (loader auto-creates on first run):
 - `listings` — one row per listing per day (~25k/day), all 116 CSV columns typed + `_scrape_date` + PostGIS `geom`
 - `changes` — market events from `all_changes.csv`, `UNIQUE (listing_id, change_date, change_type)`
 

@@ -11,7 +11,7 @@ Daily flow (all automatic, 20:00 UTC): scrape → clean → compare → report �
 
 1. **Dashboard data**: fetch `dashboard/data.json` from master — `status` field, `anomalies`, `field_fill_rates.gaps`, `actions_health`.
 2. **Latest run**: `actions_list` on `daily_scrape.yml`. A red run = real problem now (hard gates added 2026-07-16); before that date red could be cosmetic.
-3. **Supabase**: `SELECT COUNT(*), MAX(_scrape_date) FROM listings;` via Supabase MCP (project `ssfkjzskwoxhlczhasgo`) — confirm today's snapshot landed (~25k rows/day). Also check DB size vs the 500 MB free cap: `SELECT pg_size_pretty(pg_database_size(current_database()));` — full snapshots grow ~74 MB/day.
+3. **Supabase**: `SELECT COUNT(*), MAX(_scrape_date) FROM listings;` via Supabase MCP (project `pf-pipeline1`) — confirm today's snapshot landed (~25k rows/day). Also check DB size vs the 500 MB free cap: `SELECT pg_size_pretty(pg_database_size(current_database()));` — full snapshots grow ~74 MB/day.
 
 ## Diagnose a bad scrape day
 
