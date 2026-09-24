@@ -1,31 +1,31 @@
 {
   "status": "healthy",
-  "last_run": "2026-09-23T23:01:02.686550+00:00",
+  "last_run": "2026-09-24T23:17:36.346712+00:00",
   "data_age_hours": 0.0,
   "quality_score": 100.0,
   "total_listings": 27528,
-  "new_listings": 429,
-  "removed_listings": 358,
-  "price_changed_listings": 22,
+  "new_listings": 401,
+  "removed_listings": 401,
+  "price_changed_listings": 46,
   "categories": [
     {
       "category": "residential_rent",
-      "rows": 16997,
+      "rows": 17023,
       "quality_score": 100.0
     },
     {
       "category": "residential_sale",
-      "rows": 8835,
+      "rows": 8802,
       "quality_score": 100.0
     },
     {
       "category": "commercial_rent",
-      "rows": 1282,
+      "rows": 1293,
       "quality_score": 100.0
     },
     {
       "category": "commercial_sale",
-      "rows": 390,
+      "rows": 386,
       "quality_score": 100.0
     },
     {
@@ -35,14 +35,6 @@
     }
   ],
   "change_trend": [
-    {
-      "date": "2026-09-10",
-      "new": 344,
-      "removed": 3421,
-      "price_changed": 34,
-      "total": 3799,
-      "scraped_at": "2026-09-10T22:26:07.492803+00:00"
-    },
     {
       "date": "2026-09-11",
       "new": 239,
@@ -146,22 +138,30 @@
       "price_changed": 22,
       "total": 809,
       "scraped_at": "2026-09-23T22:52:18.725678+00:00"
+    },
+    {
+      "date": "2026-09-24",
+      "new": 401,
+      "removed": 401,
+      "price_changed": 46,
+      "total": 848,
+      "scraped_at": "2026-09-24T23:09:10.999570+00:00"
     }
   ],
   "aging": {
-    "sample_size": 88955,
-    "avg_days_on_market": 31.7,
-    "median_days_on_market": 29,
-    "max_days_on_market": 114,
+    "sample_size": 89356,
+    "avg_days_on_market": 31.8,
+    "median_days_on_market": 29.0,
+    "max_days_on_market": 115,
     "distribution": {
       "same_day": 2835,
-      "1-7_days": 12277,
-      "8-30_days": 36398,
-      "31-90_days": 33489,
-      "90+_days": 3956
+      "1-7_days": 12283,
+      "8-30_days": 36619,
+      "31-90_days": 33553,
+      "90+_days": 4066
     },
     "by_category_avg": {
-      "unknown": 31.7
+      "unknown": 31.8
     }
   },
   "anomalies": [
@@ -184,7 +184,7 @@
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-09-23T23:02:22Z",
+        "last_run_at": "2026-09-24T23:18:48Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -193,7 +193,7 @@
         "name": "pages build and deployment",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-09-23T23:02:12Z",
+        "last_run_at": "2026-09-24T23:18:39Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -202,7 +202,16 @@
         "name": "Daily Property Scrape",
         "last_status": "completed",
         "last_conclusion": "success",
-        "last_run_at": "2026-09-23T22:50:27Z",
+        "last_run_at": "2026-09-24T23:06:52Z",
+        "real_failures_recent": 0,
+        "cosmetic_red_recent": 0,
+        "note": null
+      },
+      {
+        "name": "Tests",
+        "last_status": "completed",
+        "last_conclusion": "success",
+        "last_run_at": "2026-09-24T13:32:54Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -346,14 +355,14 @@
         {
           "field": "community",
           "fill_pct": 26.2,
-          "filled": 7225,
+          "filled": 7217,
           "total": 27528,
           "present_in_schema": true
         },
         {
           "field": "sub_community",
           "fill_pct": 3.6,
-          "filled": 983,
+          "filled": 982,
           "total": 27528,
           "present_in_schema": true
         },
@@ -397,7 +406,7 @@
         {
           "field": "agent_languages",
           "fill_pct": 92.1,
-          "filled": 25354,
+          "filled": 25367,
           "total": 27528,
           "present_in_schema": true
         }
@@ -465,8 +474,8 @@
         },
         {
           "field": "last_refreshed_at",
-          "fill_pct": 9.2,
-          "filled": 2545,
+          "fill_pct": 9.3,
+          "filled": 2556,
           "total": 27528,
           "present_in_schema": true
         }
@@ -482,28 +491,28 @@
         {
           "field": "bedrooms",
           "fill_pct": 83.1,
-          "filled": 22867,
+          "filled": 22876,
           "total": 27528,
           "present_in_schema": true
         },
         {
           "field": "bathrooms",
           "fill_pct": 88.4,
-          "filled": 24321,
+          "filled": 24339,
           "total": 27528,
           "present_in_schema": true
         },
         {
           "field": "completion_status",
-          "fill_pct": 22.0,
-          "filled": 6054,
+          "fill_pct": 21.9,
+          "filled": 6035,
           "total": 27528,
           "present_in_schema": true
         },
         {
           "field": "furnished",
           "fill_pct": 88.2,
-          "filled": 24274,
+          "filled": 24292,
           "total": 27528,
           "present_in_schema": true
         }
@@ -511,15 +520,15 @@
       "Amenities": [
         {
           "field": "amenity_codes",
-          "fill_pct": 88.0,
-          "filled": 24234,
+          "fill_pct": 88.1,
+          "filled": 24254,
           "total": 27528,
           "present_in_schema": true
         },
         {
           "field": "amenity_names",
-          "fill_pct": 88.0,
-          "filled": 24234,
+          "fill_pct": 88.1,
+          "filled": 24254,
           "total": 27528,
           "present_in_schema": true
         }
@@ -608,5 +617,5 @@
       }
     ]
   },
-  "dashboard_updated": "2026-09-23T23:04:05.650149+00:00"
+  "dashboard_updated": "2026-09-24T23:20:33.183950+00:00"
 }
