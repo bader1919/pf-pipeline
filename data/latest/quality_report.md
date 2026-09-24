@@ -1,5 +1,5 @@
 # Data Quality Gate Report
-**Generated:** 2026-09-23T23:01:08.185337+00:00
+**Generated:** 2026-09-24T23:17:40.825545+00:00
 **Status:** PASS
 
 ## Overall Statistics
@@ -15,19 +15,19 @@
 
 ## Categories
 ### residential_rent
-- Rows: 16,997
+- Rows: 17,023
 - Quality: 100.0%
 
 ### residential_sale
-- Rows: 8,835
+- Rows: 8,802
 - Quality: 100.0%
 
 ### commercial_rent
-- Rows: 1,282
+- Rows: 1,293
 - Quality: 100.0%
 
 ### commercial_sale
-- Rows: 390
+- Rows: 386
 - Quality: 100.0%
 
 ### new_projects
@@ -36,5 +36,5 @@
 
 ## Pipeline Status
 - **Raw Records:** 27,528
-- **Last Scrape:** 2026-09-23T22:52:18.725678+00:00
-- **Total Changes:** 208,437
+- **Last Scrape:** 2026-09-24T23:09:10.999570+00:00
+- **Total Changes:** 209,285
