@@ -102,7 +102,7 @@ Project `pf-pipeline` (AWS us-east-1, free tier 500 MB; recreated Sep 2026 after
 - `load_runs` — one row per loaded day (audit trail + ordering guard)
 - Views: `active_listings`, `price_history`, `market_events` (replaces the old `changes` table / `all_changes.csv` load)
 
-**Storage watch**: full history since 2026-06-09 ≈ see `load_runs` + `pg_total_relation_size`; growth ≈ 2-3 MB/day (≈500 new listings × 2.6 KB + change rows). Watch the 500 MB free-tier cap.
+**Storage watch** (measured on a local full backfill, Sep 2026): 103 days (2026-06-09 → 09-23; 07-14/07-15 partial scrapes skipped) = **~350 MB** after compaction (listings 189 MB for 69k listings, listing_changes ~120 MB for 537k rows). Growth ≈ 2 MB/day (≈430 new listings × 2.7 KB + ≈3.9k field changes) → the 500 MB free tier fills around early Dec 2026. Every daily run prints the database size. When it nears the cap: upgrade to Pro (8 GB) or prune old `listing_changes` rows.
 
 ### Dashboard
 

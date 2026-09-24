@@ -168,13 +168,12 @@ def ensure_schema(cur, cols):
             is_active       BOOLEAN NOT NULL
         );
         CREATE TABLE IF NOT EXISTS listing_changes (
-            id          BIGSERIAL PRIMARY KEY,
             pf_id       TEXT NOT NULL,
             change_date DATE NOT NULL,
             field       TEXT NOT NULL,
             old_value   TEXT,
             new_value   TEXT,
-            UNIQUE (pf_id, change_date, field)
+            PRIMARY KEY (pf_id, change_date, field)
         );
         CREATE TABLE IF NOT EXISTS daily_stats (
             stat_date     DATE NOT NULL,
@@ -427,9 +426,10 @@ def main():
         with conn.cursor() as cur:
             cur.execute("SELECT COUNT(*), COUNT(*) FILTER (WHERE is_active) FROM listing_status;")
             total, active = cur.fetchone()
-            cur.execute("SELECT COUNT(*) FROM load_runs;")
-            days = cur.fetchone()[0]
-        print(f"listings table: {total} listings ({active} active) across {days} loaded day(s)")
+            cur.execute("SELECT COUNT(*), pg_size_pretty(pg_database_size(current_database())) FROM load_runs;")
+            days, db_size = cur.fetchone()
+        print(f"listings table: {total} listings ({active} active) across {days} loaded day(s); "
+              f"database size {db_size}")
     except SnapshotRejected as e:
         print(f"ERROR: {e}")
         sys.exit(1)

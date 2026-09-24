@@ -80,6 +80,16 @@ def main():
             except load_to_db.SnapshotRejected as e:
                 print(f"SKIP {day.name}: {e}")
                 skipped += 1
+
+    if loaded:
+        # A bulk load leaves dead row versions that autovacuum reuses but never
+        # returns to disk -- ~25% of the size after a full backfill. Compact once.
+        print("\ncompacting tables (VACUUM FULL)...")
+        conn.autocommit = True
+        with conn.cursor() as cur:
+            cur.execute("VACUUM (FULL, ANALYZE) listings, listing_status, listing_changes;")
+            cur.execute("SELECT pg_size_pretty(pg_database_size(current_database()));")
+            print(f"database size: {cur.fetchone()[0]}")
     conn.close()
     print(f"\nbackfill done: {loaded} day(s) loaded, {skipped} skipped")
 
