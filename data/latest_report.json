@@ -1,53 +1,53 @@
 {
-  "report_generated_at": "2026-09-25T23:22:02.684009+00:00",
+  "report_generated_at": "2026-09-26T22:45:12.312170+00:00",
   "pipeline_status": "success",
-  "total_listings": 27480,
-  "complete_records": 27480,
+  "total_listings": 27400,
+  "complete_records": 27400,
   "data_completeness_rate": 100.0,
   "categories": {
     "residential_rent": {
       "exists": true,
-      "size": 45074262,
-      "rows": 16976,
-      "total_rows": 16976,
+      "size": 45022330,
+      "rows": 16957,
+      "total_rows": 16957,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 16976
+      "complete_records": 16957
     },
     "residential_sale": {
       "exists": true,
-      "size": 23086670,
-      "rows": 8804,
-      "total_rows": 8804,
+      "size": 22943288,
+      "rows": 8747,
+      "total_rows": 8747,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 8804
+      "complete_records": 8747
     },
     "commercial_rent": {
       "exists": true,
-      "size": 3221557,
-      "rows": 1290,
-      "total_rows": 1290,
+      "size": 3207960,
+      "rows": 1285,
+      "total_rows": 1285,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 1290
+      "complete_records": 1285
     },
     "commercial_sale": {
       "exists": true,
-      "size": 979613,
-      "rows": 386,
-      "total_rows": 386,
+      "size": 982016,
+      "rows": 387,
+      "total_rows": 387,
       "empty_ids": 0,
       "empty_prices": 0,
       "empty_locations": 0,
-      "complete_records": 386
+      "complete_records": 387
     },
     "new_projects": {
       "exists": true,
-      "size": 32184,
+      "size": 32104,
       "rows": 24,
       "total_rows": 24,
       "empty_ids": 0,
@@ -57,35 +57,35 @@
     }
   },
   "changes": {
-    "total_changes": 209602,
+    "total_changes": 210562,
     "by_type": {
-      "new": 117013,
-      "removed": 89533,
-      "price_changed": 3056
+      "new": 117441,
+      "removed": 90041,
+      "price_changed": 3080
     }
   },
   "raw_data": {
     "exists": true,
-    "scraped_at": "2026-09-25T23:12:57.690178+00:00",
+    "scraped_at": "2026-09-26T22:36:45.596886+00:00",
     "categories": 6,
-    "total_records": 27480,
+    "total_records": 27400,
     "counts": {
-      "residential_rent": 16976,
-      "residential_sale": 8804,
-      "commercial_rent": 1290,
-      "commercial_sale": 386,
+      "residential_rent": 16957,
+      "residential_sale": 8747,
+      "commercial_rent": 1285,
+      "commercial_sale": 387,
       "new_projects": 24,
       "agents": 0
     }
   },
   "all_listings_file": {
     "exists": true,
-    "size": 72382668,
-    "rows": 27480,
-    "total_rows": 27480,
+    "size": 72176101,
+    "rows": 27400,
+    "total_rows": 27400,
     "empty_ids": 0,
     "empty_prices": 0,
     "empty_locations": 0,
-    "complete_records": 27480
+    "complete_records": 27400
   }
 }
