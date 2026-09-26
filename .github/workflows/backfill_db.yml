@@ -1,0 +1,35 @@
+name: Backfill database
+
+# Manual: re-clean every archived day (data/raw_archive/) newer than the
+# latest day in the DB and load them in date order. Safe to re-run.
+# First full backfill (~105 days) takes ~35 min.
+
+on:
+  workflow_dispatch:
+    inputs:
+      until:
+        description: "Last archive day to load (YYYY-MM-DD). Empty = all."
+        required: false
+        default: ""
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r scraper/requirements.txt
+
+      - name: Backfill
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          UNTIL: ${{ inputs.until }}
+        run: python scripts/backfill_db.py ${UNTIL:+--until "$UNTIL"}

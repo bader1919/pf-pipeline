@@ -55,10 +55,14 @@ jobs:
         run: python scraper/quality_gate.py --detailed
         continue-on-error: true
 
-      # ── Step 6: Load snapshot + changes into Postgres (Supabase primary) ─────
-      # Skipped when no DB secret is configured.
-      # continue-on-error: a DB outage must never block the data commit.
+      # ── Step 6: Diff today's snapshot into Postgres (Supabase primary) ───────
+      # Skipped when no DB secret is configured, or when the quality gate failed
+      # (a partial scrape would log thousands of fake "removed" events).
+      # continue-on-error: a DB outage must never block the data commit -- but
+      # the run still goes red at the end (see "Fail run if DB load failed").
       - name: Load to Postgres
+        id: db-load
+        if: steps.quality-gate.outcome == 'success'
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL || secrets.SUPBASE_DB_URL || secrets.SUPABSE_DB_URL || secrets.SUPAASE_DB_URL || secrets.SUPABASE_URL }}
           NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
@@ -129,6 +133,14 @@ jobs:
         if: steps.quality-gate.outcome != 'success'
         run: |
           echo "::error::Quality gate FAILED -- see data/latest/quality_report.md. Data was committed for forensics but this run is marked failed."
+          exit 1
+
+      # Same for the DB: the load failed silently for 7+ weeks (Jul-Sep 2026)
+      # behind green runs. Data is committed; backfill with backfill_db.yml.
+      - name: Fail run if DB load failed
+        if: steps.db-load.outcome == 'failure'
+        run: |
+          echo "::error::Postgres load FAILED -- see the 'Load to Postgres' step. Data was committed; once fixed, run the 'Backfill database' workflow to catch up."
           exit 1
 
       # ── Summary ──────────────────────────────────────────────────────────────
