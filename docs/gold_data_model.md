@@ -20,8 +20,11 @@ psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f sql/gold_star_schema.sql   # idemp
 psql "$SUPABASE_DB_URL" -f sql/gold_checks.sql                          # every check row must say pass = t
 ```
 
-Requirements: the Silver tables exist (the loader has run at least once) and
-PostGIS is installed (`listings.geom`); both hold on Supabase. Re-run the
+Requirements: the Silver tables must exist, so the loader has to have run at
+least once. **The schema requires PostGIS.** `dim_listing` selects
+`listings.geom`, and the loader only creates that column when PostGIS was
+available at load time. Without it, applying the file fails. Supabase has
+PostGIS, so this holds there. Re-run the
 schema file after any change to it; it re-applies the privilege revokes each
 time. `CREATE OR REPLACE VIEW` can only *append* columns. To rename or drop a
 column, add `DROP VIEW IF EXISTS gold.<view> CASCADE;` above the definition.
@@ -36,9 +39,13 @@ an API role have to be re-applied.
   - Every dimension has an **Unknown member with key -1** (`pf_id '(unknown)'` in `dim_listing`), and fact FKs are never NULL.
 - **Dates** are UTC calendar dates, which is the same convention as the loader's `snapshot_date`.
 - **Currency** is BHD. Rent in Bahrain PF is always `price_period = 'monthly'` today. The facts still normalise `yearly`/`weekly`/`daily` to monthly defensively. `size_unit` is always `sqm` today, and `sqft` would be converted.
-- **Dimension attributes are "current"**: each one comes from the most recently seen listing row (SCD type 1). Facts get their dimension keys from the listing's current attributes, including historical events.
+- **Dimension attributes are "current"** (SCD type 1).
+  - `dim_location`, `dim_agent`, `dim_broker`, `dim_category` and `dim_property_type` take their attributes from the most recently seen listing row.
+  - `dim_area` is the exception: it takes the most frequent `area_id`/region per `area_name`, preferring rows that have an id, not the latest-seen row.
+  - Facts get their dimension keys from the listing's current attributes, including for historical events.
+- **"Today"** is `(now() AT TIME ZONE 'UTC')::date` everywhere in gold, so the result does not depend on the session time zone.
 - **Security.** Every view is `WITH (security_invoker = true)`. `PUBLIC`, `anon` and `authenticated` get no privileges on the schema or on any view, and `gold` is not a PostgREST-exposed schema, so nothing is visible through the Supabase REST API. The Silver tables have RLS enabled with no policies. A non-owner role therefore sees 0 rows through gold, even if it is granted the views, until an RLS policy or `BYPASSRLS` is set up deliberately.
-- **No PII.** The gold views never select `agent_email`, `agent_image`, `contact_*`, `broker_email`, `broker_phone`, `broker_address` or the free-text `description`. This is enforced by a check in `gold_checks.sql`.
+- **No PII.** The gold views never select `agent_email`, `agent_image`, `contact_*`, `broker_email`, `broker_phone`, `broker_address` or the free-text `description`. This is enforced by a check in `gold_checks.sql`. "No PII" means no structured contact columns: free text such as `title` is not scrubbed and may contain phone numbers.
 
 ## Views
 
@@ -46,7 +53,7 @@ an API role have to be re-applied.
 
 | View | Grain / key | Columns |
 |---|---|---|
-| `dim_date` | one calendar day, `date_key` (YYYYMMDD) | date, day, day_name, iso_day_of_week, **is_weekend** (Fri+Sat, the Bahrain weekend), iso_week, iso_year, month, month_name, quarter, year, year_month. Range: earliest date in the data → max(today, latest date) + 30. |
+| `dim_date` | one calendar day, `date_key` (YYYYMMDD) | date, day, day_name, iso_day_of_week, **is_weekend** (Fri+Sat, the Bahrain weekend), iso_week, iso_year, month, month_name, quarter, year, year_month. Range: earliest date in the data → max(today UTC, latest listed/last-seen/change/stat date) + 30. |
 | `dim_area` | area (~100), `area_key` = hash(area_name) | area_id, area_name, region_id, region_name (governorate). The grain of `fact_daily_market` and the roll-up of `dim_location`. |
 | `dim_location` | PF `location_id` (~160, leaf of the location tree), `location_key` = location_id | location_name, location_type (AREA/COMMUNITY/TOWER), location_full_name, location_path_name, community, sub_community, **area_key** → dim_area, area_id, area_name, region_id, region_name |
 | `dim_category` | category (5), `category_key` = hash(category_name) | category_id, category_name, category_label, **segment** (residential / commercial / new_projects), **offering** (rent / sale) |
@@ -60,7 +67,7 @@ an API role have to be re-applied.
 | View | Grain | FKs | Measures |
 |---|---|---|---|
 | `fact_listing_current` | one row per **active** listing at the latest `load_runs.snapshot_date` | pf_id, snapshot_date_key, listed_date_key, first_seen_date_key, location_key, area_key, category_key, property_type_key, agent_key, broker_key | price_value, price_period, price_is_hidden, **monthly_price** (rent only), **size_sqm**, **price_per_sqm** (rent: monthly/sqm; sale: price/sqm), **days_on_market** (snapshot − first_seen), days_on_market_censored, days_since_listed, price_change_count, last_price_change_date |
-| `fact_market_event` | one row per listing × day × event (`listing_changes` where field ∈ `_status`, `price_value`) | pf_id, event_date_key, location_key, area_key, category_key, property_type_key, agent_key, broker_key | event_date, **event_type** (new / removed / relisted / price_changed), price_prev, price_curr, price_change, price_change_pct, **price_at_event** (the price in force that day, rebuilt from the price log), event_count (=1) |
+| `fact_market_event` | one row per listing × day × event (`listing_changes` where field ∈ `_status`, `price_value`) | pf_id, event_date_key, location_key, area_key, category_key, property_type_key, agent_key, broker_key | event_date, **event_type** (new / removed / relisted / price_changed), price_prev, price_curr, price_change, price_change_pct, **price_at_event** (the price in force that day, from a per-listing price timeline: the nearest change on or before the day, else the nearest change after it, else the current price), event_count (=1) |
 | `fact_daily_market` | day × category × area (from `daily_stats`) | date_key, area_key, category_key | active_count, new_count, removed_count (additive); avg_price, median_price (not additive) |
 
 `gold.listing_base` is an internal building block: one row per `pf_id` with

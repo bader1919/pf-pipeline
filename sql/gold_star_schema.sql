@@ -9,8 +9,9 @@
 -- Apply (idempotent, safe to re-run; the whole file is one transaction):
 --   psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f sql/gold_star_schema.sql
 --
--- Requires the Silver tables to exist (run the loader once) and PostGIS
--- (listings.geom) -- both are true on Supabase.
+-- Requires the Silver tables to exist (run the loader once) and PostGIS:
+-- listings.geom only exists when the loader ran with PostGIS available
+-- (true on Supabase); without it this file fails.
 --
 -- Design rules
 --   * Views only, all WITH (security_invoker = true): a caller sees gold rows
@@ -21,6 +22,8 @@
 --   * No personal contact data: agent_email, agent_image, contact_phone,
 --     contact_whatsapp, contact_email, broker_email, broker_phone,
 --     broker_address and the free-text description are never selected.
+--     (Structured contact columns only: free text such as title is not
+--     scrubbed and may contain phone numbers.)
 --   * Keys are BIGINT (dim_listing: pf_id TEXT). Clean numeric natural ids are
 --     used as-is (location_id, property_type_id, agent_id, broker_id); text
 --     natural keys (area_name, category_name, UUID broker ids of developers,
@@ -126,8 +129,8 @@ COMMENT ON VIEW gold.listing_base IS
 
 -- -----------------------------------------------------------------------------
 -- dim_date  (grain: calendar day; role-played by snapshot / event / listed /
--- first-seen dates). Range: earliest date in the data .. max(today, latest
--- date in the data) + 30 days, plus the Unknown row (-1).
+-- first-seen dates). Range: earliest date in the data .. max(today UTC,
+-- latest listed / last-seen / change / stat date) + 30 days, plus Unknown (-1).
 -- -----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW gold.dim_date WITH (security_invoker = true) AS
 WITH bounds AS (
@@ -136,11 +139,13 @@ WITH bounds AS (
                (SELECT MIN(first_seen_date) FROM public.listing_status),
                (SELECT MIN(change_date) FROM public.listing_changes),
                (SELECT MIN(stat_date) FROM public.daily_stats),
-               current_date) AS d_min,
+               (now() AT TIME ZONE 'UTC')::DATE) AS d_min,
            GREATEST(
                (SELECT MAX((listed_date AT TIME ZONE 'UTC')::DATE) FROM gold.listing_base),
                (SELECT MAX(last_seen_date) FROM public.listing_status),
-               current_date) + 30 AS d_max
+               (SELECT MAX(change_date) FROM public.listing_changes),
+               (SELECT MAX(stat_date) FROM public.daily_stats),
+               (now() AT TIME ZONE 'UTC')::DATE) + 30 AS d_max
 ), days AS (
     SELECT g::DATE AS d
     FROM bounds, generate_series(bounds.d_min, bounds.d_max, INTERVAL '1 day') AS g
@@ -435,6 +440,7 @@ COMMENT ON COLUMN gold.fact_listing_current.price_change_count IS 'Number of log
 CREATE OR REPLACE VIEW gold.fact_market_event WITH (security_invoker = true) AS
 WITH ev AS (
     SELECT c.pf_id, c.change_date,
+           (c.field = 'price_value')                                         AS is_price,
            CASE WHEN c.field = 'price_value' THEN 'price_changed'
                 WHEN c.old_value IS NULL      THEN 'new'
                 WHEN c.new_value = 'removed'  THEN 'removed'
@@ -445,6 +451,39 @@ WITH ev AS (
                 THEN c.new_value::NUMERIC END                                AS price_curr
     FROM public.listing_changes c
     WHERE c.field IN ('_status', 'price_value')
+), price_log AS (
+    -- Price timeline, computed once per pf_id with window functions over the
+    -- (small) set of price_value changes ordered by change_date.
+    SELECT pf_id, change_date, price_prev, price_curr,
+           LAG(change_date)  OVER w AS prev_change_date,
+           LEAD(change_date) OVER w AS next_change_date,
+           LEAD(price_prev)  OVER w AS next_price_prev
+    FROM ev
+    WHERE is_price
+    WINDOW w AS (PARTITION BY pf_id ORDER BY change_date)
+), timeline AS (
+    -- One row per price segment [valid_from, valid_to):
+    --   price_back = new price of the change that opened the segment
+    --                (backward-nearest change, same day included)
+    --   price_fwd  = old price of the change that closes it
+    --                (forward-nearest change; fallback when price_back is NULL)
+    -- plus an open-ended segment before each listing's first logged change.
+    SELECT pf_id, change_date AS valid_from, next_change_date AS valid_to,
+           price_curr AS price_back, next_price_prev AS price_fwd
+    FROM price_log
+    UNION ALL
+    SELECT pf_id, NULL, change_date, NULL, price_prev
+    FROM price_log
+    WHERE prev_change_date IS NULL
+), priced AS (
+    SELECT ev.pf_id, ev.change_date, ev.is_price, ev.event_type, ev.price_prev,
+           ev.price_curr, t.price_back, t.price_fwd
+    FROM ev
+    LEFT JOIN timeline t
+           ON NOT ev.is_price
+          AND t.pf_id = ev.pf_id
+          AND (t.valid_from IS NULL OR t.valid_from <= ev.change_date)
+          AND (t.valid_to   IS NULL OR ev.change_date < t.valid_to)
 )
 SELECT
     e.pf_id,
@@ -456,21 +495,11 @@ SELECT
     e.price_curr,
     e.price_curr - e.price_prev                                             AS price_change,
     ROUND(100 * (e.price_curr - e.price_prev) / NULLIF(e.price_prev, 0), 2) AS price_change_pct,
-    CASE WHEN e.event_type = 'price_changed' THEN e.price_curr
-         ELSE COALESCE(
-             -- price in force on the event day, rebuilt from the price log
-             (SELECT CASE WHEN p.new_value ~ '^-?[0-9]+\.?[0-9]*$' THEN p.new_value::NUMERIC END
-              FROM public.listing_changes p
-              WHERE p.pf_id = e.pf_id AND p.field = 'price_value' AND p.change_date <= e.change_date
-              ORDER BY p.change_date DESC LIMIT 1),
-             (SELECT CASE WHEN p.old_value ~ '^-?[0-9]+\.?[0-9]*$' THEN p.old_value::NUMERIC END
-              FROM public.listing_changes p
-              WHERE p.pf_id = e.pf_id AND p.field = 'price_value' AND p.change_date > e.change_date
-              ORDER BY p.change_date ASC LIMIT 1),
-             d.price_value)
+    CASE WHEN e.is_price THEN e.price_curr
+         ELSE COALESCE(e.price_back, e.price_fwd, d.price_value)
     END                                                                     AS price_at_event,
     1                                                                       AS event_count
-FROM ev e
+FROM priced e
 JOIN gold.listing_base d USING (pf_id);
 
 COMMENT ON VIEW gold.fact_market_event IS
