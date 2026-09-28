@@ -1,0 +1,40 @@
+name: R2 backfill
+
+# Manual: export every archive day to Parquet, upload the raw archive and the
+# Parquet files to Cloudflare R2, then verify R2 against the local archive.
+# Safe to re-run: files already in R2 with the same size are skipped.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r scraper/requirements.txt
+
+      - name: Export Parquet (all archive days)
+        run: python scripts/export_parquet.py
+
+      - name: Upload raw archive
+        run: python scripts/r2.py upload data/raw_archive raw_archive
+
+      - name: Upload Parquet
+        run: python scripts/r2.py upload data/parquet parquet
+
+      - name: Verify R2
+        run: python scripts/r2.py verify

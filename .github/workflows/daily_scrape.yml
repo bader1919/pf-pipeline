@@ -84,6 +84,23 @@ jobs:
           echo "Archived raw JSON to ${ARCHIVE_DIR}"
           ls -lh "${ARCHIVE_DIR}/"
 
+      # ── Step 7b: Parquet export + upload to Cloudflare R2 ─────────────────────
+      # Uploads today's raw archive and Parquet files to R2 (bucket pf-pipeline).
+      # Partial scrapes get no Parquet (export_parquet.py skips them) but the raw
+      # files still go up. continue-on-error: the run goes red at the end instead.
+      - name: Upload to R2
+        id: r2-upload
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          DATE=$(ls data/raw_archive | tail -1)
+          python scripts/export_parquet.py --days "$DATE"
+          python scripts/r2.py upload "data/raw_archive/$DATE" "raw_archive/$DATE"
+          python scripts/r2.py upload data/parquet parquet
+        continue-on-error: true
+
       # ── Step 7: Commit updated data back to repo ─────────────────────────────
       - name: Commit data
         run: |
@@ -141,6 +158,12 @@ jobs:
         if: steps.db-load.outcome == 'failure'
         run: |
           echo "::error::Postgres load FAILED -- see the 'Load to Postgres' step. Data was committed; once fixed, run the 'Backfill database' workflow to catch up."
+          exit 1
+
+      - name: Fail run if R2 upload failed
+        if: steps.r2-upload.outcome == 'failure'
+        run: |
+          echo "::error::R2 upload FAILED -- see the 'Upload to R2' step. Data was committed; re-run the 'R2 backfill' workflow to catch up."
           exit 1
 
       # ── Summary ──────────────────────────────────────────────────────────────

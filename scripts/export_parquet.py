@@ -12,8 +12,8 @@ Query with DuckDB, e.g.:
   SELECT snapshot_date, count(*) FROM 'data/parquet/residential_rent/*.parquet' GROUP BY 1;
 
 Usage:
-  python scripts/export_parquet.py            # every archive day not yet exported
-  python scripts/export_parquet.py --redo 2026-09-25
+  python scripts/export_parquet.py                    # every archive day not yet exported
+  python scripts/export_parquet.py --days 2026-09-25  # just these days (re-exports them)
 """
 
 import argparse
@@ -68,12 +68,14 @@ def export_day(day: str, csv_dir: Path, con) -> bool:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--redo", nargs="*", default=[], help="days to re-export even if present")
+    ap.add_argument("--days", nargs="+", help="export only these days (YYYY-MM-DD)")
     args = ap.parse_args()
 
-    done = {p.stem for p in (OUT / "residential_rent").glob("*.parquet")}
-    days = sorted(p for p in ARCHIVE.iterdir()
-                  if p.is_dir() and (p.name not in done or p.name in args.redo))
+    if args.days:
+        days = [ARCHIVE / d for d in sorted(args.days)]
+    else:
+        done = {p.stem for p in (OUT / "residential_rent").glob("*.parquet")}
+        days = sorted(p for p in ARCHIVE.iterdir() if p.is_dir() and p.name not in done)
     print(f"{len(days)} archive day(s) to export")
 
     con = duckdb.connect()
