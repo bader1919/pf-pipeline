@@ -69,6 +69,10 @@ Boolean fields use a `bk(*keys)` helper so Python's `or` chain never drops `Fals
 
 **`scripts/load_to_db.py`** — Diffs the daily snapshot into Postgres (Supabase project `pf-pipeline`, us-east-1; reads `SUPABASE_DB_URL`, falls back to `NEON_DATABASE_URL`). **Stores changes, not copies**: a full daily copy (~74 MB/day) killed the Neon free tier in 5 days (retired 2026-07-21), so each snapshot is compared to the DB state and only new listings, changed fields and status events are written (~1-2 MB/day) — every day stays reconstructable. Days must load in date order (older-than-latest is refused; already-loaded is a no-op via `load_runs`). Snapshots < 20,000 rows are refused (a partial scrape would fake thousands of "removed" events), and the workflow only loads when the quality gate passed. `IGNORE_CHANGES` (`scraped_at`, `detail_scraped_at`, `lead_value`) change on most listings daily and aren't logged. `safe_cast()` regex-guards all casts — junk like `'none'` (studios' bedrooms_value) becomes NULL. PostGIS `geom` (in the `extensions` schema on Supabase; graceful fallback without PostGIS). RLS enabled on every table with no policies — the Supabase REST API sees nothing until a policy is added on purpose; views are `security_invoker`. Skips silently when no DB URL env var is set.
 
+**`scripts/export_parquet.py`** — Re-cleans archive days and writes `data/parquet/<category>/YYYY-MM-DD.parquet` (all cleaner columns as text + `snapshot_date`; partial days < 20,000 skipped). `data/parquet/` is gitignored — the files live in R2.
+
+**`scripts/r2.py`** — Cloudflare R2 (bucket `pf-pipeline`, S3 API via boto3; needs `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`). `upload <dir> <prefix>` skips files already there with the same size; `verify` checks every raw archive file is in R2 and Parquet rows per day match each manifest total. R2 layout: `raw_archive/YYYY-MM-DD/*.json.gz`, `parquet/<category>/YYYY-MM-DD.parquet`. Query with DuckDB: `CREATE SECRET (TYPE r2, ...)` then `FROM 'r2://pf-pipeline/parquet/residential_rent/*.parquet'`.
+
 **`scripts/backfill_db.py`** — Re-cleans every `data/raw_archive/` day newer than the latest loaded day (in a temp dir — `data/` untouched) and loads them in order; partial days are skipped. Run via the `backfill_db.yml` workflow.
 
 **`scraper/reporter.py`** — Writes `data/latest_report.json` with category counts, change summaries, pipeline health.
@@ -81,14 +85,16 @@ Boolean fields use a `bk(*keys)` helper so Python's `or` chain never drops `Fals
 
 | Workflow | Trigger | Purpose |
 |---|---|---|
-| `daily_scrape.yml` | `cron: 0 20 * * *` + manual | scrape → clean → compare → report → quality gate → **DB load** → archive → commit. **Run goes RED (and GitHub emails the owner) when the quality gate or the DB load fails** — data is still committed first for forensics. |
+| `daily_scrape.yml` | `cron: 0 20 * * *` + manual | scrape → clean → compare → report → quality gate → **DB load** → archive → **R2 upload** → commit. **Run goes RED (and GitHub emails the owner) when the quality gate, the DB load or the R2 upload fails** — data is still committed first for forensics. |
 | `update_dashboard.yml` | After daily scrape + manual | Regenerates `dashboard/data.json`, commits, triggers Pages deploy |
 | `tests.yml` | Push/PR touching scraper/scripts/tests | `pytest tests/` |
+| `r2_backfill.yml` | Manual | Export all archive days to Parquet, upload raw archive + Parquet to R2, verify. Safe to re-run |
 | `backfill_db.yml` | Manual | Catch the DB up from `data/raw_archive/` (`until` input optional); safe to re-run |
 | `timing_study.yml` | Disabled (study complete; optimal window = 20:00 UTC) | — |
 
 ### Secrets (repo → Settings → Secrets → Actions)
 
+- `R2_ACCOUNT_ID` / `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` — Cloudflare R2 bucket `pf-pipeline` (raw archive + Parquet)
 - `SUPABASE_DB_URL` — Postgres connection string for the Supabase `pf-pipeline` project (primary)
 - `NEON_DATABASE_URL` / `NEON_API_KEY` — legacy (Neon retired 2026-07-21; safe to delete)
 

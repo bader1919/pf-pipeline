@@ -9,3 +9,6 @@ __pycache__/
 venv/
 .playwright-cli/
 node_modules/
+
+# Parquet export -- lives in Cloudflare R2, not git
+data/parquet/
