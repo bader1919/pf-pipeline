@@ -73,6 +73,8 @@ Boolean fields use a `bk(*keys)` helper so Python's `or` chain never drops `Fals
 
 **`scripts/r2.py`** — Cloudflare R2 (bucket `pf-pipeline`, S3 API via boto3; needs `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`). `upload <dir> <prefix>` skips files already there with the same size; `verify` checks every raw archive file is in R2 and Parquet rows per day match each manifest total. R2 layout: `raw_archive/YYYY-MM-DD/*.json.gz`, `parquet/<category>/YYYY-MM-DD.parquet`. Query with DuckDB: `CREATE SECRET (TYPE r2, ...)` then `FROM 'r2://pf-pipeline/parquet/residential_rent/*.parquet'`.
 
+**`notebooks/pf_explore.ipynb`** — DuckDB notebook over the R2 Parquet: asks for the R2 keys (never stored), builds a local `pf_local.duckdb` copy (incremental on re-run), example market questions. `PF_PARQUET_BASE` overrides the source (e.g. a local folder).
+
 **`scripts/backfill_db.py`** — Re-cleans every `data/raw_archive/` day newer than the latest loaded day (in a temp dir — `data/` untouched) and loads them in order; partial days are skipped. Run via the `backfill_db.yml` workflow.
 
 **`scraper/reporter.py`** — Writes `data/latest_report.json` with category counts, change summaries, pipeline health.
