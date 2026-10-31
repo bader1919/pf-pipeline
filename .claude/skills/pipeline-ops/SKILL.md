@@ -1,17 +1,19 @@
 ---
 name: pipeline-ops
-description: Operate, debug, and recover the PropertyFinder BH pipeline. Use when the user asks to check the run, fix the dashboard, investigate data gaps, re-clean an archived day, verify Neon, or diagnose a red GitHub Actions run.
+description: Operate, debug, and recover the PropertyFinder BH pipeline. Use when the user asks to check the run, fix the dashboard, investigate data gaps, re-clean an archived day, verify the R2 data, or diagnose a red GitHub Actions run.
 ---
 
 # Pipeline Operations
 
-Daily flow (all automatic, 20:00 UTC): scrape → clean → compare → report → quality gate → Postgres load (Supabase) → archive → commit → dashboard.
+Daily flow (all automatic, 20:00 UTC): scrape → clean → compare → report → quality gate → archive → Parquet export + R2 upload → commit → dashboard.
+
+Storage: Cloudflare R2 (bucket `pf-pipeline`) is the only long-term store; query it with DuckDB. Supabase/Postgres was retired in Oct 2026 (it hit the 500 MB free cap) — there is no database load any more.
 
 ## Check health (in order)
 
 1. **Dashboard data**: fetch `dashboard/data.json` from master — `status` field, `anomalies`, `field_fill_rates.gaps`, `actions_health`.
 2. **Latest run**: `actions_list` on `daily_scrape.yml`. A red run = real problem now (hard gates added 2026-07-16); before that date red could be cosmetic.
-3. **Supabase**: `SELECT COUNT(*), MAX(_scrape_date) FROM listings;` via Supabase MCP (project `ssfkjzskwoxhlczhasgo`) — confirm today's snapshot landed (~25k rows/day). Also check DB size vs the 500 MB free cap: `SELECT pg_size_pretty(pg_database_size(current_database()));` — full snapshots grow ~74 MB/day.
+3. **R2**: the run's "Upload to R2" step should print `N uploaded` for `raw_archive/<date>` and `parquet`. For a full check run `python scripts/r2.py verify` (needs the R2 secrets) — every archive day in R2, Parquet rows match each manifest.
 
 ## Diagnose a bad scrape day
 
@@ -23,23 +25,20 @@ Symptom: quality gate CRITICAL `min_listings`, or dashboard total far below ~25k
 
 - Compare against the "Known permanent gaps" list in CLAUDE.md first — most gaps are by design.
 - A CORE field (listed_date, area_name, agent_id, property_type, contact_*) dropping to ~0% means the API shape changed. Decompress that day's `data/raw_archive/` file, inspect one record's real keys, fix `flatten_listing` in `scraper/cleaner.py`, extend `tests/test_cleaner.py`, then re-clean + re-load (recipe below).
-- Remember the two formats (live nested snake_case under `property` vs flat camelCase) and the traps: `location_tree` (underscore), boolean False dying in `or`-chains (use `bk()`), literal `'none'` strings in numeric columns (loader's `safe_cast` handles).
+- Remember the two formats (live nested snake_case under `property` vs flat camelCase) and the traps: `location_tree` (underscore), boolean False dying in `or`-chains (use `bk()`), literal `'none'` strings in numeric columns (cast them when querying).
 
-## Re-clean + re-load any past day (idempotent)
+## Re-clean + re-export any past day (idempotent)
 
 ```bash
-DATE=YYYY-MM-DD
-mkdir -p data/raw
-for f in data/raw_archive/$DATE/*.json.gz; do gzip -d -c "$f" > "data/raw/$(basename $f .gz)"; done
-python scraper/cleaner.py
-SUPABASE_DB_URL=<secret> python scripts/load_to_db.py   # ON CONFLICT DO NOTHING — safe
+python scripts/export_parquet.py --days YYYY-MM-DD   # re-cleans data/raw_archive/<day> into data/parquet/
+python scripts/r2.py upload data/parquet parquet     # skips files already in R2 with the same size
 ```
 
-## Changing loader/schema/scraper code
+## Changing schema/scraper code
 
-Open a PR touching `scraper/`, `scripts/`, or `tests/` — CI runs pytest. For loader/schema changes, test locally against a scratch Postgres (postgresql-16 + postgis are installable in the sandbox) before merging; Supabase free tier has no DB branching.
+Open a PR touching `scraper/`, `scripts/`, or `tests/` — CI runs pytest.
 
-Schema contract: `COLUMNS` (116) order/names must not change without updating Supabase + Power BI + dashboard FIELD_GROUPS.
+Schema contract: `COLUMNS` (116) order/names must not change without updating the Parquet consumers (DuckDB notebook) + Power BI + dashboard FIELD_GROUPS.
 
 ## Manual triggers
 
