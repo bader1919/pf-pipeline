@@ -167,7 +167,7 @@
   "anomalies": [
     {
       "severity": "warning",
-      "message": "'Daily Property Scrape' run actually failed (failed at step: Fail run if DB load failed) -- see https://github.com/bader1919/pf-pipeline/actions/runs/42743978571 for logs."
+      "message": "'Daily Property Scrape' run actually failed (failed at step: Commit data) -- see https://github.com/bader1919/pf-pipeline/actions/runs/42743978571 for logs."
     },
     {
       "severity": "info",
@@ -186,9 +186,9 @@
     "workflows": [
       {
         "name": "pages build and deployment",
-        "last_status": "in_progress",
-        "last_conclusion": null,
-        "last_run_at": "2026-11-10T02:51:58Z",
+        "last_status": "completed",
+        "last_conclusion": "success",
+        "last_run_at": "2026-11-10T02:57:23Z",
         "real_failures_recent": 1,
         "cosmetic_red_recent": 0,
         "note": "1 run(s) actually failed -- see details below, needs attention."
@@ -197,7 +197,7 @@
         "name": "Daily Property Scrape",
         "last_status": "completed",
         "last_conclusion": "failure",
-        "last_run_at": "2026-11-10T02:36:52Z",
+        "last_run_at": "2026-11-10T20:46:21Z",
         "real_failures_recent": 1,
         "cosmetic_red_recent": 0,
         "note": "1 run(s) actually failed -- see details below, needs attention."
@@ -206,7 +206,7 @@
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-11-10T02:52:06Z",
+        "last_run_at": "2026-11-10T21:01:39Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
@@ -216,8 +216,8 @@
       {
         "workflow": "Daily Property Scrape",
         "run_id": 42743978571,
-        "failed_step": "Fail run if DB load failed",
-        "ran_at": "2026-11-10T02:36:52Z",
+        "failed_step": "Commit data",
+        "ran_at": "2026-11-10T20:46:21Z",
         "html_url": "https://github.com/bader1919/pf-pipeline/actions/runs/42743978571"
       },
       {
@@ -627,5 +627,5 @@
       }
     ]
   },
-  "dashboard_updated": "2026-11-10T02:57:19.792298+00:00"
+  "dashboard_updated": "2026-11-10T21:06:21.208993+00:00"
 }
