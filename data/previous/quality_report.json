@@ -1,199 +1,199 @@
 {
-  "report_time": "2026-11-08T23:44:14.627986+00:00",
+  "report_time": "2026-11-10T02:50:41.015882+00:00",
   "all_listings": {
     "filename": "all_listings.csv",
     "exists": true,
-    "row_count": 28425,
+    "row_count": 27917,
     "quality_score": 100.0,
     "field_stats": {
       "listing_id": {
         "empty": 0,
-        "populated": 28425,
+        "populated": 27917,
         "completeness_pct": 100.0
       },
       "price_value": {
         "empty": 0,
-        "populated": 28425,
+        "populated": 27917,
         "completeness_pct": 100.0
       },
       "latitude": {
         "empty": 0,
-        "populated": 28425,
+        "populated": 27917,
         "completeness_pct": 100.0
       },
       "longitude": {
         "empty": 0,
-        "populated": 28425,
+        "populated": 27917,
         "completeness_pct": 100.0
       },
       "title": {
         "empty": 0,
-        "populated": 28425,
+        "populated": 27917,
         "completeness_pct": 100.0
       }
     },
     "price_stats": {
-      "avg": 126310.12,
+      "avg": 128097.01,
       "min": 1.0,
       "max": 406666000.0,
-      "populated_count": 28422
+      "populated_count": 27914
     }
   },
   "categories": {
     "residential_rent": {
       "filename": "residential_rent.csv",
       "exists": true,
-      "row_count": 16531,
+      "row_count": 16231,
       "quality_score": 100.0,
       "field_stats": {
         "listing_id": {
           "empty": 0,
-          "populated": 16531,
+          "populated": 16231,
           "completeness_pct": 100.0
         },
         "price_value": {
           "empty": 0,
-          "populated": 16531,
+          "populated": 16231,
           "completeness_pct": 100.0
         },
         "latitude": {
           "empty": 0,
-          "populated": 16531,
+          "populated": 16231,
           "completeness_pct": 100.0
         },
         "longitude": {
           "empty": 0,
-          "populated": 16531,
+          "populated": 16231,
           "completeness_pct": 100.0
         },
         "title": {
           "empty": 0,
-          "populated": 16531,
+          "populated": 16231,
           "completeness_pct": 100.0
         }
       },
       "price_stats": {
-        "avg": 690.48,
+        "avg": 687.81,
         "min": 80.0,
         "max": 400000.0,
-        "populated_count": 16531
+        "populated_count": 16231
       }
     },
     "residential_sale": {
       "filename": "residential_sale.csv",
       "exists": true,
-      "row_count": 9819,
+      "row_count": 9766,
       "quality_score": 100.0,
       "field_stats": {
         "listing_id": {
           "empty": 0,
-          "populated": 9819,
+          "populated": 9766,
           "completeness_pct": 100.0
         },
         "price_value": {
           "empty": 0,
-          "populated": 9819,
+          "populated": 9766,
           "completeness_pct": 100.0
         },
         "latitude": {
           "empty": 0,
-          "populated": 9819,
+          "populated": 9766,
           "completeness_pct": 100.0
         },
         "longitude": {
           "empty": 0,
-          "populated": 9819,
+          "populated": 9766,
           "completeness_pct": 100.0
         },
         "title": {
           "empty": 0,
-          "populated": 9819,
+          "populated": 9766,
           "completeness_pct": 100.0
         }
       },
       "price_stats": {
-        "avg": 315679.99,
+        "avg": 316304.17,
         "min": 11.0,
         "max": 406666000.0,
-        "populated_count": 9819
+        "populated_count": 9766
       }
     },
     "commercial_rent": {
       "filename": "commercial_rent.csv",
       "exists": true,
-      "row_count": 1566,
+      "row_count": 1424,
       "quality_score": 100.0,
       "field_stats": {
         "listing_id": {
           "empty": 0,
-          "populated": 1566,
+          "populated": 1424,
           "completeness_pct": 100.0
         },
         "price_value": {
           "empty": 0,
-          "populated": 1566,
+          "populated": 1424,
           "completeness_pct": 100.0
         },
         "latitude": {
           "empty": 0,
-          "populated": 1566,
+          "populated": 1424,
           "completeness_pct": 100.0
         },
         "longitude": {
           "empty": 0,
-          "populated": 1566,
+          "populated": 1424,
           "completeness_pct": 100.0
         },
         "title": {
           "empty": 0,
-          "populated": 1566,
+          "populated": 1424,
           "completeness_pct": 100.0
         }
       },
       "price_stats": {
-        "avg": 1762.21,
+        "avg": 1108.36,
         "min": 1.0,
-        "max": 1052100.0,
-        "populated_count": 1566
+        "max": 18000.0,
+        "populated_count": 1424
       }
     },
     "commercial_sale": {
       "filename": "commercial_sale.csv",
       "exists": true,
-      "row_count": 485,
+      "row_count": 472,
       "quality_score": 100.0,
       "field_stats": {
         "listing_id": {
           "empty": 0,
-          "populated": 485,
+          "populated": 472,
           "completeness_pct": 100.0
         },
         "price_value": {
           "empty": 0,
-          "populated": 485,
+          "populated": 472,
           "completeness_pct": 100.0
         },
         "latitude": {
           "empty": 0,
-          "populated": 485,
+          "populated": 472,
           "completeness_pct": 100.0
         },
         "longitude": {
           "empty": 0,
-          "populated": 485,
+          "populated": 472,
           "completeness_pct": 100.0
         },
         "title": {
           "empty": 0,
-          "populated": 485,
+          "populated": 472,
           "completeness_pct": 100.0
         }
       },
       "price_stats": {
-        "avg": 975342.5,
+        "avg": 997503.87,
         "min": 13.0,
         "max": 165000000.0,
-        "populated_count": 485
+        "populated_count": 472
       }
     },
     "new_projects": {
@@ -237,19 +237,19 @@
     }
   },
   "raw_data": {
-    "scraped_at": "2026-11-08T23:34:33.625052+00:00",
-    "total_records": 28425,
+    "scraped_at": "2026-11-10T02:40:40.322526+00:00",
+    "total_records": 27917,
     "categories": {
-      "residential_rent": 16531,
-      "residential_sale": 9819,
-      "commercial_rent": 1566,
-      "commercial_sale": 485,
+      "residential_rent": 16231,
+      "residential_sale": 9766,
+      "commercial_rent": 1424,
+      "commercial_sale": 472,
       "new_projects": 24,
       "agents": 0
     }
   },
   "changes": {
-    "total_changes": 255726,
+    "total_changes": 258026,
     "latest_date": null
   },
   "violations": [],
