@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-11-17T03:04:22.342571+00:00",
+  "report_generated_at": "2026-11-18T02:21:23.460127+00:00",
   "pipeline_status": "success",
   "total_listings": 27221,
   "complete_records": 27221,
@@ -66,15 +66,15 @@
   },
   "raw_data": {
     "exists": true,
-    "scraped_at": "2026-11-17T02:54:31.458024+00:00",
+    "scraped_at": "2026-11-18T02:21:15.277809+00:00",
     "categories": 6,
-    "total_records": 27221,
+    "total_records": 0,
     "counts": {
-      "residential_rent": 16050,
-      "residential_sale": 9411,
-      "commercial_rent": 1609,
-      "commercial_sale": 127,
-      "new_projects": 24,
+      "residential_rent": 0,
+      "residential_sale": 0,
+      "commercial_rent": 0,
+      "commercial_sale": 0,
+      "new_projects": 0,
       "agents": 0
     }
   },
