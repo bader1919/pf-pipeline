@@ -1,5 +1,5 @@
 {
-  "report_time": "2026-11-17T03:04:28.361891+00:00",
+  "report_time": "2026-11-18T02:21:29.492661+00:00",
   "all_listings": {
     "filename": "all_listings.csv",
     "exists": true,
@@ -237,14 +237,14 @@
     }
   },
   "raw_data": {
-    "scraped_at": "2026-11-17T02:54:31.458024+00:00",
-    "total_records": 27221,
+    "scraped_at": "2026-11-18T02:21:15.277809+00:00",
+    "total_records": 0,
     "categories": {
-      "residential_rent": 16050,
-      "residential_sale": 9411,
-      "commercial_rent": 1609,
-      "commercial_sale": 127,
-      "new_projects": 24,
+      "residential_rent": 0,
+      "residential_sale": 0,
+      "commercial_rent": 0,
+      "commercial_sale": 0,
+      "new_projects": 0,
       "agents": 0
     }
   },
