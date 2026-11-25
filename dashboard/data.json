@@ -1,6 +1,6 @@
 {
   "status": "warning",
-  "last_run": "2026-11-24T20:15:26.854271+00:00",
+  "last_run": "2026-11-25T20:16:25.413458+00:00",
   "data_age_hours": 0.0,
   "quality_score": 100.0,
   "total_listings": 27221,
@@ -167,6 +167,10 @@
   "anomalies": [
     {
       "severity": "warning",
+      "message": "'Daily Property Scrape' run actually failed (failed at step: Fail run if DB load failed) -- see https://github.com/bader1919/pf-pipeline/actions/runs/45692254875 for logs."
+    },
+    {
+      "severity": "warning",
       "message": "'Daily Property Scrape' run actually failed (failed at step: Fail run if DB load failed) -- see https://github.com/bader1919/pf-pipeline/actions/runs/45477804957 for logs."
     },
     {
@@ -186,10 +190,6 @@
       "message": "'Daily Property Scrape' run actually failed (failed at step: Fail run if DB load failed) -- see https://github.com/bader1919/pf-pipeline/actions/runs/44848981927 for logs."
     },
     {
-      "severity": "warning",
-      "message": "'Daily Property Scrape' run actually failed (failed at step: Fail run if DB load failed) -- see https://github.com/bader1919/pf-pipeline/actions/runs/44655641865 for logs."
-    },
-    {
       "severity": "info",
       "message": "Maximum listed price is 406,666,000 BHD -- verify this isn't a data-entry/scrape outlier."
     },
@@ -204,7 +204,7 @@
         "name": "Daily Property Scrape",
         "last_status": "completed",
         "last_conclusion": "failure",
-        "last_run_at": "2026-11-24T20:09:30Z",
+        "last_run_at": "2026-11-25T20:09:44Z",
         "real_failures_recent": 6,
         "cosmetic_red_recent": 0,
         "note": "6 run(s) actually failed -- see details below, needs attention."
@@ -213,7 +213,7 @@
         "name": "pages build and deployment",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-11-24T20:15:53Z",
+        "last_run_at": "2026-11-25T20:16:50Z",
         "real_failures_recent": 1,
         "cosmetic_red_recent": 0,
         "note": "1 run(s) actually failed -- see details below, needs attention."
@@ -222,13 +222,20 @@
         "name": "Update Pipeline Dashboard",
         "last_status": "in_progress",
         "last_conclusion": null,
-        "last_run_at": "2026-11-24T20:16:03Z",
+        "last_run_at": "2026-11-25T20:17:02Z",
         "real_failures_recent": 0,
         "cosmetic_red_recent": 0,
         "note": null
       }
     ],
     "real_failure_details": [
+      {
+        "workflow": "Daily Property Scrape",
+        "run_id": 45692254875,
+        "failed_step": "Fail run if DB load failed",
+        "ran_at": "2026-11-25T20:09:44Z",
+        "html_url": "https://github.com/bader1919/pf-pipeline/actions/runs/45692254875"
+      },
       {
         "workflow": "Daily Property Scrape",
         "run_id": 45477804957,
@@ -270,13 +277,6 @@
         "failed_step": "Fail run if DB load failed",
         "ran_at": "2026-11-21T01:14:40Z",
         "html_url": "https://github.com/bader1919/pf-pipeline/actions/runs/44848981927"
-      },
-      {
-        "workflow": "Daily Property Scrape",
-        "run_id": 44655641865,
-        "failed_step": "Fail run if DB load failed",
-        "ran_at": "2026-11-20T01:43:07Z",
-        "html_url": "https://github.com/bader1919/pf-pipeline/actions/runs/44655641865"
       }
     ]
   },
@@ -678,5 +678,5 @@
       }
     ]
   },
-  "dashboard_updated": "2026-11-24T20:21:03.776415+00:00"
+  "dashboard_updated": "2026-11-25T20:23:09.524156+00:00"
 }
