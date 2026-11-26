@@ -1,5 +1,5 @@
 {
-  "report_generated_at": "2026-11-25T20:16:25.413458+00:00",
+  "report_generated_at": "2026-11-26T20:15:06.954003+00:00",
   "pipeline_status": "success",
   "total_listings": 27221,
   "complete_records": 27221,
@@ -66,7 +66,7 @@
   },
   "raw_data": {
     "exists": true,
-    "scraped_at": "2026-11-25T20:16:17.341445+00:00",
+    "scraped_at": "2026-11-26T20:15:00.529479+00:00",
     "categories": 6,
     "total_records": 0,
     "counts": {
