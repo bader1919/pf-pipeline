@@ -1,5 +1,5 @@
 {
-  "report_time": "2026-11-26T20:15:10.427653+00:00",
+  "report_time": "2026-11-27T20:15:16.615177+00:00",
   "all_listings": {
     "filename": "all_listings.csv",
     "exists": true,
@@ -237,7 +237,7 @@
     }
   },
   "raw_data": {
-    "scraped_at": "2026-11-26T20:15:00.529479+00:00",
+    "scraped_at": "2026-11-27T20:15:06.303060+00:00",
     "total_records": 0,
     "categories": {
       "residential_rent": 0,

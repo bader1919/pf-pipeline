@@ -1,5 +1,5 @@
 # Data Quality Gate Report
-**Generated:** 2026-11-26T20:15:10.427653+00:00
+**Generated:** 2026-11-27T20:15:16.615177+00:00
 **Status:** PASS
 
 ## Overall Statistics
@@ -36,5 +36,5 @@
 
 ## Pipeline Status
 - **Raw Records:** 0
-- **Last Scrape:** 2026-11-26T20:15:00.529479+00:00
+- **Last Scrape:** 2026-11-27T20:15:06.303060+00:00
 - **Total Changes:** 267,095
